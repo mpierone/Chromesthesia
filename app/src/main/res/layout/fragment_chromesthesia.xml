@@ -7,7 +7,7 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.example.matt.chromesthesia.Chromesthesia$PlaceholderFragment">
-
+    
     <TextView
         android:id="@+id/section_label"
         android:layout_width="wrap_content"
@@ -25,28 +25,10 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Playlists"
-        android:id="@+id/playlistButton"
-        android:layout_centerVertical="true"
-        android:layout_toEndOf="@+id/section_label"
-        android:clickable="true" />
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
         android:text="delete this"
         android:id="@+id/button"
-        android:layout_below="@+id/playlistButton"
         android:layout_toEndOf="@+id/section_label"
-        android:layout_marginTop="85dp" />
-
-    <Button
-        style="?android:attr/buttonStyleSmall"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="New Button"
-        android:id="@+id/button2"
-        android:layout_above="@+id/playlistButton"
-        android:layout_toEndOf="@+id/libraryButton" />
+        android:layout_marginTop="85dp"
+        android:layout_centerVertical="true" />
 
 </RelativeLayout>
