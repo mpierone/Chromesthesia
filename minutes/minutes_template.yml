@@ -1,0 +1,17 @@
+date: September 13, 2016
+meeting_type: ta # meeting_type can "group", "ta", or "instructor"
+attendance: [<jhuang42>, <iacaneda>, <mpierone>, <wlstewar>]
+absent: []
+excused_absences: [ # Any legitamite excuses for absent team members
+  ]
+task_progress: [ # All group members must be included here even if they haven't made any progress since the last meeting
+  {ubit: <iacaneda>, progress: Setup GitHub repository and pushed readme file and license.},
+  {ubit: <jhuang42>, progress: Created a temporary logo for the application.},
+  {ubit: <mpierone>, progress: Started drawing the design for the GUI.},
+  {ubit: <wlstewar>, progress: Looked through APIs GooglePlay and Spotify.}
+
+issues: [ # Post any issues here. Issues that cannot be addressed by the group should especially be included
+  ]
+Notes:  | # Anything covered in the meeting that doesn't fit elsewhere.
+- Plan to create a prototype of GUI by the end of sprint 1.
+- 
