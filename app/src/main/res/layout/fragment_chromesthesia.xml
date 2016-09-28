@@ -6,6 +6,7 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
+    android:id="@+id/container"
     tools:context="com.example.matt.chromesthesia.Chromesthesia$PlaceholderFragment">
     
     <TextView
@@ -26,7 +27,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="delete this"
-        android:id="@+id/button"
+        android:id="@+id/libraryButton"
         android:layout_toEndOf="@+id/section_label"
         android:layout_marginTop="85dp"
         android:layout_centerVertical="true" />
@@ -45,7 +46,7 @@
         android:layout_height="wrap_content"
         android:text="maybeths"
         android:id="@+id/button4"
-        android:layout_alignTop="@+id/button"
-        android:layout_toEndOf="@+id/button" />
+        android:layout_alignTop="@+id/libraryButton"
+        android:layout_toEndOf="@+id/libraryButton" />
 
 </RelativeLayout>
