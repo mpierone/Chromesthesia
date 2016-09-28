@@ -15,17 +15,17 @@ public class MPC {
     public MPC() {
         mediaPlayer = new MediaPlayer();
     }
-    public void start (string FileName) throws Exception{
+    public void start (String FileName) throws Exception{
         if (mediaPlayer == null) {
             throw new FileNotFoundException("no file found");
         }
-        mediaPlayer.setDataSource(FileName);
+        //mediaPlayer.setDataSource(FileName);
         mediaPlayer.prepareAsync();
         mediaPlayer.start();
-        mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener()) {
+        //mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener()) {
             // do the thing here thanks
         }
-    }
+   // }
     public void stop_pb(){
         // make it stop MAKE IT STOP
     }
