@@ -16,7 +16,10 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
+import android.widget.ListView;
 import android.widget.TextView;
+
+import java.util.ArrayList;
 
 public class Chromesthesia extends AppCompatActivity {
 
@@ -34,7 +37,8 @@ public class Chromesthesia extends AppCompatActivity {
      * The {@link ViewPager} that will host the section contents.
      */
     private ViewPager mViewPager;
-
+    private ArrayList<Song> snglist;
+    private Listview sngview;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -59,9 +63,13 @@ public class Chromesthesia extends AppCompatActivity {
                         .setAction("Action", null).show();
             }
         });
-
+        songView = (ListView)findViewById(R.id.song_list);
+        sngList = new ArrayList<Song>();
     }
 
+    public void getsnglist() {
+        //get the songs
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
