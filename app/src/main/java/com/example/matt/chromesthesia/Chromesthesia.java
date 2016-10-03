@@ -1,22 +1,24 @@
-package com.example.matt.chromesthesia;
 
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
+        package com.example.matt.chromesthesia;
 
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.view.ViewPager;
-import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
-
-import android.widget.TextView;
+        import android.content.Intent;
+        import android.os.Bundle;
+        import android.support.design.widget.FloatingActionButton;
+        import android.support.design.widget.Snackbar;
+        import android.support.v4.app.Fragment;
+        import android.support.v4.app.FragmentManager;
+        import android.support.v4.app.FragmentPagerAdapter;
+        import android.support.v4.view.ViewPager;
+        import android.support.v7.app.AppCompatActivity;
+        import android.support.v7.widget.Toolbar;
+        import android.view.LayoutInflater;
+        import android.view.Menu;
+        import android.view.MenuItem;
+        import android.view.View;
+        import android.view.ViewGroup;
+        import android.widget.Button;
+        import android.widget.RelativeLayout;
+        import android.widget.TextView;
 
 public class Chromesthesia extends AppCompatActivity {
 
@@ -38,7 +40,7 @@ public class Chromesthesia extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_chromesthesia);
+        setContentView(R.layout.homescreen);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -47,18 +49,26 @@ public class Chromesthesia extends AppCompatActivity {
         mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
 
         // Set up the ViewPager with the sections adapter.
-        // mViewPager = (ViewPager) findViewById(R.id.container);
+        mViewPager = (ViewPager) findViewById(RelativeLayout.generateViewId());
         mViewPager.setAdapter(mSectionsPagerAdapter);
 
-/*
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+
+        Button libraryButton = (Button)findViewById(R.id.libraryButton);
+        libraryButton.setOnClickListener(new View.OnClickListener(){
+            public void onClick(View view){
+                Intent myIntent = new Intent(view.getContext(),Library.class);
+                startActivityForResult(myIntent, 0);
+            }
+        });
+
+        FloatingActionButton fab = (FloatingActionButton) findViewById(FloatingActionButton.generateViewId());
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
             }
-        });*/
+        });
 
     }
 
@@ -69,7 +79,6 @@ public class Chromesthesia extends AppCompatActivity {
         getMenuInflater().inflate(R.menu.menu_chromesthesia, menu);
         return true;
     }
-
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {

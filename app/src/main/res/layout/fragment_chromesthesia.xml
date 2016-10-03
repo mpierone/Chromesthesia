@@ -6,47 +6,11 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    android:id="@+id/container"
     tools:context="com.example.matt.chromesthesia.Chromesthesia$PlaceholderFragment">
     
     <TextView
         android:id="@+id/section_label"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Library"
-        android:id="@+id/libraryButton"
-        android:layout_below="@+id/section_label"
-        android:layout_toEndOf="@+id/section_label"
-        android:layout_marginTop="45dp" />
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="delete this"
-        android:id="@+id/libraryButton"
-        android:layout_toEndOf="@+id/section_label"
-        android:layout_marginTop="85dp"
-        android:layout_centerVertical="true" />
-
-    <Button
-        style="?android:attr/buttonStyleSmall"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="New Button"
-        android:id="@+id/button3"
-        android:layout_below="@+id/playlistButton"
-        android:layout_centerHorizontal="true" />
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="maybeths"
-        android:id="@+id/button4"
-        android:layout_alignTop="@+id/libraryButton"
-        android:layout_toEndOf="@+id/libraryButton" />
 
 </RelativeLayout>
