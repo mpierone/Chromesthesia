@@ -1,7 +1,6 @@
 
         package com.example.matt.chromesthesia;
 
-        import android.content.Intent;
         import android.os.Bundle;
         import android.support.design.widget.FloatingActionButton;
         import android.support.design.widget.Snackbar;
@@ -16,7 +15,6 @@
         import android.view.MenuItem;
         import android.view.View;
         import android.view.ViewGroup;
-        import android.widget.Button;
         import android.widget.RelativeLayout;
         import android.widget.TextView;
 
@@ -40,7 +38,7 @@ public class Chromesthesia extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.homescreen);
+        setContentView(R.layout.activity_chromesthesia);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -52,14 +50,6 @@ public class Chromesthesia extends AppCompatActivity {
         mViewPager = (ViewPager) findViewById(RelativeLayout.generateViewId());
         mViewPager.setAdapter(mSectionsPagerAdapter);
 
-
-        Button libraryButton = (Button)findViewById(R.id.libraryButton);
-        libraryButton.setOnClickListener(new View.OnClickListener(){
-            public void onClick(View view){
-                Intent myIntent = new Intent(view.getContext(),Library.class);
-                startActivityForResult(myIntent, 0);
-            }
-        });
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(FloatingActionButton.generateViewId());
         fab.setOnClickListener(new View.OnClickListener() {
