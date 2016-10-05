@@ -1,25 +1,24 @@
-package com.example.matt.chromesthesia;
 
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
+        package com.example.matt.chromesthesia;
 
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.view.ViewPager;
-import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
-
-import android.widget.ListView;
-import android.widget.TextView;
-
-import java.util.ArrayList;
+        import android.content.Intent;
+        import android.os.Bundle;
+        import android.support.design.widget.FloatingActionButton;
+        import android.support.design.widget.Snackbar;
+        import android.support.v4.app.Fragment;
+        import android.support.v4.app.FragmentManager;
+        import android.support.v4.app.FragmentPagerAdapter;
+        import android.support.v4.view.ViewPager;
+        import android.support.v7.app.AppCompatActivity;
+        import android.support.v7.widget.Toolbar;
+        import android.view.LayoutInflater;
+        import android.view.Menu;
+        import android.view.MenuItem;
+        import android.view.View;
+        import android.view.ViewGroup;
+        import android.widget.Button;
+        import android.widget.RelativeLayout;
+        import android.widget.TextView;
 
 public class Chromesthesia extends AppCompatActivity {
 
@@ -37,12 +36,11 @@ public class Chromesthesia extends AppCompatActivity {
      * The {@link ViewPager} that will host the section contents.
      */
     private ViewPager mViewPager;
-    private ArrayList<Song> snglist;
-    private Listview sngview;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_chromesthesia);
+        setContentView(R.layout.homescreen);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -51,11 +49,19 @@ public class Chromesthesia extends AppCompatActivity {
         mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
 
         // Set up the ViewPager with the sections adapter.
-        mViewPager = (ViewPager) findViewById(R.id.container);
+        mViewPager = (ViewPager) findViewById(RelativeLayout.generateViewId());
         mViewPager.setAdapter(mSectionsPagerAdapter);
 
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        Button libraryButton = (Button)findViewById(R.id.libraryButton);
+        libraryButton.setOnClickListener(new View.OnClickListener(){
+            public void onClick(View view){
+                Intent myIntent = new Intent(view.getContext(),Library.class);
+                startActivityForResult(myIntent, 0);
+            }
+        });
+
+        FloatingActionButton fab = (FloatingActionButton) findViewById(FloatingActionButton.generateViewId());
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -63,13 +69,9 @@ public class Chromesthesia extends AppCompatActivity {
                         .setAction("Action", null).show();
             }
         });
-        songView = (ListView)findViewById(R.id.song_list);
-        sngList = new ArrayList<Song>();
+
     }
 
-    public void getsnglist() {
-        //get the songs
-    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
