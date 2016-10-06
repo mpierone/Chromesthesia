@@ -32,6 +32,7 @@ public class localMusicManager {
         }
     }
 
+
     /*getter for SD_LOCATION*/
     public String getSD_LOCATION(){
         return SD_LOCATION;
@@ -82,6 +83,6 @@ public class localMusicManager {
         return _songsList;
     }
 
-    
+
 
 }
