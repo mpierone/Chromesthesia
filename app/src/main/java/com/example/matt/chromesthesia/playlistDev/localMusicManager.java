@@ -62,12 +62,12 @@ public class localMusicManager {
             [6 or higher] - Trait tags
      */
 
-    public ArrayList<Song> getSongsList() throws Exception {
+    public ArrayList<Song> makeSongsList() throws Exception {
         File sdCard = new File(SD_LOCATION);
         if (sdCard.listFiles(new musicFinder()).length > 0) {
             for (File file : sdCard.listFiles(new musicFinder())) {
                 //sets up String[] of track info
-                Song so = new Song(file.getPath(), new mp3Parser().parseMP3(file.getAbsolutePath()));
+                Song so = new Song(file.getAbsolutePath());
                 _songsList.add(so);
             }
         }

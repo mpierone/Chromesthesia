@@ -2,9 +2,9 @@ package com.example.matt.chromesthesia;
 
 import com.example.matt.chromesthesia.playlistDev.ID3;
 import com.example.matt.chromesthesia.playlistDev.localMusicManager;
+import com.example.matt.chromesthesia.playlistDev.mp3Parser;
 
 import java.util.HashMap;
-import java.util.concurrent.ThreadLocalRandom;
 
 /**
  * Created by Dave on 10/3/2016.
@@ -13,31 +13,44 @@ public class Song {
     private HashMap<String, ID3> _song;
     private String _identification;
     private String _audioFilePath;
+    private ID3 _id3;
     private localMusicManager _localManager;
 
     /*
-  The list of songs available on the SD card will be a list of HashMaps mapping:
-      key - a unique song ID stored as an Integer
-      value - a array list of type string that will consist of:
-          [0] - Song Path
-          [1] - Song Title
-          [2] - Artist Name
-          [3] - Album Name
-          [5] - Genre
-          [6 or higher] - Trait tags
+    Songs consist of a unique identification number and an ID3 object storing metadata (artist, album, etc)
    */
-    public Song(String audioFilePath, ID3 id) throws Exception {
+    public Song(String audioFilePath) throws Exception {
         //unique song identifier:
         _localManager = new localMusicManager(); //used in generateLocalSongID, might be necessary later on
-        _identification = generateLocalSongID();
+        _identification = tempID();
 
         //song attributes:
         _audioFilePath = audioFilePath;
 
+
+        _id3 = new mp3Parser().parseMP3(_audioFilePath);
+
         //storing song identification
         _song = new HashMap<>();
-        _song.put(_identification, id);
+        _song.put(_identification, _id3);
+
     }
+
+    //getters:
+
+    public ID3 get_id3(){
+        //should work because a song object should only have one key in its hashmap
+        return _song.get(_song.keySet());
+    }
+
+    public String get_identification(){
+        return _song.keySet().toString();
+    }
+
+    public String get_audioFilePath(){
+        return _audioFilePath;
+    }
+
 
 
     /*Generates a unique song ID for the track.
@@ -52,18 +65,25 @@ public class Song {
        Thus, each song would be identified by <a number from 1 to 8000>
 
      */
-
+    /*
     public String generateLocalSongID() throws Exception {
         int min = 1;
         int max = 8000;
         Long songID;
         int random = ThreadLocalRandom.current().nextInt(min, max+1);
         //implies that if generateLocalSongID returns 0, then the song is already in the database
-        if (!_localManager.trackInSongList(_localManager.getSongsList(),random)){
+        if (!_localManager.trackInSongList(_localManager.makeSongsList(),random)){
             songID = new Long(random);
         }
         else{ songID = Long.valueOf(0);}
             return songID.toString();
     }
+
+    For testing purposes because the random generator was giving me errors:
+*/
+    public String tempID(){
+        return "No ID";
+    }
+
 
 }
