@@ -1,18 +1,12 @@
 package com.example.matt.chromesthesia;
 
-import com.example.matt.chromesthesia.playlistDev.Tag;
+import com.example.matt.chromesthesia.playlistDev.mp3Parser;
 
 import org.junit.Test;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
-
 public class tagParserTests {
 
-    /* The Tag class will replace the String[] in the hashmap of the Song class.
+    /* The ID3 class will replace the String[] in the hashmap of the Song class.
         This avoids redundancy of getting id3 tag info just to input it into the Song's String[];
         **Without the String[] we won't have the "append tags to the end of it" functionality I originally imagined.
         * Instead, we can use the comments section to store tag information, and add methods and a view
@@ -21,7 +15,6 @@ public class tagParserTests {
 
         For the sake of testing we might make the filepath for the localMusicManager to rummage through
         the raw directory in res.
-    */
 
     public InputStream toInputStream(File f) {
         InputStream is;
@@ -39,26 +32,12 @@ public class tagParserTests {
 
         return null;
     }
-
+*/
 
     @Test
     public void getTagInfo() throws Exception {
-        Tag exampleID3 = new Tag();
-        exampleID3.readTag(new FileInputStream((new File("C:\\Users\\Isabelle\\Chromesthesia\\app\\src\\main\\res\\raw\\rumine.mp3"))) {
-            @Override
-            public int read() throws IOException {
-                return 0;
-            }
-        });
-        System.out.print(
-            "\n Artist: " + exampleID3.getArtist() +
-                    "\n Title: " + exampleID3.getTitle() +
-                    "\n Album: " + exampleID3.getAlbum() +
-                    "\n Year: " + exampleID3.getYear() +
-                    "\n Comments: " + exampleID3.getComment() +
-                    "\n Genre: " + exampleID3.getGenre() + "\n"
-        );
-
+        mp3Parser example = new mp3Parser();
+        example.printID3("C:\\Users\\Isabelle\\Chromesthesia\\app\\src\\main\\res\\raw\\rumine.mp3");
     }
 
 

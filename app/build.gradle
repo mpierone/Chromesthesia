@@ -26,5 +26,10 @@ dependencies {
     compile 'com.android.support:appcompat-v7:24.2.1'
     compile 'com.android.support:design:24.2.1'
     compile 'com.google.android.gms:play-services-appindexing:8.4.0'
+    // https://mvnrepository.com/artifact/org.apache.tika/tika-core
+    compile group: 'org.apache.tika', name: 'tika-core', version: '1.4'
+    compile 'org.apache.tika:tika-parsers:1.4'
+    // https://mvnrepository.com/artifact/xml-apis/xml-apis
+    compile group: 'xml-apis', name: 'xml-apis', version: '2.0.2'
 
 }

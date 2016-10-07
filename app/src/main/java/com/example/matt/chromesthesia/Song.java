@@ -1,21 +1,18 @@
 package com.example.matt.chromesthesia;
 
+import com.example.matt.chromesthesia.playlistDev.ID3;
 import com.example.matt.chromesthesia.playlistDev.localMusicManager;
 
 import java.util.HashMap;
+import java.util.concurrent.ThreadLocalRandom;
 
 /**
  * Created by Dave on 10/3/2016.
  */
 public class Song {
-    private HashMap<String, String[]> _song;
-    private String[] _trackInfo;
+    private HashMap<String, ID3> _song;
     private String _identification;
-    private String _title;
-    private String _artist;
     private String _audioFilePath;
-    private String _album;
-    private String _genre;
     private localMusicManager _localManager;
 
     /*
@@ -29,23 +26,19 @@ public class Song {
           [5] - Genre
           [6 or higher] - Trait tags
    */
-    public Song( String audioFilePath, String sngtitle, String sngartist,  String album, String genre) {
+    public Song(String audioFilePath, ID3 id) throws Exception {
         //unique song identifier:
         _localManager = new localMusicManager(); //used in generateLocalSongID, might be necessary later on
-        //_identification = generateLocalSongID();
+        _identification = generateLocalSongID();
 
         //song attributes:
         _audioFilePath = audioFilePath;
-        _title = sngtitle;
-        _artist = sngartist;
-        _album = album;
-        _genre = genre;
 
-        //storing song identification and song attributes:
-        _trackInfo = new String[]{_audioFilePath, _title, _artist, _album, _genre};
+        //storing song identification
         _song = new HashMap<>();
-        _song.put(_identification, _trackInfo);
+        _song.put(_identification, id);
     }
+
 
     /*Generates a unique song ID for the track.
         MUST:
@@ -59,8 +52,8 @@ public class Song {
        Thus, each song would be identified by <a number from 1 to 8000>
 
      */
-    /*
-    public String generateLocalSongID() {
+
+    public String generateLocalSongID() throws Exception {
         int min = 1;
         int max = 8000;
         Long songID;
@@ -73,30 +66,4 @@ public class Song {
             return songID.toString();
     }
 
-    /*Getters for various song characteristics*/
-
-    public String getID() {
-        return _identification;
-    }
-
-    public String getTitle() {
-        return _title;
-    }
-
-    public String getArtist() {
-        return _artist;
-    }
-
-    public String getAlbum(){
-        return _album;
-    }
-
-    public String getGenre(){
-        return _genre;
-    }
-
-    //Prints all available song info to console
-    public void printSongInfo(){
-        System.out.print("\n Song ID: " + _identification + "\n Title: " + _title + "\n By: " + _artist + "\n Album: " + _album + "\n Genre: " + _genre +"\n");
-    }
 }
