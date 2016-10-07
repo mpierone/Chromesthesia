@@ -28,7 +28,7 @@ public class localMusicManager {
     class musicFinder implements FilenameFilter {
         @Override
         public boolean accept(File dir, String name) {
-            return (name.endsWith(".mp3") || name.endsWith(".MP3") || name.endsWith(".mp4a") || name.endsWith(".MP4A") || name.endsWith(".wav") || name.endsWith(".WAV"));
+            return (name.endsWith(".mp3") || name.endsWith(".MP3"));
         }
     }
 
@@ -44,15 +44,6 @@ public class localMusicManager {
     }
 
 
-
-    /*getter for the file extension of the audio file*/
-
-    public String getFileType(File dir, String name){
-        if (name.endsWith(".mp3") || name.endsWith(".MP3") ||name.endsWith(".wav") || name.endsWith(".WAV")){
-            return name.substring(name.length()-4, name.length());
-        }
-        else return name.substring(name.length()-5, name.length());
-    }
 
     /*getter for the path of the audio file on the SD Card*/
     public String getPath(File track){

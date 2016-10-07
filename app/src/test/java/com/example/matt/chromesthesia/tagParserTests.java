@@ -32,14 +32,24 @@ public class tagParserTests {
 
         return null;
     }
-*/
 
+*/
     @Test
-    public void getTagInfo() throws Exception {
+    public void getTagInfoMP3() throws Exception {
         mp3Parser example = new mp3Parser();
         example.printID3("C:\\Users\\Isabelle\\Chromesthesia\\app\\src\\main\\res\\raw\\rumine.mp3");
     }
+/* For some reason I keep getting this error:
+java.io.IOException: Could not delete temporary file C:\Users\Isabelle\AppData\Local\Temp\apache-tika-3078004099057068045.tmp
 
+For Sprint 1 I'll keep it narrowed down to .mp3 files. Will add other formats for Sprint 2.
+
+    @Test
+    public void getTagInfoMP4() throws Exception{
+        mp3Parser example = new mp3Parser();
+        example.parseMP4("C:\\Users\\Isabelle\\Chromesthesia\\app\\src\\main\\res\\raw\\les.m4a");
+    }
+*/
 
 
 
