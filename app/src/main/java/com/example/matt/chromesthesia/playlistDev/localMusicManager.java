@@ -22,7 +22,7 @@ import java.util.ArrayList;
 
 
 public class localMusicManager extends Chromesthesia{
-    final String SD_LOCATION = new String("C:\\Users\\Dave\\StudioProject\\Chromesthesia\\app\\src\\main\\res\\raw"); //change back to "/sdcard/" after unit testing
+    final String SD_LOCATION = new String("C:\\Users\\Dave\\StudioProjects\\Chromesthesia\\app\\src\\main\\res\\raw"); //change back to "/sdcard/" after unit testing
     private ArrayList<Song> _songsList;
     public localMusicManager() {
         //constructor
