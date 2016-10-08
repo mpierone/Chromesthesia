@@ -1,5 +1,6 @@
 
 package com.example.matt.chromesthesia;
+package com.example.matt.chromesthesia;
 import com.example.matt.chromesthesia.MPC.binder_music;
 
 import android.content.ContentResolver;
@@ -29,6 +30,25 @@ import android.content.Intent;
 import android.content.ServiceConnection;
 import android.view.View;
 import java.util.ArrayList;
+import android.content.Intent;
+import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.view.ViewPager;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
+import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
+
 public class Chromesthesia extends AppCompatActivity {
 
     /**
@@ -61,25 +81,42 @@ public class Chromesthesia extends AppCompatActivity {
         }
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        setContentView(R.layout.homescreen);
+
+        //Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        //setSupportActionBar(toolbar);
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
-        mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
+        //mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
 
         // Set up the ViewPager with the sections adapter.
-        mViewPager = (ViewPager) findViewById(RelativeLayout.generateViewId());
-        mViewPager.setAdapter(mSectionsPagerAdapter);
+        //mViewPager = (ViewPager) findViewById(RelativeLayout.generateViewId());
+        //mViewPager.setAdapter(mSectionsPagerAdapter);
 
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(FloatingActionButton.generateViewId());
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
+        Button libraryButton = (Button) findViewById(R.id.libraryButton);
+        libraryButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                Intent libraryIntent = new Intent(view.getContext(), Library.class);
+                startActivityForResult(libraryIntent, 0);
             }
         });
 
-    }
+        Button playlistButton = (Button) findViewById(R.id.playlistButton);
+        playlistButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View view) {
+                Intent playlistIntent = new Intent(view.getContext(), PlayList.class);
+                startActivityForResult(playlistIntent, 0);
+            }
+        });
+
+        Button playScreenButton = (Button) findViewById(R.id.playscreenTestButton);
+        playScreenButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View view) {
+                Intent playScreenIntent = new Intent(view.getContext(), NowPlayingScreen.class);
+                startActivityForResult(playScreenIntent, 0);
+            }
+        });
 
     private ServiceConnection musicconnect = new ServiceConnection() {
         @Override
