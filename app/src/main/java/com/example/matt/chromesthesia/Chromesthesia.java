@@ -1,23 +1,34 @@
 
-        package com.example.matt.chromesthesia;
+package com.example.matt.chromesthesia;
+import com.example.matt.chromesthesia.MPC.binder_music;
 
-        import android.os.Bundle;
-        import android.support.design.widget.FloatingActionButton;
-        import android.support.design.widget.Snackbar;
-        import android.support.v4.app.Fragment;
-        import android.support.v4.app.FragmentManager;
-        import android.support.v4.app.FragmentPagerAdapter;
-        import android.support.v4.view.ViewPager;
-        import android.support.v7.app.AppCompatActivity;
-        import android.support.v7.widget.Toolbar;
-        import android.view.LayoutInflater;
-        import android.view.Menu;
-        import android.view.MenuItem;
-        import android.view.View;
-        import android.view.ViewGroup;
-        import android.widget.RelativeLayout;
-        import android.widget.TextView;
-
+import android.content.ContentResolver;
+import android.database.Cursor;
+import android.net.Uri;
+import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.view.ViewPager;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
+import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ListView;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
+import android.os.IBinder;
+import android.content.ComponentName;
+import android.content.Context;
+import android.content.Intent;
+import android.content.ServiceConnection;
+import android.view.View;
+import java.util.ArrayList;
 public class Chromesthesia extends AppCompatActivity {
 
     /**
@@ -34,12 +45,20 @@ public class Chromesthesia extends AppCompatActivity {
      * The {@link ViewPager} that will host the section contents.
      */
     private ViewPager mViewPager;
-
+    private ArrayList<Song> songlist;
+    private ListView songview;
+    private MPC mpservice;
+    private Intent player;
+    private boolean musicbound = false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chromesthesia);
-
+        if (player==null){
+            player = new Intent(this, MPC.class);
+            bindService(player, musicconnect, Context.BIND_AUTO_CREATE);
+            startService(player);
+        }
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         // Create the adapter that will return a fragment for each of the three
@@ -62,6 +81,20 @@ public class Chromesthesia extends AppCompatActivity {
 
     }
 
+    private ServiceConnection musicconnect = new ServiceConnection() {
+        @Override
+        public void onServiceConnected(ComponentName name, IBinder service) {
+            binder_music binder = (binder_music)service;
+            mpservice = binder.getservice();
+            mpservice.setSngs(songlist);
+            musicbound = true;
+        }
+
+        @Override
+        public void onServiceDisconnected(ComponentName name) {
+            musicbound = false;
+        }
+    };
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

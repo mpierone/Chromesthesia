@@ -3,15 +3,15 @@ package com.example.matt.chromesthesia;
 import com.example.matt.chromesthesia.playlistDev.ID3;
 import com.example.matt.chromesthesia.playlistDev.localMusicManager;
 import com.example.matt.chromesthesia.playlistDev.mp3Parser;
-
+import java.math.BigInteger;
 import java.util.HashMap;
-
+import java.lang.Long;
 /**
  * Created by Dave on 10/3/2016.
  */
 public class Song {
-    private HashMap<String, ID3> _song;
-    private String _identification;
+    private HashMap<BigInteger, ID3> _song;
+    private BigInteger _identification;
     private String _audioFilePath;
     private ID3 _id3;
     private localMusicManager _localManager;
@@ -19,10 +19,11 @@ public class Song {
     /*
     Songs consist of a unique identification number and an ID3 object storing metadata (artist, album, etc)
    */
-    public Song(String audioFilePath) throws Exception {
+    public Song(String audioFilePath, long id) throws Exception {
         //unique song identifier:
         _localManager = new localMusicManager(); //used in generateLocalSongID, might be necessary later on
-        _identification = tempID();
+        _identification = BigInteger.valueOf(id);
+
 
         //song attributes:
         _audioFilePath = audioFilePath;
@@ -44,7 +45,7 @@ public class Song {
     }
 
     public String get_identification(){
-        return _song.keySet().toString();
+        return String.valueOf(_identification);
     }
 
     public String get_audioFilePath(){
@@ -81,9 +82,8 @@ public class Song {
 
     For testing purposes because the random generator was giving me errors:
 */
-    public String tempID(){
-        return "No ID";
+    public long tempID(){
+        return -1;
     }
-
 
 }
