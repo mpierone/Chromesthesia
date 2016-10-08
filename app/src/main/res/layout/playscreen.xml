@@ -31,7 +31,7 @@
         android:id="@+id/button7"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:src="@drawable/playButtonUnpressed"
+        android:src="@drawable/playbuttonunpressed"
         android:background= "@android:color/transparent"/>
 
 
@@ -43,7 +43,7 @@
         android:layout_alignTop="@+id/button7"
         android:layout_toStartOf="@+id/button7"
         android:layout_marginEnd="38dp"
-        android:src="@drawable/previousButton"
+        android:src="@drawable/previousbutton"
         android:background= "@android:color/transparent"/>
 
 
@@ -56,7 +56,7 @@
         android:layout_toEndOf="@+id/button7"
         android:layout_marginStart="36dp"
         android:background= "@android:color/transparent"
-        android:src="@drawable/nextButton" />
+        android:src="@drawable/nextbutton" />
 
     <TextView
         android:layout_width="wrap_content"
