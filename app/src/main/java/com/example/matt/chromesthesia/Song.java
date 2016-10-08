@@ -9,7 +9,7 @@ import java.util.HashMap;
 /**
  * Created by Dave on 10/3/2016.
  */
-public class Song {
+public class Song{
     private HashMap<String, ID3> _song;
     private String _identification;
     private String _audioFilePath;

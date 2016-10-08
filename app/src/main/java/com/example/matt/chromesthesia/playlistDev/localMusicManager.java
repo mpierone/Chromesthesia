@@ -14,7 +14,12 @@ import java.util.ArrayList;
  */
 
 
+
+
 public class localMusicManager {
+
+
+
     final String SD_LOCATION = new String("C:\\Users\\Isabelle\\Chromesthesia\\app\\src\\main\\res\\raw"); //change back to "/sdcard/" after unit testing
     private ArrayList<Song> _songsList;
     public localMusicManager() {

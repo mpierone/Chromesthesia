@@ -1,16 +1,6 @@
 package com.example.matt.chromesthesia.playlistDev;
 
-import org.apache.tika.exception.TikaException;
-import org.apache.tika.metadata.Metadata;
-import org.apache.tika.parser.ParseContext;
-import org.apache.tika.parser.mp3.Mp3Parser;
-import org.apache.tika.parser.mp4.MP4Parser;
-import org.apache.tika.sax.BodyContentHandler;
-import org.xml.sax.SAXException;
-
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
+import android.media.MediaMetadataRetriever;
 
 /**
  * Created by Isabelle on 10/6/2016.
@@ -49,6 +39,10 @@ _album = 2
  */
 
 public class mp3Parser {
+    MediaMetadataRetriever metaRetriever;
+    //MediaMetadataRetriever mmr = new MediaMetadataRetriever();
+    public mp3Parser() {
+    }
 
     public void printID3(String audioPath) throws Exception {
         ID3 test = parseMP3(audioPath);
@@ -62,21 +56,18 @@ public class mp3Parser {
 
     }
 
-    public ID3 parseMP3(String audioPath) throws Exception, IOException, SAXException, TikaException {
-        BodyContentHandler handler = new BodyContentHandler();
-        Metadata metadata = new Metadata();
-        FileInputStream inputStream = new FileInputStream(new File(audioPath));
-        ParseContext pcontext = new ParseContext();
-
-        Mp3Parser mParse = new Mp3Parser();
-        mParse.parse(inputStream, handler, metadata, pcontext);
-
-        String[] tagNames = metadata.names();
-
-        //parse into ID3 object
-
-        return new ID3(metadata.get(tagNames[9]),metadata.get(tagNames[6]), metadata.get(tagNames[2]), metadata.get(tagNames[4]), metadata.get(tagNames[0]));
+    public ID3 parseMP3(String audioPath) {
+        metaRetriever = new MediaMetadataRetriever();
+        metaRetriever.setDataSource(audioPath);
+        return new ID3(new String(metaRetriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_TITLE)),
+                new String(metaRetriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_ARTIST)),
+                new String(metaRetriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_ALBUM)),
+                new String(metaRetriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_YEAR)),
+                new String(metaRetriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_GENRE))
+                );
     }
+
+    /*
 
     public void parseMP4(String audioPath)throws Exception, IOException, SAXException, TikaException{
         BodyContentHandler handler = new BodyContentHandler();
@@ -94,4 +85,6 @@ public class mp3Parser {
         }
 
     }
+
+    */
 }
