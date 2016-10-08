@@ -42,15 +42,15 @@ public class Chromesthesia extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.homescreen);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+        //Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        //setSupportActionBar(toolbar);
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
-        mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
+        //mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
 
         // Set up the ViewPager with the sections adapter.
-        mViewPager = (ViewPager) findViewById(RelativeLayout.generateViewId());
-        mViewPager.setAdapter(mSectionsPagerAdapter);
+        //mViewPager = (ViewPager) findViewById(RelativeLayout.generateViewId());
+        //mViewPager.setAdapter(mSectionsPagerAdapter);
 
 
         Button libraryButton = (Button)findViewById(R.id.libraryButton);
@@ -61,17 +61,9 @@ public class Chromesthesia extends AppCompatActivity {
             }
         });
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(FloatingActionButton.generateViewId());
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
 
     }
-
+    // compile 'com.google.android.gms:play-services-appindexing:8.4.0' this fixes build.gradle when it gives an error in the manifest
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
