@@ -3,11 +3,14 @@ package com.example.matt.chromesthesia;
 // MPC = MEDIA PLAYER CLASS
 
 import android.app.Service;
+import android.content.ContentUris;
 import android.content.Intent;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
+
+import java.math.BigInteger;
 import java.util.ArrayList;
 import android.net.Uri;
 import android.os.Binder;
@@ -55,8 +58,16 @@ public class MPC extends Service implements MediaPlayer.OnPreparedListener, Medi
     public void start (){
         mediaPlayer.reset();
         Song playme = songs.get(songposition);
-        //long nowplaying = playme.get;
+        BigInteger nowplaying = playme.getid();
+        Uri trackid = ContentUris.withAppendedId(android.provider.MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, nowplaying.longValue());
+        try{
+            mediaPlayer.setDataSource(getApplicationContext(),trackid);
         }
+        catch(Exception e) {
+            Log.e("MPC","data source error",e);
+            }
+        mediaPlayer.prepareAsync();
+    }
    // }
     public void setSngs(ArrayList<Song> Sngs) {
         songs = Sngs;
@@ -77,7 +88,10 @@ public class MPC extends Service implements MediaPlayer.OnPreparedListener, Medi
 
     @Override
     public void onPrepared(MediaPlayer mp) {
-
+        mp.start();
+    }
+    public void setPlaying(int index) {
+        songposition = index;
     }
     public class binder_music extends Binder {
         MPC getservice () {

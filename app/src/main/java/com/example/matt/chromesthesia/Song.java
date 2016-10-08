@@ -47,7 +47,7 @@ public class Song {
     public String get_identification(){
         return String.valueOf(_identification);
     }
-
+    public BigInteger getid() {return _identification;}
     public String get_audioFilePath(){
         return _audioFilePath;
     }
