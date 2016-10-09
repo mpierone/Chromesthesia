@@ -16,19 +16,19 @@ public class MPC {
         mediaPlayer = new MediaPlayer();
     }
 
-    public void start(String FileName) throws Exception {
-        if (mediaPlayer == null) {
-            throw new FileNotFoundException("no file found");
-        }
+    public void start_pb(String FileName) {
         //mediaPlayer.setDataSource(FileName);
+
         mediaPlayer.prepareAsync();
         mediaPlayer.start();
         //mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener()) {
         // do the thing here thanks
     }
 
+
     // }
-    public void stop_pb() {
-        // make it stop MAKE IT STOP
+    public void pause_pb() {
+        mediaPlayer.pause();  //should pause
+
     }
 }
