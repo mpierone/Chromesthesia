@@ -58,10 +58,10 @@ public class MPC extends Service implements MediaPlayer.OnPreparedListener, Medi
     public void start (){
         mediaPlayer.reset();
         Song playme = songs.get(songposition);
-        BigInteger nowplaying = playme.getid();
-        Uri trackid = ContentUris.withAppendedId(android.provider.MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, nowplaying.longValue());
+        String nowplaying = playme.get_identification();
+        //Uri trackid = ContentUris.withAppendedId(android.provider.MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, nowplaying.longValue());
         try{
-            mediaPlayer.setDataSource(getApplicationContext(),trackid);
+            mediaPlayer.setDataSource(getApplicationContext(),Uri.parse(nowplaying));
         }
         catch(Exception e) {
             Log.e("MPC","data source error",e);

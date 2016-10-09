@@ -1,17 +1,19 @@
 package com.example.matt.chromesthesia;
 
+import android.net.Uri;
+
 import com.example.matt.chromesthesia.playlistDev.ID3;
 import com.example.matt.chromesthesia.playlistDev.localMusicManager;
 import com.example.matt.chromesthesia.playlistDev.mp3Parser;
-import java.math.BigInteger;
+
 import java.util.HashMap;
-import java.lang.Long;
+
 /**
  * Created by Dave on 10/3/2016.
  */
-public class Song {
-    private HashMap<BigInteger, ID3> _song;
-    private BigInteger _identification;
+public class Song{
+    private HashMap<String, ID3> _song;
+    private String _id;
     private String _audioFilePath;
     private ID3 _id3;
     private localMusicManager _localManager;
@@ -19,11 +21,10 @@ public class Song {
     /*
     Songs consist of a unique identification number and an ID3 object storing metadata (artist, album, etc)
    */
-    public Song(String audioFilePath, long id) throws Exception {
+    public Song(String audioFilePath) throws Exception {
         //unique song identifier:
         _localManager = new localMusicManager(); //used in generateLocalSongID, might be necessary later on
-        _identification = BigInteger.valueOf(id);
-
+        _id = audioFilePath;
 
         //song attributes:
         _audioFilePath = audioFilePath;
@@ -33,7 +34,7 @@ public class Song {
 
         //storing song identification
         _song = new HashMap<>();
-        _song.put(_identification, _id3);
+        _song.put(_id, _id3);
 
     }
 
@@ -45,9 +46,9 @@ public class Song {
     }
 
     public String get_identification(){
-        return String.valueOf(_identification);
+        return _id;
     }
-    public BigInteger getid() {return _identification;}
+
     public String get_audioFilePath(){
         return _audioFilePath;
     }
@@ -60,11 +61,9 @@ public class Song {
        Once we begin implementing the server, we want this to be a String so it's compatible with
        the METADATA_KEY_MEDIA_ID key for identifying content. See: "MediaMetaDataCompat" in Android
        Developer Documentation
-
        Note: int max refers to the highest number that will be the song ID.
        8000 is an estimate I found online for how many songs a 32GB SD card could store
        Thus, each song would be identified by <a number from 1 to 8000>
-
      */
     /*
     public String generateLocalSongID() throws Exception {
@@ -79,11 +78,11 @@ public class Song {
         else{ songID = Long.valueOf(0);}
             return songID.toString();
     }
-
     For testing purposes because the random generator was giving me errors:
 */
-    public long tempID(){
-        return -1;
+    public String tempID(){
+        return "No ID";
     }
+
 
 }
