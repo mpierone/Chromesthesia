@@ -1,6 +1,30 @@
 apply plugin: 'com.android.application'
 
+dependencies {
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+    testCompile 'junit:junit:4.12'
+    testCompile 'org.mockito:mockito-core:1.10.19'
+    androidTestCompile "org.robolectric:robolectric:3.0"
+    compile 'com.android.support:appcompat-v7:24.2.1'
+    compile 'com.android.support:design:24.2.1'
+    compile 'com.google.android.gms:play-services-appindexing:8.4.0'
+    /*
+    compile('org.apache.tika:tika-core:1.4') {
+        exclude group: 'commons-logging', module: 'commons-logging'
+        exclude group: 'org.json', module: 'json'
+        exclude group: 'org.apache.httpcomponents', module: 'httpclient'
+    }
+    compile('org.apache.tika:tika-parsers:1.4') {
+        exclude group: 'commons-logging', module: 'commons-logging'
+        exclude group: 'org.json', module: 'json'
+        exclude group: 'org.apache.httpcomponents', module: 'httpclient'
+    }
+    */
+}
+
+
 android {
+    useLibrary 'org.apache.http.legacy'
     compileSdkVersion 24
     buildToolsVersion "24.0.2"
 
@@ -17,12 +41,34 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
-}
 
-dependencies {
+    testOptions {
+        unitTests.returnDefaultValues = true
+    }
+
+    dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     testCompile 'junit:junit:4.12'
     compile 'com.android.support:appcompat-v7:24.2.1'
     compile 'com.android.support:design:24.2.1'
     compile 'com.google.android.gms:play-services-appindexing:8.4.0'
 }
+
+    packagingOptions {
+        exclude 'META-INF/DEPENDENCIES.txt'
+        exclude 'META-INF/INDEX.LIST'
+        exclude 'META-INF/DEPENDENCIES'
+        exclude 'META-INF/dependencies.txt'
+        exclude 'META-INF/LICENSE.txt'
+        exclude 'META-INF/LICENSE'
+        exclude 'META-INF/license.txt'
+        exclude 'META-INF/LGPL2.1'
+        exclude 'META-INF/NOTICE.txt'
+        exclude 'META-INF/NOTICE'
+        exclude 'META-INF/notice.txt'
+        exclude '...'
+
+    }
+
+}
+
