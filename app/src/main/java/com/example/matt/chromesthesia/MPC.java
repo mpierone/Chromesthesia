@@ -12,7 +12,6 @@ import android.support.annotation.Nullable;
 
 import java.math.BigInteger;
 import java.util.ArrayList;
-
 import android.net.Uri;
 import android.os.Binder;
 import android.os.PowerManager;
@@ -24,13 +23,13 @@ import java.io.FileNotFoundException;
 /**
  * Created by Will Stewart on 9/27/2016.
  */
-public class MPC extends Service implements MediaPlayer.OnPreparedListener, MediaPlayer.OnErrorListener, MediaPlayer.OnCompletionListener {
+public class MPC extends Service implements MediaPlayer.OnPreparedListener, MediaPlayer.OnErrorListener, MediaPlayer.OnCompletionListener{
     private MediaPlayer mediaPlayer;
     private ArrayList<Song> songs;
     private int songposition;
     private final IBinder bindme = new binder_music();
 
-    public void onCreate() {
+    public void onCreate(){
         super.onCreate();
         songposition = 0;
         mediaPlayer = new MediaPlayer();
@@ -42,15 +41,13 @@ public class MPC extends Service implements MediaPlayer.OnPreparedListener, Medi
     public IBinder onBind(Intent intent) {
         return bindme;
     }
-
     @Override
-    public boolean onUnbind(Intent intent) {
+    public boolean onUnbind (Intent intent) {
         mediaPlayer.stop();
         mediaPlayer.release();
         return false;
     }
-
-    public void mp_init() {
+    public void mp_init(){
         mediaPlayer.setWakeMode(getApplicationContext(), PowerManager.PARTIAL_WAKE_LOCK);
         mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
         mediaPlayer.setOnPreparedListener(this);
@@ -58,27 +55,24 @@ public class MPC extends Service implements MediaPlayer.OnPreparedListener, Medi
         mediaPlayer.setOnErrorListener(this);
     }
 
-    public void startplay() {
+    public void startplay (){
         mediaPlayer.reset();
-
         Song playme = songs.get(songposition);
         String nowplaying = playme.get_identification();
         //Uri trackid = ContentUris.withAppendedId(android.provider.MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, nowplaying.longValue());
-        try {
-            mediaPlayer.setDataSource(getApplicationContext(), Uri.parse(nowplaying));
-        } catch (Exception e) {
-            Log.e("MPC", "data source error", e);
+        try{
+            mediaPlayer.setDataSource(getApplicationContext(),Uri.parse(nowplaying));
         }
+        catch(Exception e) {
+            Log.e("MPC","data source error",e);
+            }
         mediaPlayer.prepareAsync();
     }
-
-    // }
+   // }
     public void setSngs(ArrayList<Song> Sngs) {
         songs = Sngs;
     }
-
-    public void stop_pb() {
-        mediaPlayer.pause();
+    public void stop_pb(){
         // make it stop MAKE IT STOP
     }
 
@@ -96,26 +90,25 @@ public class MPC extends Service implements MediaPlayer.OnPreparedListener, Medi
     public void onPrepared(MediaPlayer mp) {
         mp.start();
     }
-
     public void setPlaying(int index) {
         songposition = index;
     }
-
-    public void playsong() {
+    public void playsong(){
         mediaPlayer.reset();
         Song playing = songs.get(songposition);
         String currentsong = playing.get_identification();
         //Uri songuri = ContentUris.withAppendedId(android.provider.MediaStore.Audio.Media.EXTERNAL_CONTENT_URI,playing);
-        try {
+        try{
             mediaPlayer.setDataSource(currentsong);
-        } catch (Exception e) {
-            Log.e("mpc", "err setting datasource", e);
+        }
+        catch(Exception e){
+            Log.e("mpc","err setting datasource", e);
         }
     }
-
     public class binder_music extends Binder {
-        MPC getservice() {
+        MPC getservice () {
             return MPC.this;
         }
     }
 }
+

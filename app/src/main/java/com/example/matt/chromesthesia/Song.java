@@ -1,5 +1,7 @@
 package com.example.matt.chromesthesia;
 
+import android.net.Uri;
+
 import com.example.matt.chromesthesia.playlistDev.ID3;
 import com.example.matt.chromesthesia.playlistDev.localMusicManager;
 import com.example.matt.chromesthesia.playlistDev.mp3Parser;
@@ -9,9 +11,9 @@ import java.util.HashMap;
 /**
  * Created by Dave on 10/3/2016.
  */
-public class Song {
+public class Song{
     private HashMap<String, ID3> _song;
-    private String _identification;
+    private String _id;
     private String _audioFilePath;
     private ID3 _id3;
     private localMusicManager _localManager;
@@ -22,7 +24,7 @@ public class Song {
     public Song(String audioFilePath) throws Exception {
         //unique song identifier:
         _localManager = new localMusicManager(); //used in generateLocalSongID, might be necessary later on
-        _identification = tempID();
+        _id = audioFilePath;
 
         //song attributes:
         _audioFilePath = audioFilePath;
@@ -32,24 +34,25 @@ public class Song {
 
         //storing song identification
         _song = new HashMap<>();
-        _song.put(_identification, _id3);
+        _song.put(_id, _id3);
 
     }
 
     //getters:
 
-    public ID3 get_id3() {
+    public ID3 get_id3(){
         //should work because a song object should only have one key in its hashmap
         return _song.get(_song.keySet());
     }
 
-    public String get_identification() {
-        return _song.keySet().toString();
+    public String get_identification(){
+        return _id;
     }
 
-    public String get_audioFilePath() {
+    public String get_audioFilePath(){
         return _audioFilePath;
     }
+
 
 
     /*Generates a unique song ID for the track.
@@ -77,7 +80,7 @@ public class Song {
     }
     For testing purposes because the random generator was giving me errors:
 */
-    public String tempID() {
+    public String tempID(){
         return "No ID";
     }
 
