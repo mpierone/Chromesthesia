@@ -68,11 +68,11 @@ public class Chromesthesia extends AppCompatActivity {
      * The {@link ViewPager} that will host the section contents.
      */
     private ViewPager mViewPager;
-    private ArrayList<Song> songlist;
+    protected ArrayList<Song> songlist;
     private ListView songview;
-    private MPC mpservice;
+    protected MPC mpservice;
     private Intent player;
-    private localMusicManager lmm;
+    protected localMusicManager lmm;
     private boolean musicbound = false;
 
     @Override
