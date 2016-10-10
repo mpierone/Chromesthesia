@@ -11,8 +11,9 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.matt.chromesthesia.playlistDev.localMusicManager;
+
 import java.util.ArrayList;
-import com.example.matt.chromesthesia.playlistDev.*;
 
 /**
  * Created by Jimmy on 10/8/16.
@@ -33,7 +34,11 @@ public class LibraryFragment extends Fragment {
 
 
         listView.setAdapter(listAdapter);
-        addSongsToList();
+        try {
+            addSongsToList();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         update();
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -49,11 +54,14 @@ public class LibraryFragment extends Fragment {
 
         return rootView;
     }
-    public static void addSongsToList(){
-        ArrayList<String> songs = new ArrayList<>();
-        songs.add(song.get_id3().getTitle() + " - " + song.get_id3().getArtist());
+    public static void addSongsToList() throws Exception {
+        localMusicManager lmm= new localMusicManager();
+        ArrayList<String> visibleSongList = new ArrayList<>();
+        for (Song s : lmm.makeSongsList()){
+            visibleSongList.add(s.get_id3().getTitle() + "\nBy: " + s.get_id3().getArtist());
+        }
         listAdapter.clear();
-        listAdapter.addAll(songs);
+        listAdapter.addAll(visibleSongList);
     }
     public static void update(){
         listAdapter.notifyDataSetChanged();
