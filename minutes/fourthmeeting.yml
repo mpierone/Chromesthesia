@@ -1,16 +1,16 @@
-date: September 27, 2016
+date: October 04, 2016
 meeting_type: ta #
 attendance: [<mpierone>, <wlstewar>, <jhuang42>, <iacaneda>]
 absent: []
 excused_absences: [ 
   ]
 task_progress: [ # All group members must be included here even if they haven't made any progress since the last meeting
-  {ubit: <mpierone>, progress: Still working on button functionality.},
-  {ubit: <iacaneda>, progress: Still researching how other apps have achieved playlist creation capabilities.},
+  {ubit: <mpierone>, progress: Still working on button functionality. Finally fixed emulator issues.},
+  {ubit: <iacaneda>, progress: Saving database, PHP creation for sprint 2; will focus on playlist creation.},
   {ubit: <jhuang42>, progress: Researching java multithreading.},
-  {ubit: <wlstewar>, progress: Editing manifest to access permissions on Android devices. Play functionality.},
+  {ubit: <wlstewar>, progress: Progress on playback.},
   ]
 issues: [ # Post any issues here. Issues that cannot be addressed by the group should especially be included
   ]
 Notes:  | # Anything covered in the meeting that doesn't fit elsewhere.
-  Start adding specific issues for each person for individual points. 
+  }

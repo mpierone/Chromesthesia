@@ -1,0 +1,17 @@
+date: October 03, 2016
+meeting_type: instructor #
+attendance: [<wlstewar>, <jhuang42>]
+absent: [<iacaneda>,<mpierone>]
+excused_absences: [ {ubit:<iacaneda>reason:had to work (mandatory)},{ubit:<mpierone>,reason: had class & mandatory quiz}
+  ]
+task_progress: [ # All group members must be included here even if they haven't made any progress since the last meeting
+  {ubit: <mpierone>, progress: play/pause button functionality},
+  {ubit: <iacaneda>, progress: getting mp3 meta data},
+  {ubit: <jhuang42>, progress: library list},
+  {ubit: <wlstewar>, progress: playback.},
+  ]
+issues: [ # Post any issues here. Issues that cannot be addressed by the group should especially be included
+  ]
+Notes:  | 
+    Considering dropping Android App in place of a webapp that has similar functionality to Pandora's music Genome.
+    Would analyze people's playlists and what they play to give suggestions of similar music.
