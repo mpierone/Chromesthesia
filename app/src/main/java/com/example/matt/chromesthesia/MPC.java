@@ -3,23 +3,17 @@ package com.example.matt.chromesthesia;
 // MPC = MEDIA PLAYER CLASS
 
 import android.app.Service;
-import android.content.ContentUris;
 import android.content.Intent;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
-import android.os.IBinder;
-import android.support.annotation.Nullable;
-
-import java.math.BigInteger;
-import java.util.ArrayList;
-
 import android.net.Uri;
 import android.os.Binder;
+import android.os.IBinder;
 import android.os.PowerManager;
+import android.support.annotation.Nullable;
 import android.util.Log;
 
-
-import java.io.FileNotFoundException;
+import java.util.ArrayList;
 
 /**
  * Created by Will Stewart on 9/27/2016.
@@ -107,7 +101,7 @@ public class MPC extends Service implements MediaPlayer.OnPreparedListener, Medi
         String currentsong = playing.get_identification();
         //Uri songuri = ContentUris.withAppendedId(android.provider.MediaStore.Audio.Media.EXTERNAL_CONTENT_URI,playing);
         try {
-            mediaPlayer.setDataSource(currentsong);
+            mediaPlayer.setDataSource(LibraryFragment.chosenSong.getAbsolutePath());
         } catch (Exception e) {
             Log.e("mpc", "err setting datasource", e);
         }
