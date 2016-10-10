@@ -1,6 +1,6 @@
 date: September 20, 2016
 meeting_type: ta #
-attendance: [<mpierone>, <wstewar>, <jhuang42>, <iacaneda>]
+attendance: [<mpierone>, <wlstewar>, <jhuang42>, <iacaneda>]
 absent: []
 excused_absences: [ 
   ]
@@ -8,12 +8,12 @@ task_progress: [ # All group members must be included here even if they haven't 
   {ubit: <mpierone>, progress: Created new repository www.github.com/mpierone/chromesthesia},
   {ubit: <iacaneda>, progress: Figured out how to add/commit/push/pull and set up new branches for GitHub by testing a dummy android studio project with mpierone},
   {ubit: <jhuang42>, progress: Worked on Chromesthesia GUI design based off of a similar prior side project.},
-  {ubit: <wstewar>, progress: Filmed and edited YouTube video for sprint 1 functionality},
+  {ubit: <wlstewar>, progress: Filmed and edited YouTube video for sprint 1 functionality},
   ]
 issues: [ # Post any issues here. Issues that cannot be addressed by the group should especially be included
   ]
 Notes:  | # Anything covered in the meeting that doesn't fit elsewhere.
   {ubit: <iacaneda>, task: Working on playlist creation feature and coordinating with wstewar on coordinating the database to the playlist feature},
-  {ubit: <wstewar>, task: Getting playback operational. If finished, will tackle setting up the music database}
+  {ubit: <wlstewar>, task: Getting playback operational. If finished, will tackle setting up the music database}
   {ubit: <mpierone>, task: Make the buttons operational, and be able to toggle between screens},
   {ubit: <jhuang42>, task: Working on getting music streaming functional.}
