@@ -8,10 +8,8 @@ import android.os.Bundle;
 
 public class Library extends Chromesthesia {
 
-    public void onCreate(Bundle savedInstancedState){
+    public void onCreate(Bundle savedInstancedState) {
         super.onCreate(savedInstancedState);
         setContentView(R.layout.libraryscreen);
-
-
     }
 }

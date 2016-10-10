@@ -1,3 +1,4 @@
+
 package com.example.matt.chromesthesia;
 
 import android.content.Intent;
@@ -59,6 +60,7 @@ public class Chromesthesia extends AppCompatActivity {
                 startActivityForResult(libraryIntent, 0);
             }
         });
+
         Button playlistButton = (Button) findViewById(R.id.playlistButton);
         playlistButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {

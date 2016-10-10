@@ -2,9 +2,8 @@ package com.example.matt.chromesthesia.playlistDev;
 
 /**
  * Created by Isabelle on 10/6/2016.
- *
+ * <p>
  * Stores ID3 tags parsed using TagParser class
- *
  */
 
 public class ID3 {
@@ -15,7 +14,7 @@ public class ID3 {
     private String _genre;
 
 
-    public ID3(String title, String artist, String album, String year, String genre){
+    public ID3(String title, String artist, String album, String year, String genre) {
         //constructor
         _title = title;
         _artist = artist;
@@ -25,44 +24,45 @@ public class ID3 {
 
     }
 
-    public String getTitle(){
+    public String getTitle() {
         return _title;
     }
 
-    public String getArtist(){
+    public String getArtist() {
         return _artist;
     }
 
-    public String getAlbum(){
+    public String getAlbum() {
         return _album;
     }
 
-    public String getYear(){
+    public String getYear() {
         return _year;
     }
 
 
-    public String getGenre (){
+    public String getGenre() {
         return _genre;
     }
- //Setters
-    public void setTitle(String bTitle){
+
+    //Setters
+    public void setTitle(String bTitle) {
         _title = bTitle;
     }
 
-    public void setArtist(String bArtist){
+    public void setArtist(String bArtist) {
         _artist = bArtist;
     }
 
-    public void setAlbum(String bAlbum){
+    public void setAlbum(String bAlbum) {
         _album = bAlbum;
     }
 
-    public void setYear(String bYear){
+    public void setYear(String bYear) {
         _year = bYear;
     }
 
-    public void setGenre (String bGenre){
+    public void setGenre(String bGenre) {
         _genre = bGenre;
     }
 

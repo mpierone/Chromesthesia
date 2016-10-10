@@ -1,7 +1,5 @@
 package com.example.matt.chromesthesia.playlistDev;
 
-import android.os.Environment;
-
 import com.example.matt.chromesthesia.Song;
 
 import java.io.File;
@@ -10,19 +8,18 @@ import java.util.ArrayList;
 
 /**
  * Created by Isabelle on 10/4/2016.
- *
+ * <p>
  * This class reads the files from the SD card.
  * Detects any audio files
  */
 
 
-
-
 public class localMusicManager {
 
 
-    final String SD_LOCATION = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_MUSIC).getPath(); //change back to "/sdcard/" after unit testing
+    final String SD_LOCATION = new String("C:\\Users\\Isabelle\\Chromesthesia\\app\\src\\main\\res\\raw"); //change back to "/sdcard/" after unit testing
     private ArrayList<Song> _songsList;
+
     public localMusicManager() {
         //constructor
         _songsList = new ArrayList<>();
@@ -40,19 +37,18 @@ public class localMusicManager {
 
 
     /*getter for SD_LOCATION*/
-    public String getSD_LOCATION(){
+    public String getSD_LOCATION() {
         return SD_LOCATION;
     }
 
     //Method for checking if songList already has songID stored in it.
-    public boolean trackInSongList(ArrayList songsList, int songID){
+    public boolean trackInSongList(ArrayList songsList, int songID) {
         return songsList.contains(songID);
     }
 
 
-
     /*getter for the path of the audio file on the SD Card*/
-    public String getPath(File track){
+    public String getPath(File track) {
         return track.getAbsolutePath();
     }
 
@@ -79,7 +75,6 @@ public class localMusicManager {
         }
         return _songsList;
     }
-
 
 
 }

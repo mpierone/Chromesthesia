@@ -9,7 +9,7 @@ import java.util.HashMap;
 /**
  * Created by Dave on 10/3/2016.
  */
-public class Song{
+public class Song {
     private HashMap<String, ID3> _song;
     private String _identification;
     private String _audioFilePath;
@@ -38,19 +38,18 @@ public class Song{
 
     //getters:
 
-    public ID3 get_id3(){
+    public ID3 get_id3() {
         //should work because a song object should only have one key in its hashmap
         return _song.get(_song.keySet());
     }
 
-    public String get_identification(){
+    public String get_identification() {
         return _song.keySet().toString();
     }
 
-    public String get_audioFilePath(){
+    public String get_audioFilePath() {
         return _audioFilePath;
     }
-
 
 
     /*Generates a unique song ID for the track.
@@ -59,11 +58,9 @@ public class Song{
        Once we begin implementing the server, we want this to be a String so it's compatible with
        the METADATA_KEY_MEDIA_ID key for identifying content. See: "MediaMetaDataCompat" in Android
        Developer Documentation
-
        Note: int max refers to the highest number that will be the song ID.
        8000 is an estimate I found online for how many songs a 32GB SD card could store
        Thus, each song would be identified by <a number from 1 to 8000>
-
      */
     /*
     public String generateLocalSongID() throws Exception {
@@ -78,10 +75,9 @@ public class Song{
         else{ songID = Long.valueOf(0);}
             return songID.toString();
     }
-
     For testing purposes because the random generator was giving me errors:
 */
-    public String tempID(){
+    public String tempID() {
         return "No ID";
     }
 
