@@ -40,7 +40,6 @@ _album = 2
 
 public class mp3Parser {
     MediaMetadataRetriever metaRetriever;
-    //MediaMetadataRetriever mmr = new MediaMetadataRetriever();
     public mp3Parser() {
     }
 
@@ -58,7 +57,7 @@ public class mp3Parser {
 
     public ID3 parseMP3(String audioPath) {
         metaRetriever = new MediaMetadataRetriever();
-        metaRetriever.setDataSource(audioPath);
+        metaRetriever.setDataSource(audioPath);//<--this is whats giving us that "not mocked error"
         return new ID3(new String(metaRetriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_TITLE)),
                 new String(metaRetriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_ARTIST)),
                 new String(metaRetriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_ALBUM)),
@@ -67,24 +66,5 @@ public class mp3Parser {
                 );
     }
 
-    /*
 
-    public void parseMP4(String audioPath)throws Exception, IOException, SAXException, TikaException{
-        BodyContentHandler handler = new BodyContentHandler();
-        Metadata metadata = new Metadata();
-        FileInputStream inputStream = new FileInputStream(new File(audioPath));
-        ParseContext pcontext = new ParseContext();
-
-        MP4Parser mParse = new MP4Parser();
-        mParse.parse(inputStream, handler, metadata, pcontext);
-
-        String[] tagNames = metadata.names();
-
-        for (String tag : tagNames){
-            System.out.println(tag + ": " + metadata.get(tag));
-        }
-
-    }
-
-    */
 }

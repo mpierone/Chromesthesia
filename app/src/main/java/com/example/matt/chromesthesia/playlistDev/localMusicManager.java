@@ -1,5 +1,7 @@
 package com.example.matt.chromesthesia.playlistDev;
 
+import android.os.Environment;
+
 import com.example.matt.chromesthesia.Song;
 
 import java.io.File;
@@ -19,8 +21,7 @@ import java.util.ArrayList;
 public class localMusicManager {
 
 
-
-    final String SD_LOCATION = new String("C:\\Users\\Isabelle\\Chromesthesia\\app\\src\\main\\res\\raw"); //change back to "/sdcard/" after unit testing
+    final String SD_LOCATION = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_MUSIC).getPath(); //change back to "/sdcard/" after unit testing
     private ArrayList<Song> _songsList;
     public localMusicManager() {
         //constructor

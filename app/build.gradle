@@ -8,18 +8,6 @@ dependencies {
     compile 'com.android.support:appcompat-v7:24.2.1'
     compile 'com.android.support:design:24.2.1'
     compile 'com.google.android.gms:play-services-appindexing:8.4.0'
-    /*
-    compile('org.apache.tika:tika-core:1.4') {
-        exclude group: 'commons-logging', module: 'commons-logging'
-        exclude group: 'org.json', module: 'json'
-        exclude group: 'org.apache.httpcomponents', module: 'httpclient'
-    }
-    compile('org.apache.tika:tika-parsers:1.4') {
-        exclude group: 'commons-logging', module: 'commons-logging'
-        exclude group: 'org.json', module: 'json'
-        exclude group: 'org.apache.httpcomponents', module: 'httpclient'
-    }
-    */
 }
 
 
