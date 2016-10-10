@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -31,7 +32,10 @@
             android:id="@+id/list"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:drawSelectorOnTop="false" />
+            android:drawSelectorOnTop="false"
+            android:choiceMode="singleChoice"
+            android:clickable="true"
+            />
 
         <!-- Here is the view to show if the list is emtpy -->
         <TextView
@@ -39,7 +43,16 @@
             android:layout_height="match_parent"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:text=""
-            android:layout_gravity="center_horizontal|top" />
+            android:layout_gravity="center_horizontal|top"
+            tools:text="Sorry we were unable to find any audio files on your device." />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="@string/songlist"
+            android:layout_gravity="center_horizontal|top"
+            tools:text="" />
 
     </FrameLayout>
 
