@@ -1,12 +1,15 @@
 package com.example.matt.chromesthesia;
 
-import android.app.ListActivity;
+import android.app.Fragment;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.ListAdapter;
+import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import com.example.matt.chromesthesia.playlistDev.*;
+import android.content.*;
 
 import java.util.ArrayList;
 
@@ -14,17 +17,22 @@ import java.util.ArrayList;
  * Created by matt on 10/1/2016.
  */
 
-public class Library extends ListActivity {
-    localMusicManager lMM;
-    View listView = findViewById(R.id.librarylist);
-
+public class Library extends Chromesthesia {
+    private LayoutInflater layoutInf;
+    private ArrayList<Song> songs;
+    ListView listView;
+    localMusicManager lMM = new localMusicManager();
     public void onCreate(Bundle savedInstancedState) {
         super.onCreate(savedInstancedState);
         setContentView(R.layout.libraryscreen);
-        lMM = new localMusicManager();
-        createMusicList();
     }
-
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        createMusicList();
+        View rootView = inflater.inflate(R.layout.libraryscreen, container, false);
+        listView = (ListView)rootView.findViewById( R.id.librarylist);
+        return rootView;
+    }
     public void createMusicList(){
         String songName;
         String artistName;
@@ -37,12 +45,10 @@ public class Library extends ListActivity {
                 songName = libraryList.get(i).get_id3().getTitle();
                 artistName = libraryList.get(i).get_id3().getArtist();
                 mergedName = songName + " - " + artistName;
-                listView.setTag(mergedName);
             }
         }
         catch (Exception e){
             Log.e("lmm in library.java","stuff broke",e);
-
         }
     }
 }
