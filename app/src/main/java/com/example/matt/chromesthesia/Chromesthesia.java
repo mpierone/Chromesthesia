@@ -85,14 +85,6 @@ public class Chromesthesia extends AppCompatActivity {
         catch(Exception e){
             Log.e("chromesthesia", "err setting datasource", e);
         }
-        try
-        {
-            SongAdapter songAdt = new SongAdapter(this, songlist);
-            songView.setAdapter(songAdt);
-        }
-        catch (NullPointerException e){
-            Log.e("Error:","No songs in playlist", e);
-        }
         //ActivityCompat.requestPermissions(, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE});
         if (player == null) {
             player = new Intent(this, MPC.class);
