@@ -3,7 +3,11 @@ package com.example.matt.chromesthesia.playlistDev;
 import android.content.ContentResolver;
 import android.database.Cursor;
 import android.net.Uri;
+import android.os.Environment;
+import android.provider.MediaStore;
+import android.util.Log;
 
+import com.example.matt.chromesthesia.R;
 import com.example.matt.chromesthesia.Song;
 import com.example.matt.chromesthesia.Chromesthesia;
 import java.io.File;
@@ -23,9 +27,11 @@ import java.util.ArrayList;
 public class localMusicManager {
 
 
+    final String SD_LOCATION = (Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).getPath());
+    File sdlocation = new File(SD_LOCATION + "/Download/");
 
-    final String SD_LOCATION = new String("/SDCARD/"); //change back to "/sdcard/" after unit testing
     private ArrayList<Song> _songsList;
+
     public localMusicManager() {
         //constructor
         _songsList = new ArrayList<>();
@@ -43,19 +49,18 @@ public class localMusicManager {
 
 
     /*getter for SD_LOCATION*/
-    public String getSD_LOCATION(){
+    public String getSD_LOCATION() {
         return SD_LOCATION;
     }
 
     //Method for checking if songList already has songID stored in it.
-    public boolean trackInSongList(ArrayList songsList, int songID){
+    public boolean trackInSongList(ArrayList songsList, int songID) {
         return songsList.contains(songID);
     }
 
 
-
     /*getter for the path of the audio file on the SD Card*/
-    public String getPath(File track){
+    public String getPath(File track) {
         return track.getAbsolutePath();
     }
 
@@ -72,18 +77,21 @@ public class localMusicManager {
      */
 
     public ArrayList<Song> makeSongsList() throws Exception {
-        File sdCard = new File(SD_LOCATION);
-        if (sdCard.listFiles(new musicFinder()).length > 0) {
-            for (File file : sdCard.listFiles(new musicFinder())) {
-                //sets up String[] of track info
-
-                Song so = new Song(file.getAbsolutePath());
-                _songsList.add(so);
+        try {
+            File sdCard = new File(SD_LOCATION);
+            if (sdCard.listFiles().length > 0) {
+                for (File file : sdCard.listFiles(new musicFinder())) {
+                    //sets up String[] of track info
+                    System.out.println(file.getAbsolutePath());
+                    Song so = new Song(file.getAbsolutePath());
+                    _songsList.add(so);
+                }
             }
+            System.out.println(_songsList.size());
+        } catch (Exception e) {
+            Log.e("lmm", "err setting datasource", e);
         }
         return _songsList;
     }
-
-
 
 }

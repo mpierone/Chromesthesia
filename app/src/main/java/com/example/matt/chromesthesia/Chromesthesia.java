@@ -1,19 +1,23 @@
 
 package com.example.matt.chromesthesia;
 import com.example.matt.chromesthesia.MPC.binder_music;
+import com.example.matt.chromesthesia.playlistDev.localMusicManager;
 
+import android.Manifest;
 import android.content.ContentResolver;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -68,12 +72,21 @@ public class Chromesthesia extends AppCompatActivity {
     private ListView songview;
     private MPC mpservice;
     private Intent player;
+    private localMusicManager lmm;
     private boolean musicbound = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chromesthesia);
+        lmm = new localMusicManager();
+        //ActivityCompat.requestPermissions(, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE});
+        try{
+            songlist = lmm.makeSongsList();
+        }
+        catch(Exception e){
+            Log.e("chromesthesia", "err setting datasource", e);
+        }
         if (player == null) {
             player = new Intent(this, MPC.class);
             bindService(player, musicconnect, Context.BIND_AUTO_CREATE);
@@ -118,6 +131,11 @@ public class Chromesthesia extends AppCompatActivity {
             }
         });}
 
+    public void playSong(View view){
+        mpservice.setPlaying(Integer.parseInt(view.getTag().toString()));
+        mpservice.playsong();
+    }
+
     private ServiceConnection musicconnect = new ServiceConnection() {
             @Override
             public void onServiceConnected(ComponentName name, IBinder service) {
@@ -154,7 +172,15 @@ public class Chromesthesia extends AppCompatActivity {
 
             return super.onOptionsItemSelected(item);
         }
-
+        @Override
+        protected void onStart (){
+            super.onStart();
+            if(player==null){
+                player = new Intent(this,MPC.class);
+                bindService(player, musicconnect, Context.BIND_AUTO_CREATE);
+                startService(player);
+            }
+        }
         /**
          * A placeholder fragment containing a simple view.
          */

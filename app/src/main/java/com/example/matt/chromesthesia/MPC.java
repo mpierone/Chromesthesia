@@ -55,7 +55,7 @@ public class MPC extends Service implements MediaPlayer.OnPreparedListener, Medi
         mediaPlayer.setOnErrorListener(this);
     }
 
-    public void start (){
+    public void startplay (){
         mediaPlayer.reset();
         Song playme = songs.get(songposition);
         String nowplaying = playme.get_identification();
@@ -92,6 +92,18 @@ public class MPC extends Service implements MediaPlayer.OnPreparedListener, Medi
     }
     public void setPlaying(int index) {
         songposition = index;
+    }
+    public void playsong(){
+        mediaPlayer.reset();
+        Song playing = songs.get(songposition);
+        String currentsong = playing.get_identification();
+        //Uri songuri = ContentUris.withAppendedId(android.provider.MediaStore.Audio.Media.EXTERNAL_CONTENT_URI,playing);
+        try{
+            mediaPlayer.setDataSource(currentsong);
+        }
+        catch(Exception e){
+            Log.e("mpc","err setting datasource", e);
+        }
     }
     public class binder_music extends Binder {
         MPC getservice () {
