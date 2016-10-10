@@ -18,7 +18,7 @@ import com.example.matt.chromesthesia.MPC;
  */
 
 public class NowPlayingScreen extends Chromesthesia {
-    MPC media = new MPC();
+
 
     public void onCreate(Bundle savedInstancedState) {
         super.onCreate(savedInstancedState);
@@ -28,16 +28,16 @@ public class NowPlayingScreen extends Chromesthesia {
         final ImageButton previousButton = (ImageButton) findViewById(R.id.previousButton);
         final ImageButton nextButton = (ImageButton) findViewById(R.id.nextButton);
 
-        //final MediaPlayer media = MediaPlayer.create(this, R.raw.sutphinboulevard);     //probably will be different when media reading is finished
+        final MediaPlayer media = MediaPlayer.create(this, R.raw.sutphinboulevard);     //probably will be different when media reading is finished
 
         playButton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 //media.start_pb(file);
                 if (isChecked) {
 
-                    media.startplay();
+                    media.start();
                 } else {
-                    media.stop_pb();
+                    media.pause();
                 }
             }
         });
