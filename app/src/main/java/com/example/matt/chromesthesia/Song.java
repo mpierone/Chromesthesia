@@ -9,7 +9,7 @@ import com.example.matt.chromesthesia.playlistDev.mp3Parser;
 import java.util.HashMap;
 
 /**
- * Created by Dave on 10/3/2016.
+ * Created by Will Stewart on 10/3/2016.
  */
 public class Song{
     private HashMap<String, ID3> _song;

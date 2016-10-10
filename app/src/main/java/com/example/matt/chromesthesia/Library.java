@@ -14,7 +14,7 @@ import android.content.*;
 import java.util.ArrayList;
 
 /**
- * Created by matt on 10/1/2016.
+ * Created by matt & will on 10/1/2016.
  */
 
 public class Library extends Chromesthesia {
