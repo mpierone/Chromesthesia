@@ -18,27 +18,45 @@ import com.example.matt.chromesthesia.MPC;
  */
 
 public class NowPlayingScreen extends Chromesthesia {
+    MPC media = new MPC();
 
     public void onCreate(Bundle savedInstancedState) {
         super.onCreate(savedInstancedState);
         setContentView(R.layout.playscreen);
 
         final ToggleButton playButton = (ToggleButton) findViewById(R.id.playButton);
+        final ImageButton previousButton = (ImageButton) findViewById(R.id.previousButton);
+        final ImageButton nextButton = (ImageButton) findViewById(R.id.nextButton);
 
-        //final MPC media = new MPC();
-        final MediaPlayer media = MediaPlayer.create(this, R.raw.sutphinboulevard);     //probably will be different when media reading is finished
+        //final MediaPlayer media = MediaPlayer.create(this, R.raw.sutphinboulevard);     //probably will be different when media reading is finished
 
         playButton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 //media.start_pb(file);
                 if (isChecked) {
-                    media.start();
+
+                    media.startplay();
                 } else {
-                    media.pause();
+                    media.stop_pb();
                 }
             }
         });
 
+        previousButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //call and play previous song
+                //if song[index-1] would == null, then go to song[highest_index]
+            }
+        });
+
+        nextButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //call and play next song
+                //if song[index+1] is out of bounds, then go to song[index_1]
+            }
+        });
 
     }
 }

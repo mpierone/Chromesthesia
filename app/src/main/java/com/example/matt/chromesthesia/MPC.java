@@ -60,6 +60,7 @@ public class MPC extends Service implements MediaPlayer.OnPreparedListener, Medi
 
     public void startplay() {
         mediaPlayer.reset();
+
         Song playme = songs.get(songposition);
         String nowplaying = playme.get_identification();
         //Uri trackid = ContentUris.withAppendedId(android.provider.MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, nowplaying.longValue());
@@ -77,6 +78,7 @@ public class MPC extends Service implements MediaPlayer.OnPreparedListener, Medi
     }
 
     public void stop_pb() {
+        mediaPlayer.pause();
         // make it stop MAKE IT STOP
     }
 
