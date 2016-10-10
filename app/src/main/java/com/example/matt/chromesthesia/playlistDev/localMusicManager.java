@@ -27,7 +27,7 @@ import java.util.ArrayList;
 public class localMusicManager {
 
 
-    final String SD_LOCATION = (Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).getPath());
+    final String SD_LOCATION = (Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_MUSIC).getPath());
     File sdlocation = new File(SD_LOCATION + "/Download/");
 
     private ArrayList<Song> _songsList;
