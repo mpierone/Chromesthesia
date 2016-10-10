@@ -32,6 +32,7 @@ public class Chromesthesia extends AppCompatActivity {
      * The {@link ViewPager} that will host the section contents.
      */
     private ViewPager mViewPager;
+    protected MPC media = new MPC();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
