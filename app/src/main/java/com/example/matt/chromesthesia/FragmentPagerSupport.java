@@ -8,6 +8,9 @@ import android.widget.Adapter;
 
 /**
  * Created by Matt on 9/16/2016.
+ *
+ *
+ * this class isn't needed. Keeping in case it is later.
  */
 public class FragmentPagerSupport extends FragmentActivity {
     static final int NUM_ITEMS = 4;

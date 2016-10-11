@@ -1,6 +1,6 @@
 date: September 27, 2016
 meeting_type: ta #
-attendance: [<mpierone>, <wstewar>, <jhuang42>, <iacaneda>]
+attendance: [<mpierone>, <wlstewar>, <jhuang42>, <iacaneda>]
 absent: []
 excused_absences: [ 
   ]
@@ -8,7 +8,7 @@ task_progress: [ # All group members must be included here even if they haven't 
   {ubit: <mpierone>, progress: Still working on button functionality.},
   {ubit: <iacaneda>, progress: Still researching how other apps have achieved playlist creation capabilities.},
   {ubit: <jhuang42>, progress: Researching java multithreading.},
-  {ubit: <wstewar>, progress: Editing manifest to access permissions on Android devices. Play functionality.},
+  {ubit: <wlstewar>, progress: Editing manifest to access permissions on Android devices. Play functionality.},
   ]
 issues: [ # Post any issues here. Issues that cannot be addressed by the group should especially be included
   ]

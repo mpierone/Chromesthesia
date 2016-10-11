@@ -3,6 +3,7 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:onClick="playSong"
     android:background="#2222">
 
     <TextView android:id="@+id/text"
@@ -31,7 +32,8 @@
             android:id="@+id/list"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:drawSelectorOnTop="false" />
+            android:drawSelectorOnTop="false"
+             />
 
         <!-- Here is the view to show if the list is emtpy -->
         <TextView
