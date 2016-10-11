@@ -1,5 +1,7 @@
 package com.example.matt.chromesthesia.playlistDev;
 
+import android.os.Environment;
+
 import com.example.matt.chromesthesia.Song;
 
 import java.io.File;
@@ -17,7 +19,7 @@ import java.util.ArrayList;
 public class localMusicManager {
 
 
-    final String SD_LOCATION = "C:\\Users\\Isabelle\\Chromesthesia\\app\\src\\main\\res\\raw";
+    final String SD_LOCATION = Environment.getExternalStorageDirectory().getAbsolutePath();
     static ArrayList<Song> _songsList;
 
     public localMusicManager() {
