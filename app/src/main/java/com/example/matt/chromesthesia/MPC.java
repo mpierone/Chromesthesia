@@ -101,7 +101,7 @@ public class MPC extends Service implements MediaPlayer.OnPreparedListener, Medi
         String currentsong = playing.get_identification();
         //Uri songuri = ContentUris.withAppendedId(android.provider.MediaStore.Audio.Media.EXTERNAL_CONTENT_URI,playing);
         try {
-            mediaPlayer.setDataSource(LibraryFragment.chosenSong.getAbsolutePath());
+            mediaPlayer.setDataSource(LibraryFragment.chosenSong.get_audioFilePath());
         } catch (Exception e) {
             Log.e("mpc", "err setting datasource", e);
         }

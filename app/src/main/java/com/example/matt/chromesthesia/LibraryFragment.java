@@ -11,8 +11,9 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.matt.chromesthesia.playlistDev.localMusicManager;
+
 import java.util.ArrayList;
-import com.example.matt.chromesthesia.playlistDev.*;
 
 /**
  * Created by Jimmy on 10/8/16.
@@ -21,6 +22,7 @@ public class LibraryFragment extends Fragment {
     ListView listView;
     static ArrayAdapter<String> listAdapter;
     static Song song;
+    static Song chosenSong;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -42,7 +44,18 @@ public class LibraryFragment extends Fragment {
 
                 String item = ((TextView)view).getText().toString();
                 Toast.makeText(getActivity(), item, Toast.LENGTH_LONG).show();
+                new AdapterView.OnItemClickListener() {
 
+                    @Override
+                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                        localMusicManager lmm = new localMusicManager();
+                        try {
+                            chosenSong = lmm.makeSongsList().get(position);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+                };
 
             }
         });
@@ -51,7 +64,14 @@ public class LibraryFragment extends Fragment {
     }
     public static void addSongsToList(){
         ArrayList<String> songs = new ArrayList<>();
-        songs.add(song.get_id3().getTitle() + " - " + song.get_id3().getArtist());
+        localMusicManager lmm = new localMusicManager();
+        try {
+            for (Song s : lmm.makeSongsList()){
+                songs.add(s.get_id3().getTitle() + " - " + s.get_id3().getArtist());
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         listAdapter.clear();
         listAdapter.addAll(songs);
     }

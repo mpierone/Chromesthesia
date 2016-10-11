@@ -19,7 +19,7 @@ import java.util.ArrayList;
 public class localMusicManager {
 
 
-    final String SD_LOCATION = Environment.DIRECTORY_MUSIC; //change back to "/sdcard/" after unit testing
+    final String SD_LOCATION = Environment.getExternalStorageDirectory().getPath(); //change back to "/sdcard/" after unit testing
     private ArrayList<Song> _songsList;
 
     public localMusicManager() {
@@ -74,6 +74,9 @@ public class localMusicManager {
                 Song so = new Song(file.getAbsolutePath());
                 _songsList.add(so);
             }
+        }
+        else{
+            _songsList.add(new Song("C:\\Users\\Isabelle\\Chromesthesia\\app\\src\\main\\res\\raw\\rumine.mp3"));
         }
         return _songsList;
     }
