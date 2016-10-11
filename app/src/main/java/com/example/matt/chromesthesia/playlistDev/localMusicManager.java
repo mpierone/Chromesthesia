@@ -1,7 +1,5 @@
 package com.example.matt.chromesthesia.playlistDev;
 
-import android.os.Environment;
-
 import com.example.matt.chromesthesia.Song;
 
 import java.io.File;
@@ -19,8 +17,8 @@ import java.util.ArrayList;
 public class localMusicManager {
 
 
-    final String SD_LOCATION = Environment.getExternalStorageDirectory().getPath(); //change back to "/sdcard/" after unit testing
-    private ArrayList<Song> _songsList;
+    final String SD_LOCATION = "C:\\Users\\Isabelle\\Chromesthesia\\app\\src\\main\\res\\raw";
+    static ArrayList<Song> _songsList;
 
     public localMusicManager() {
         //constructor
@@ -54,29 +52,27 @@ public class localMusicManager {
         return track.getAbsolutePath();
     }
 
-    /*
-    The list of songs available on the SD card will be a list of HashMaps mapping:
-        key - a unique song ID stored as an Integer
-        value - a array list of type string that will consist of:
-            [0] - Song Path
-            [1] - Song Name
-            [2] - Artist Name
-            [3] - Album Name
-            [5] - Genre
-            [6 or higher] - Trait tags
-     */
 
-    public ArrayList<Song> makeSongsList() throws Exception {
+    public ArrayList<Song> makeSongsList() {
         File sdCard = new File(SD_LOCATION);
         if (sdCard.listFiles(new musicFinder()).length > 0) {
             for (File file : sdCard.listFiles(new musicFinder())) {
                 //sets up String[] of track info
-                Song so = new Song(file.getAbsolutePath());
+                Song so = null;
+                try {
+                    so = new Song(file.getAbsolutePath());
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
                 _songsList.add(so);
             }
         }
         else{
-            _songsList.add(new Song("C:\\Users\\Isabelle\\Chromesthesia\\app\\src\\main\\res\\raw\\rumine.mp3"));
+            try {
+                _songsList.add(new Song("file///raw/"));
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
         return _songsList;
     }

@@ -59,11 +59,11 @@ public class mp3Parser {
     public ID3 parseMP3(String audioPath) {
         metaRetriever = new MediaMetadataRetriever();
         metaRetriever.setDataSource(audioPath);
-        return new ID3(new String(metaRetriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_TITLE)),
-                new String(metaRetriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_ARTIST)),
-                new String(metaRetriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_ALBUM)),
-                new String(metaRetriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_YEAR)),
-                new String(metaRetriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_GENRE))
+        return new ID3(metaRetriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_TITLE),
+                metaRetriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_ARTIST),
+                metaRetriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_ALBUM),
+                metaRetriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_YEAR),
+                metaRetriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_GENRE)
         );
     }
 
