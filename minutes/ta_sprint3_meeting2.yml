@@ -1,0 +1,17 @@
+date: October 18, 2016
+meeting_type: ta # meeting_type can "group", "ta", or "instructor"
+attendance: [<jhuang42>, <wlstewar>]
+absent: [<iacaneda>,<mpierone>]
+excused_absences: [ {ubit:<iacaneda>reason:urgent meeting with boss},{ubit:<mpierone>,reason: car broke down and is stuck at home}
+  ]
+task_progress: [ # All group members must be included here even if they haven't made any progress since the last meeting
+  {ubit: <iacaneda>, progress: none},
+  {ubit: <jhuang42>, progress: working on getting songs in listview },
+  {ubit: <mpierone>, progress: none},
+  {ubit: <wlstewar>, progress: fixed method that was preventing app from grabbing ID3 tags.}
+
+issues: [ # Post any issues here. Issues that cannot be addressed by the group should especially be included
+  ]
+Notes:  | # Anything covered in the meeting that doesn't fit elsewhere.
+- Plan to create a prototype of GUI by the end of sprint 1.
+- 
