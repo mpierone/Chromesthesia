@@ -82,12 +82,19 @@ public class localMusicManager {
             if (sdCard.listFiles().length > 0) {
                 for (File file : sdCard.listFiles(new musicFinder())) {
                     //sets up String[] of track info
-                    System.out.println(file.getAbsolutePath());
+                    //System.out.println(file.getAbsolutePath());
                     Song so = new Song(file.getAbsolutePath());
+                    if (so == null){
+                        System.out.println("so == null!\n");
+                    }
+                    //String thetitle = so.get_id3().getTitle();
+                    //System.out.println(thetitle);
+                    //System.out.println(so.get_id3().getArtist());
+                    //System.out.println(so.get_id3().getAlbum());
                     _songsList.add(so);
                 }
             }
-            System.out.println(_songsList.size());
+            //System.out.println(_songsList.size());
         } catch (Exception e) {
             Log.e("lmm", "err setting datasource", e);
         }

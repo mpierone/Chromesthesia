@@ -24,7 +24,7 @@ public class Library extends Chromesthesia {
     private ListView songView;
     localMusicManager lMM = new localMusicManager();
     public void onCreate(Bundle savedInstancedState) {
-        System.out.println(songlist.get(0).get_id3().getTitle());
+        //System.out.println(songlist.get(0).get_id3().getTitle());
 
         try
         {
@@ -36,6 +36,7 @@ public class Library extends Chromesthesia {
         }
         super.onCreate(savedInstancedState);
         setContentView(R.layout.libraryscreen);
+        createMusicList();
     }
     /*public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,7 +57,10 @@ public class Library extends Chromesthesia {
         String songName;
         String artistName;
         String mergedName;
-        ArrayList<Song> libraryList;
+        ArrayList<Song> libraryList = new ArrayList<>();
+        System.out.println("in library.java and size is:");
+        System.out.println(libraryList.size());
+        String[] songArray = new String[libraryList.size()];
         try{
             libraryList = lMM.makeSongsList();
             for(int i = 0; i < libraryList.size(); i++) {
@@ -64,6 +68,12 @@ public class Library extends Chromesthesia {
                 songName = libraryList.get(i).get_id3().getTitle();
                 artistName = libraryList.get(i).get_id3().getArtist();
                 mergedName = songName + " - " + artistName;
+                System.out.println(mergedName);
+                songArray[i] = mergedName;
+                ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, songArray);
+                ListView libView = (ListView) findViewById(R.id.librarylist);
+                libView.setAdapter(arrayAdapter);
+                arrayAdapter.notifyDataSetChanged();
             }
         }
         catch (Exception e){

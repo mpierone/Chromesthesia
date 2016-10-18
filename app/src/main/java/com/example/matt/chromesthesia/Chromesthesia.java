@@ -79,8 +79,19 @@ public class Chromesthesia extends AppCompatActivity {
         songView = (ListView)findViewById(R.id.librarylist);
         setContentView(R.layout.activity_chromesthesia);
         lmm = new localMusicManager();
+        //System.out.println("in CHROMESTHESIA after lmm = newlmm();");
         try{
+            //System.out.println("in the try block in CHROMESTHESIA");
             songlist = lmm.makeSongsList();
+            //System.out.println((songlist.size()));
+            ID3 ayy = songlist.get(0).get_id3();
+            if (ayy == null) {
+                //System.out.println("no id3");
+            }
+            else{
+                //System.out.println(ayy.getTitle());
+            }
+
         }
         catch(Exception e){
             Log.e("chromesthesia", "err setting datasource", e);
