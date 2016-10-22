@@ -55,6 +55,8 @@ public class mp3Parser {
     }
 
     public ID3 parseMP3(String audioPath) {
+        System.out.println("in parseMP3");
+        System.out.println(audioPath);
         metaRetriever = new MediaMetadataRetriever();
         metaRetriever.setDataSource(audioPath);
         return new ID3(metaRetriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_TITLE),

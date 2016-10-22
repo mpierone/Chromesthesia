@@ -9,6 +9,7 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import com.example.matt.chromesthesia.R;
+import com.example.matt.chromesthesia.Chromesthesia;
 import com.example.matt.chromesthesia.Song;
 /**
  * Created by Mikeys_Mac on 10/10/16.

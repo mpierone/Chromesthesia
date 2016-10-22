@@ -21,6 +21,28 @@
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="Library"
         android:id="@+id/textView2" />
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="469dp">
+        <!-- Here is the list. Since we are using a ListActivity, we
+             have to call it "@android:id/list" so ListActivity will
+             find it -->
+        <ListView
+            android:id="@+id/librarylist"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawSelectorOnTop="false"
+            android:visibility="visible"
+             />
+    </FrameLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:text="AYYLMAO"
+        android:id="@+id/textView5" />
+
     <TextView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -35,20 +57,5 @@
         android:textColor="#FFFFFF99"
         android:textSize="18sp"
         tools:textColor="@color/common_google_signin_btn_text_dark_focused" />
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dip"
-        android:layout_weight="1" >
-        <!-- Here is the list. Since we are using a ListActivity, we
-             have to call it "@android:id/list" so ListActivity will
-             find it -->
-        <ListView
-            android:id="@+id/librarylist"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:drawSelectorOnTop="false"
-            android:visibility="visible"
-             />
-    </FrameLayout>
 
 </LinearLayout>
