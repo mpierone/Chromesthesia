@@ -8,11 +8,11 @@ package com.example.matt.chromesthesia.playlistDev;
  */
 
 public class ID3 {
-    private String _title;
-    private String _artist;
-    private String _album;
-    private String _year;
-    private String _genre;
+    public   String _title;
+    public String _artist;
+    public String _album;
+    public String _year;
+    public String _genre;
 
 
     public ID3(String title, String artist, String album, String year, String genre){
