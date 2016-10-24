@@ -21,7 +21,7 @@ import android.util.Log;
 import java.io.FileNotFoundException;
 
 /**
- * Created by Will Stewart on 9/27/2016.
+ * Created by Will Stewart on 9/27/2016. yay
  */
 public class MPC extends Service implements MediaPlayer.OnPreparedListener, MediaPlayer.OnErrorListener, MediaPlayer.OnCompletionListener{
     private MediaPlayer mediaPlayer;
