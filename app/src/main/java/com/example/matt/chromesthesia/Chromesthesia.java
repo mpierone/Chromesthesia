@@ -145,11 +145,12 @@ public class Chromesthesia extends AppCompatActivity {
     public void playSongPrint(View view) {
         System.out.println("WE CLICKED!");
     }
-    public void playSong(View view) throws NullPointerException{
+    public void playSong(View view, int id) throws NullPointerException{
         try {
             System.out.println("Hey we're trying to play songs now!");
-            System.out.println(Integer.parseInt(view.getTag().toString()));
-            mpservice.setPlaying(Integer.parseInt(view.getTag().toString()));
+            //System.out.println(Integer.parseInt(view.getTag().toString()));
+            System.out.println("our position we're trying to play is:  " + id);
+            mpservice.setPlaying(id);
             mpservice.playsong();
         }
         catch (NullPointerException n){

@@ -47,7 +47,7 @@ public class Library extends Chromesthesia {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 songArray.get(position);
-                playSong(view);
+                playSong(view, position);
             }
         });
     }

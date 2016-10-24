@@ -79,7 +79,7 @@ public class MPC extends Service implements MediaPlayer.OnPreparedListener, Medi
 
     @Override
     public void onCompletion(MediaPlayer mp) {
-
+        
     }
 
     @Override
@@ -105,6 +105,7 @@ public class MPC extends Service implements MediaPlayer.OnPreparedListener, Medi
         catch(Exception e){
             Log.e("mpc","err setting datasource", e);
         }
+        mediaPlayer.prepareAsync();
     }
     public class binder_music extends Binder {
         MPC getservice () {
