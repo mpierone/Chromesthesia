@@ -85,21 +85,23 @@ public class MPC extends Service implements MediaPlayer.OnPreparedListener, Medi
     @Override
     public void onCompletion(MediaPlayer mp) {
         mp.reset();
-        int pos = songposition;
+
         switch(Loop) {
             case ALL:
-                pos = (songposition + 1) % (songs.size()-1);
+                songposition = (songposition+1) % songs.size();
                 break;
             case ONE:
+                System.out.println("repeat is set to one");
                 break;
             case NONE:
-                pos = (songposition + 1);
-                if (pos > songs.size()-1) {
-                    pos = -1;
+                System.out.println("repeat is set to NONE");
+                songposition++;
+                if (songposition > songs.size()-1) {
+                    songposition = -1;
                 }
                 break;
         }
-        Song nextsong = songs.get(pos);
+        Song nextsong = songs.get(songposition);
         String currentsong = nextsong.get_identification();
         try {
             mp.setDataSource(currentsong);
