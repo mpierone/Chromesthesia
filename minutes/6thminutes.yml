@@ -1,0 +1,16 @@
+date: October 08, 2016
+meeting_type: group
+attendance: [<mpierone>, <wstewar>, <jhuang42>, <iacaneda>]
+absent: []
+excused_absences: [ 
+  ]
+task_progress: [ # All group members must be included here even if they haven't made any progress since the last meeting
+  {ubit: <mpierone>, progress: got play/pause button to work. Only worked with the embedded song file},
+  {ubit: <iacaneda>, progress: worked on pulling ID3 tags using built in libraries},
+  {ubit: <jhuang42>, progress:working on populating list view of the library},
+  {ubit: <wlstewar>, progress: worked on getting music playback working},
+  ]
+issues: [ song directed isn't showing files, even though they are there. 
+  ]
+Notes:  | # Anything covered in the meeting that doesn't fit elsewhere.
+  
