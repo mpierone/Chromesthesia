@@ -17,6 +17,8 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <service android:name="com.example.matt.chromesthesia.MPC"
+            android:enabled="true"></service>
         <activity
             android:name=".Chromesthesia"
             android:label="@string/app_name"

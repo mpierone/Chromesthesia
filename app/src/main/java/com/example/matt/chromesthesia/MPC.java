@@ -9,7 +9,7 @@ import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
-
+import com.example.matt.chromesthesia.Chromesthesia;
 import java.math.BigInteger;
 import java.util.ArrayList;
 import android.net.Uri;
@@ -72,6 +72,7 @@ public class MPC extends Service implements MediaPlayer.OnPreparedListener, Medi
     public void setSngs(ArrayList<Song> Sngs) {
         songs = Sngs;
     }
+    public ArrayList<Song> getSongs () { return songs;}
     public void stop_pb(){
         // make it stop MAKE IT STOP
     }
