@@ -51,6 +51,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class Chromesthesia extends AppCompatActivity {
     /**
@@ -98,9 +99,15 @@ public class Chromesthesia extends AppCompatActivity {
         }
         //ActivityCompat.requestPermissions(, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE});
         if (player == null) {
+            System.out.println("PLAYER IS NULL!");
+            Toast.makeText(Chromesthesia.this, "PLAYER IS NULL!", Toast.LENGTH_LONG).show();
+            System.out.println("songlist is:  " + songlist.size());
             player = new Intent(this, MPC.class);
             bindService(player, musicconnect, Context.BIND_AUTO_CREATE);
             startService(player);
+            if (mpservice == null) {
+                System.out.println("why am I Null?!?!");
+            }
         }
 
         //Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -135,8 +142,14 @@ public class Chromesthesia extends AppCompatActivity {
                 startActivityForResult(playScreenIntent, 0);
             }
         });}
+    public void playSongPrint(View view) {
+        System.out.println("WE CLICKED!");
+    }
     public void playSong(View view) throws NullPointerException{
         try {
+            System.out.println("Hey we're trying to play songs now!");
+            System.out.println(mpservice.getSongs().get(4).get_id3().getTitle());
+            System.out.println(Integer.parseInt(view.getTag().toString()));
             mpservice.setPlaying(Integer.parseInt(view.getTag().toString()));
             mpservice.playsong();
         }
@@ -148,6 +161,8 @@ public class Chromesthesia extends AppCompatActivity {
         @Override
         public void onServiceConnected(ComponentName name, IBinder service) {
             binder_music binder = (binder_music) service;
+            Toast.makeText(Chromesthesia.this, "We're in onServiceConnected!", Toast.LENGTH_LONG).show();
+            System.out.println("we're in onServiceConnected!");
             mpservice = binder.getservice();
             mpservice.setSngs(songlist);
             musicbound = true;

@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import com.example.matt.chromesthesia.playlistDev.*;
@@ -42,23 +43,15 @@ public class Library extends Chromesthesia {
         catch (NullPointerException e){
             Log.e("Error:","No songs in playlist", e);
         }
-
+        songView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                songArray.get(position);
+                playSong(view);
+            }
+        });
     }
-    /*public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        createMusicList();
-        try
-        {
-            SongAdapter songAdt = new SongAdapter(this, songlist);
-            songView.setAdapter(songAdt);
-        }
-        catch (NullPointerException e){
-            Log.e("Error:","No songs in playlist", e);
-        }
-        View rootView = inflater.inflate(R.layout.libraryscreen, container, false);
-        listView = (ListView)rootView.findViewById( R.id.librarylist);
-        return rootView;
-    }*/
+
     public void createMusicList() {
         String songName;
         String artistName;

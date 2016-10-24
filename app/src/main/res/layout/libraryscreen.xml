@@ -4,7 +4,7 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:onClick="playSong"
+
     android:background="#2222">
 
     <TextView android:id="@+id/text"
@@ -24,7 +24,8 @@
 
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="469dp">
+        android:layout_height="469dp"
+        >
         <!-- Here is the list. Since we are using a ListActivity, we
              have to call it "@android:id/list" so ListActivity will
              find it -->
@@ -34,15 +35,10 @@
             android:layout_height="wrap_content"
             android:drawSelectorOnTop="false"
             android:visibility="visible"
-             />
+            android:clickable="true"
+
+            />
     </FrameLayout>
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="AYYLMAO"
-        android:id="@+id/textView5" />
-
     <TextView
         android:layout_width="match_parent"
         android:layout_height="match_parent"

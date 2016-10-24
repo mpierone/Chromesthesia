@@ -72,6 +72,7 @@ public class MPC extends Service implements MediaPlayer.OnPreparedListener, Medi
     public void setSngs(ArrayList<Song> Sngs) {
         songs = Sngs;
     }
+    public ArrayList<Song> getSongs () { return songs;}
     public void stop_pb(){
         // make it stop MAKE IT STOP
     }
