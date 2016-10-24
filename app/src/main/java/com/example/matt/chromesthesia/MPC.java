@@ -27,10 +27,15 @@ public class MPC extends Service implements MediaPlayer.OnPreparedListener, Medi
     private MediaPlayer mediaPlayer;
     private ArrayList<Song> songs;
     private int songposition;
+    private enum loop {
+        ONE, NONE, ALL
+    }
+    private loop Loop;
     private final IBinder bindme = new binder_music();
 
     public void onCreate(){
         super.onCreate();
+        Loop = loop.ALL;
         songposition = 0;
         mediaPlayer = new MediaPlayer();
         mp_init();
@@ -79,7 +84,30 @@ public class MPC extends Service implements MediaPlayer.OnPreparedListener, Medi
 
     @Override
     public void onCompletion(MediaPlayer mp) {
-
+        mp.reset();
+        int pos = songposition;
+        switch(Loop) {
+            case ALL:
+                pos = (songposition + 1) % (songs.size()-1);
+                break;
+            case ONE:
+                break;
+            case NONE:
+                pos = (songposition + 1);
+                if (pos > songs.size()-1) {
+                    pos = -1;
+                }
+                break;
+        }
+        Song nextsong = songs.get(pos);
+        String currentsong = nextsong.get_identification();
+        try {
+            mp.setDataSource(currentsong);
+        }
+        catch (Exception e){
+            Log.e("mpc","err setting datasource on continuous playback", e);
+        }
+        mp.prepareAsync();
     }
 
     @Override
@@ -105,6 +133,7 @@ public class MPC extends Service implements MediaPlayer.OnPreparedListener, Medi
         catch(Exception e){
             Log.e("mpc","err setting datasource", e);
         }
+        mediaPlayer.prepareAsync();
     }
     public class binder_music extends Binder {
         MPC getservice () {
