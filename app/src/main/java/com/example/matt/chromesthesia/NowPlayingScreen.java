@@ -21,6 +21,7 @@ public class NowPlayingScreen extends Chromesthesia {
             public void onClick(View view) {
                 Intent playlistIntent = new Intent(view.getContext(), PlayList.class);
                 startActivityForResult(playlistIntent, 0);
+
             }
         });
     }
