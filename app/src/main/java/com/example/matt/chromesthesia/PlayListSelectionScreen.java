@@ -1,5 +1,7 @@
 package com.example.matt.chromesthesia;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -13,6 +15,7 @@ import android.widget.ListView;
 
 import com.example.matt.chromesthesia.playlistDev.Playlist;
 
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 
 /**
@@ -53,12 +56,55 @@ public class PlayListSelectionScreen extends Chromesthesia {
                 //some method for selection of the playlist
             }
         });
+
+        /*Create Playlist Button onClick code; it's really long so I'm surrounding it with comments because my EYES HURT!!!*/
+        createPlaylist.setOnClickListener(new View.OnClickListener() {
+            AlertDialog.Builder builder = new AlertDialog.Builder(context);
+            @Override
+            public void onClick(View v) {
+                {
+                    // Use the Builder class for convenient dialog construction
+
+                    // set prompts.xml to alertdialog builder
+                    builder.setView(R.layout.playlistprompt);
+
+                    //Stores user input as playlistName
+                    playlistName = (EditText) findViewById(R.id.editTextResult);
+                    final EditText userInput = (EditText) findViewById(R.id.editTextDialogUserInput);
+
+                    //Sets up how the dialog box will appear:
+                    builder.setTitle("Create Playlist");
+                    builder.setMessage("Enter a name for this new playlist:")
+                            .setPositiveButton("Create", new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int id) {
+                                    playlistName.setText(userInput.getText());
+                                    Playlist p = new Playlist(playlistName.getText().toString());
+                                    try {
+                                        //tries to save the new blank playlist txt only with the contents "empty"
+                                        p.savePlaylist();
+                                    } catch (FileNotFoundException e) {
+                                        e.printStackTrace();
+                                        System.out.println("Couldn't save the playlist");
+                                    }
+                                }
+                            })
+                            .setCancelable(true);
+
+                }
+                // Create the AlertDialog object and return it
+                AlertDialog createPlay = builder.create();
+                createPlay.show();
+            };
+
+        });
+        /*End of create playlist dialog box code*/
+
     }
 
     public void createPlaylistList() {
         String playlistName;
         playlists = playlistList;
-        System.out.println("in library.java and size is:");
+        System.out.println("size is:");
         System.out.println(playlists.size());
         playlistArray = new ArrayList<>();
         //String[] songArray = new String[songs.size()];
@@ -84,43 +130,6 @@ public class PlayListSelectionScreen extends Chromesthesia {
 
     }
     }
-
-
-
-
-        /*Code to set up playlist creation as a dialog box:
-        createPlaylist.setOnClickListener(new View.OnClickListener() {
-            AlertDialog.Builder builder = new AlertDialog.Builder(context);
-            @Override
-            public void onClick(View v) {
-                {
-                    // Use the Builder class for convenient dialog construction
-
-                    // set prompts.xml to alertdialog builder
-                    builder.setView(R.layout.playlistprompt);
-
-                    //Stores user input as playlistName
-                    playlistName = (EditText) findViewById(R.id.editTextResult);
-                    final EditText userInput = (EditText) findViewById(R.id.editTextDialogUserInput);
-
-                    //Sets up how the dialog box will appear:
-                    builder.setTitle("Create Playlist");
-                    builder.setMessage("Enter a name for this new playlist:")
-                            .setPositiveButton("Create", new DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface dialog, int id) {
-                                    playlistName.setText(userInput.getText());
-                                }
-                            })
-                            .setCancelable(true);
-
-                }
-                // Create the AlertDialog object and return it
-                AlertDialog createPlay = builder.create();
-                createPlay.show();
-            };
-
-        });*/
-
 
 
 

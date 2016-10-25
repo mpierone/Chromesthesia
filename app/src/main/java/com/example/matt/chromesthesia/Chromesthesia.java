@@ -54,16 +54,25 @@ public class Chromesthesia extends AppCompatActivity {
     private boolean musicbound = false;
 
 
-    /*Playlist stuff*/
+
     final Context context = this;
     private Button button;
     private EditText result;
-    /*End of playlist stuff*/
+
     @Override
     protected void onCreate(Bundle savedInstanceState) throws NullPointerException {
         super.onCreate(savedInstanceState);
         songView = (ListView)findViewById(R.id.librarylist);
         setContentView(R.layout.activity_chromesthesia);
+
+        /*Start of playlist library creation (i.e. populating the playlistList*/
+
+
+        /*End of playlistList creation code*/
+
+
+
+        /*start of music library creation*/
         lmm = new localMusicManager();
         //System.out.println("in CHROMESTHESIA after lmm = newlmm();");
         try{
@@ -94,6 +103,12 @@ public class Chromesthesia extends AppCompatActivity {
                 System.out.println("why am I Null?!?!");
             }
         }
+        /*End of library creation code*/
+
+
+        /*Start of visible components & their listeners*/
+
+
 
         //Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         //setSupportActionBar(toolbar);
