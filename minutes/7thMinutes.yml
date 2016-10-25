@@ -1,0 +1,16 @@
+date: October 09, 2016
+meeting_type: group #
+attendance: [<mpierone>, <wstewar>, <jhuang42>]
+absent: [<iacaneda>]
+excused_absences: [ {ubit:<iacaneda>, reason: had to work} 
+  ]
+task_progress: [ # All group members must be included here even if they haven't made any progress since the last meeting
+  {ubit: <mpierone>, progress: Play/pause, previous, and next buttons stubbed out. Helping with library issues},
+  {ubit: <iacaneda>, progress: working on library population},
+  {ubit: <jhuang42>, progress: working on populating library list},
+  {ubit: <wstewar>, progress: Worked on MPC class. Helping with libray issues},
+  ]
+issues: [ library list is being extremely uncooperative. All buttons on test screen need the library working in order to test properly.
+  ]
+Notes:  | # Anything covered in the meeting that doesn't fit elsewhere.
+  
