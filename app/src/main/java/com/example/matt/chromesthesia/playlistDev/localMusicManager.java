@@ -27,7 +27,7 @@ import java.util.ArrayList;
 public class localMusicManager {
 
 
-    final String SD_LOCATION = (Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_MUSIC).getPath());
+    final String SD_LOCATION = (Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).getPath());
     File sdlocation = new File(SD_LOCATION + "/Download/");
 
     private ArrayList<Song> _songsList;
@@ -43,7 +43,7 @@ public class localMusicManager {
     class musicFinder implements FilenameFilter {
         @Override
         public boolean accept(File dir, String name) {
-            return (name.toLowerCase().endsWith(".mp3") || dir.isDirectory());
+            return (name.toLowerCase().endsWith(".mp3") || name.toLowerCase().endsWith(".flac") || dir.isDirectory());
         }
     }
 
@@ -88,7 +88,7 @@ public class localMusicManager {
                         System.out.println(file.getAbsoluteFile());
                         makeSongsList(file.getAbsolutePath());
                     }
-                    else if (file.getAbsolutePath().toLowerCase().endsWith(".mp3")){
+                    else if (file.getAbsolutePath().toLowerCase().endsWith(".mp3")  || file.getAbsolutePath().toLowerCase().endsWith(".flac")){
                         Song so = new Song(file.getAbsolutePath());
                         if (so == null){
                             System.out.println("so == null!\n");
@@ -115,7 +115,7 @@ public class localMusicManager {
                     if (file.isDirectory()){
                         makeSongsList(file.getAbsolutePath());
                     }
-                    else if (file.getAbsolutePath().toLowerCase().endsWith(".mp3")){
+                    else if (file.getAbsolutePath().toLowerCase().endsWith(".mp3") || file.getAbsolutePath().toLowerCase().endsWith(".flac")){
                         Song so = new Song(file.getAbsolutePath());
                         if (so == null){
                             System.out.println("so == null!\n");
