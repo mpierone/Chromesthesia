@@ -16,7 +16,7 @@ import android.net.Uri;
 import android.os.Binder;
 import android.os.PowerManager;
 import android.util.Log;
-
+import com.example.matt.chromesthesia.enums.*;
 
 import java.io.FileNotFoundException;
 
@@ -27,15 +27,12 @@ public class MPC extends Service implements MediaPlayer.OnPreparedListener, Medi
     private MediaPlayer mediaPlayer;
     private ArrayList<Song> songs;
     private int songposition;
-    private enum loop {
-        ONE, NONE, ALL
-    }
-    private loop Loop;
+    private Repeat Loop;
     private final IBinder bindme = new binder_music();
 
     public void onCreate(){
         super.onCreate();
-        Loop = loop.ALL;
+        Repeat Loop = Repeat.ALL;
         songposition = 0;
         mediaPlayer = new MediaPlayer();
         mp_init();
