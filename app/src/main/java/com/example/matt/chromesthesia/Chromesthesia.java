@@ -131,6 +131,7 @@ public class Chromesthesia extends AppCompatActivity {
         Button playlistButton = (Button) findViewById(R.id.playlistButton);
         playlistButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
+                setContentView(R.layout.playlistscreen);
                 Intent playlistIntent = new Intent(view.getContext(), PlayListSelectionScreen.class);
                 startActivityForResult(playlistIntent, 0);
             }
