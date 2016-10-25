@@ -55,24 +55,34 @@ public class Playlist {
     /*For use in playlist creation*/
 
     /*Saving a playlist into a string array into a text file*/
-    public void savePlaylist(String fileName, ArrayList<Song> playlist) throws FileNotFoundException {
+    private void savePlaylist(String fileName, ArrayList<Song> playlist) throws FileNotFoundException {
         PrintWriter pw = new PrintWriter(new FileOutputStream(fileName));
         for (Song s : playlist)
             pw.println(s.get_audioFilePath());
         pw.close();
     }
 
-    public boolean boolAddToPlaylist(String sdFilename, File txtSavedPlaylist) throws FileNotFoundException {
+    /*Loading the playlist from text file back into an ArrayList<String>*/
+    private ArrayList<String> loadPlaylist(File txtfilename) throws FileNotFoundException {
         ArrayList<String> storedPlaylist = new ArrayList<>();
-        Scanner scan = new Scanner(txtSavedPlaylist);
+        Scanner scan = new Scanner(txtfilename);
         while (scan.hasNext()) {
             storedPlaylist.add(scan.next());
         }
-
-        return storedPlaylist.contains(sdFilename);
+        return storedPlaylist;
     }
 
-    private ArrayList<Song> populatePlaylist(String folder, File txtSavedPlaylist) throws Exception {
+    /*Taking the loaded playlist and checking if a file found on the SDCard is in the playlist
+    * false = not in playlist, so don't include in the Playlist object's songs
+    * true = in playlist, add the song to the Playlist object's songs*/
+    private boolean boolAddToPlaylist(File txtFilename,String sdFilename) throws FileNotFoundException {
+        return loadPlaylist(txtFilename).contains(sdFilename);
+    }
+
+
+    /*Add songs to playlist if they are supposed to be there*/
+
+    public ArrayList<Song> populatePlaylist(String folder, File txtSavedPlaylist) throws Exception {
         localMusicManager lmm = new localMusicManager();
         try {
             File sdCard = new File(folder);
@@ -87,7 +97,7 @@ public class Playlist {
                     * If not, then skip it
                     * */
                     else if (file.getAbsolutePath().toLowerCase().endsWith(".mp3")
-                            && boolAddToPlaylist(file.getName(),txtSavedPlaylist) == true
+                            && boolAddToPlaylist(txtSavedPlaylist, file.getName()) == true
                             ) {
                         Song so = new Song(file.getAbsolutePath());
                         if (so == null) {

@@ -5,6 +5,19 @@
     android:layout_height="match_parent"
     android:background="#2222">
 
+    <Button
+        android:id="@+id/buttonPrompt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Create a new playlist"/>
+
+    <EditText
+        android:id="@+id/editTextResult"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+
+    </EditText>
+
     <TextView android:id="@+id/text"
         android:layout_width="match_parent" android:layout_height="wrap_content"
         android:gravity="center_vertical|center_horizontal"
@@ -40,6 +53,9 @@
             android:text="No items."
             android:layout_gravity="center_horizontal|top" />
 
+
     </FrameLayout>
+
+
 
 </LinearLayout>

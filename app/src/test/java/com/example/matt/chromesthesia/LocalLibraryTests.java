@@ -7,13 +7,15 @@ import com.example.matt.chromesthesia.playlistDev.localMusicManager;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.junit.runners.JUnit4;
 import org.mockito.Mock;
-import org.mockito.runners.MockitoJUnitRunner;
+
+import java.util.ArrayList;
 
 /**
  * Created by Isabelle on 10/7/2016.
  */
-@RunWith(MockitoJUnitRunner.class)
+@RunWith(JUnit4.class)
 public class LocalLibraryTests {
 
     @Mock
@@ -55,5 +57,14 @@ public class LocalLibraryTests {
             )
             ;
         }
+    }
+
+    @Test
+    public void saveAPlaylist() throws Exception{
+        localMusicManager lmm  = new localMusicManager();
+        ArrayList<Song> testerPlaylist = new ArrayList<>();
+        testerPlaylist.add(new Song("C:\\Users\\Isabelle\\Chromesthesia\\app\\src\\main\\res\\raw\\rumine.mp3"));
+        testerPlaylist.add(new Song("C:\\Users\\Isabelle\\Chromesthesia\\app\\src\\main\\res\\raw\\sutphinboulevard.mp3"));
+        lmm.savePlaylist("newplaylist.txt", testerPlaylist);
     }
 }

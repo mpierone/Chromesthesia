@@ -1,57 +1,35 @@
 
 package com.example.matt.chromesthesia;
-import com.example.matt.chromesthesia.MPC.binder_music;
-import com.example.matt.chromesthesia.playlistDev.localMusicManager;
-import com.example.matt.chromesthesia.playlistDev.*;
-import android.Manifest;
-import android.content.ContentResolver;
-import android.database.Cursor;
-import android.net.Uri;
+
+import android.content.ComponentName;
+import android.content.Context;
+import android.content.Intent;
+import android.content.ServiceConnection;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.support.v4.app.ActivityCompat;
+import android.os.IBinder;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ListView;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
-import android.os.IBinder;
-import android.content.ComponentName;
-import android.content.Context;
-import android.content.Intent;
-import android.content.ServiceConnection;
-import android.view.View;
-import java.util.ArrayList;
-import android.content.Intent;
-import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.view.ViewPager;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
-import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.RelativeLayout;
+import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.example.matt.chromesthesia.MPC.binder_music;
+import com.example.matt.chromesthesia.playlistDev.ID3;
+import com.example.matt.chromesthesia.playlistDev.Playlist;
+import com.example.matt.chromesthesia.playlistDev.localMusicManager;
+
+import java.util.ArrayList;
 
 public class Chromesthesia extends AppCompatActivity {
     /**
@@ -68,12 +46,19 @@ public class Chromesthesia extends AppCompatActivity {
      */
     private ViewPager mViewPager;
     protected ArrayList<Song> songlist;
+    protected ArrayList<Playlist> playlistList;
     protected MPC mpservice;
     private Intent player;
     private ListView songView;
     protected localMusicManager lmm;
     private boolean musicbound = false;
 
+
+    /*Playlist stuff*/
+    final Context context = this;
+    private Button button;
+    private EditText result;
+    /*End of playlist stuff*/
     @Override
     protected void onCreate(Bundle savedInstanceState) throws NullPointerException {
         super.onCreate(savedInstanceState);
@@ -131,7 +116,7 @@ public class Chromesthesia extends AppCompatActivity {
         Button playlistButton = (Button) findViewById(R.id.playlistButton);
         playlistButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
-                Intent playlistIntent = new Intent(view.getContext(), PlayList.class);
+                Intent playlistIntent = new Intent(view.getContext(), PlayListSelectionScreen.class);
                 startActivityForResult(playlistIntent, 0);
             }
         });
@@ -230,6 +215,8 @@ public class Chromesthesia extends AppCompatActivity {
             return rootView;
         }
     }
+
+
     /**
      * A {@link FragmentPagerAdapter} that returns a fragment corresponding to
      * one of the sections/tabs/pages.
@@ -261,5 +248,10 @@ public class Chromesthesia extends AppCompatActivity {
             }
             return null;
         }
+
     }
+
+
+
+
 }
