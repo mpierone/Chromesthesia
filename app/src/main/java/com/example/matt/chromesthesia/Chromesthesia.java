@@ -7,6 +7,7 @@ import android.Manifest;
 import android.content.ContentResolver;
 import android.database.Cursor;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -14,6 +15,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -74,6 +76,15 @@ public class Chromesthesia extends AppCompatActivity {
     protected localMusicManager lmm;
     private boolean musicbound = false;
     protected MPC media = new MPC();
+    private int VERSION = Build.VERSION.SDK_INT;
+
+    //GET PERMISSIONS
+
+    if (VERSION > Build.VERSION_CODES.LOLLIPOP_MR1) {
+        if (!checkIfAlreadyHavePermissions()) {
+            requestAllPermissions();
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) throws NullPointerException {
@@ -198,6 +209,38 @@ public class Chromesthesia extends AppCompatActivity {
             player = new Intent(this,MPC.class);
             bindService(player, musicconnect, Context.BIND_AUTO_CREATE);
             startService(player);
+        }
+    }
+
+    /*
+    * Here we check if we already have the permissions that Chromesthesia uses.
+    * The names are a bit cryptic:
+    *
+    * sdR = sd card 'Read' external storage
+    * sdW = sd card 'Write' external storage
+    * internet = permission for internet
+    * bt = regular bluetooth
+    * btA = bluetooth admin
+    * btP = bluetooth privileged
+    * wl = Wake Lock permission
+    * mcc = Media Content Control permission
+    * mas = Modify Audio Settings permission
+    *
+    * That's all the permissions right now!
+    * */
+    private boolean checkIfAlreadyHavePermissions() {
+        int sdR = ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE);
+        int sdW = ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE);
+        int internet = ContextCompat.checkSelfPermission(this, Manifest.permission.INTERNET);
+        int bt = ContextCompat.checkSelfPermission(this, Manifest.permission.BLUETOOTH);
+        int btA = ContextCompat.checkSelfPermission(this, Manifest.permission.BLUETOOTH_ADMIN);
+        int btP = ContextCompat.checkSelfPermission(this, Manifest.permission.BLUETOOTH_PRIVILEGED);
+        int wl = ContextCompat.checkSelfPermission(this, Manifest.permission.WAKE_LOCK);
+        int mcc = ContextCompat.checkSelfPermission(this, Manifest.permission.MEDIA_CONTENT_CONTROL);
+        int mas = ContextCompat.checkSelfPermission(this, Manifest.permission.MODIFY_AUDIO_SETTINGS);
+
+        if ((sdR + sdW + internet + bt + btA + btP + wl + mcc + mas) != 9) {
+
         }
     }
     /**

@@ -19,7 +19,6 @@ import com.example.matt.chromesthesia.MPC;
 
 public class NowPlayingScreen extends Chromesthesia {
     MPC media = new MPC();
-
     public void onCreate(Bundle savedInstancedState) {
         super.onCreate(savedInstancedState);
         setContentView(R.layout.playscreen);

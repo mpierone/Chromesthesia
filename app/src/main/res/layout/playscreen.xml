@@ -83,5 +83,7 @@
         android:textOn=""
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true" />
-
+    <com.example.matt.chromesthesia.button.RepeatButton
+        android:layout_width="30dp"
+        android:layout_height="30dp" />
 </RelativeLayout>
