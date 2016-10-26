@@ -45,6 +45,7 @@ public class NowPlayingScreen extends Chromesthesia {
             public void onClick(View v) {
                 //call and play previous song
                 //if song[index-1] would == null, then go to song[highest_index]
+                mpservice.playPrevious();
             }
         });
 

@@ -26,6 +26,7 @@ import java.io.FileNotFoundException;
 public class MPC extends Service implements MediaPlayer.OnPreparedListener, MediaPlayer.OnErrorListener, MediaPlayer.OnCompletionListener{
     private MediaPlayer mediaPlayer;
     private ArrayList<Song> songs;
+    private Song playing;
     private int songposition;
     private enum loop {
         ONE, NONE, ALL
@@ -132,9 +133,26 @@ public class MPC extends Service implements MediaPlayer.OnPreparedListener, Medi
     public void resumePlay() {
         mediaPlayer.start();
     }
+
+    //grabs previous song in playlist. If out of bounds start at index 0
+    public void playPrevious() {
+        if (songposition - 1 < 0) {
+            songposition = songs.size();
+            playsong();
+        } else {
+            System.out.println(songposition);
+            songposition -= 1;
+            playing = songs.get(songposition);
+            System.out.println(songposition);
+            playsong();
+        }
+    }
+
     public void playsong(){
         mediaPlayer.reset();
-        Song playing = songs.get(songposition);
+
+        playing = songs.get(songposition);
+
         String currentsong = playing.get_identification();
         //Uri songuri = ContentUris.withAppendedId(android.provider.MediaStore.Audio.Media.EXTERNAL_CONTENT_URI,playing);
         try{
