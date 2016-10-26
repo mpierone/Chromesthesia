@@ -14,6 +14,7 @@ import android.content.*;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Set;
 
 /**
  * Created by matt & will on 10/1/2016.
@@ -46,8 +47,8 @@ public class Library extends Chromesthesia {
         songView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                //songArray.get(position);
                 playSong(view, position);
+                positionVar = position;
             }
         });
     }

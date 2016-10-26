@@ -79,7 +79,7 @@ public class MPC extends Service implements MediaPlayer.OnPreparedListener, Medi
     }
     public ArrayList<Song> getSongs () { return songs;}
     public void stop_pb(){
-        // make it stop MAKE IT STOP
+        mediaPlayer.pause();
     }
 
     @Override
@@ -124,6 +124,14 @@ public class MPC extends Service implements MediaPlayer.OnPreparedListener, Medi
     public void setPlaying(int index) {
         songposition = index;
     }
+
+    public void pauseSong() {
+        mediaPlayer.pause();
+    }
+
+    public void resumePlay() {
+        mediaPlayer.start();
+    }
     public void playsong(){
         mediaPlayer.reset();
         Song playing = songs.get(songposition);
@@ -141,6 +149,22 @@ public class MPC extends Service implements MediaPlayer.OnPreparedListener, Medi
         MPC getservice () {
             return MPC.this;
         }
+    }
+
+    public boolean isPlaying() {
+        return mediaPlayer.isPlaying();
+    }
+
+    public void continueSong() {
+        Song playing = songs.get(songposition);
+        String currentsong = playing.get_identification();
+        //Uri songuri = ContentUris.withAppendedId(android.provider.MediaStore.Audio.Media.EXTERNAL_CONTENT_URI,playing);
+        try {
+            mediaPlayer.setDataSource(currentsong);
+        } catch (Exception e) {
+            Log.e("mpc", "err setting datasource", e);
+        }
+        mediaPlayer.prepareAsync();
     }
 }
 
