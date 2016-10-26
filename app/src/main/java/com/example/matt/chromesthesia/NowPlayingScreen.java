@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.ImageButton;
+import android.widget.TextView;
 import android.widget.ToggleButton;
 import android.media.MediaPlayer;
 import android.widget.ToggleButton;
@@ -27,17 +28,15 @@ public class NowPlayingScreen extends Chromesthesia {
         final ToggleButton playButton = (ToggleButton) findViewById(R.id.playButton);
         final ImageButton previousButton = (ImageButton) findViewById(R.id.previousButton);
         final ImageButton nextButton = (ImageButton) findViewById(R.id.nextButton);
+        TextView songTitle = (TextView) findViewById(R.id.songTitleText);
 
-        final MediaPlayer media = MediaPlayer.create(this, R.raw.sutphinboulevard);     //probably will be different when media reading is finished
-
+        //if isCheck is true pause button shows. If False then play button shows
         playButton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                //media.start_pb(file);
-                if (isChecked) {
-
-                    media.start();
+                if (!isChecked) {
+                    mpservice.resumePlay();         //if true
                 } else {
-                    media.pause();
+                    mpservice.pauseSong();
                 }
             }
         });
@@ -47,6 +46,7 @@ public class NowPlayingScreen extends Chromesthesia {
             public void onClick(View v) {
                 //call and play previous song
                 //if song[index-1] would == null, then go to song[highest_index]
+                mpservice.playPrevious();
             }
         });
 
@@ -55,6 +55,7 @@ public class NowPlayingScreen extends Chromesthesia {
             public void onClick(View v) {
                 //call and play next song
                 //if song[index+1] is out of bounds, then go to song[index_1]
+                mpservice.playNext();
             }
         });
 

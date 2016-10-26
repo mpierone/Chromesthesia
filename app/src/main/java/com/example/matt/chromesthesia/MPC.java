@@ -26,6 +26,7 @@ import java.io.FileNotFoundException;
 public class MPC extends Service implements MediaPlayer.OnPreparedListener, MediaPlayer.OnErrorListener, MediaPlayer.OnCompletionListener{
     private MediaPlayer mediaPlayer;
     private ArrayList<Song> songs;
+    private Song playing;
     private int songposition;
     private Repeat Loop;
     private final IBinder bindme = new binder_music();
@@ -76,7 +77,7 @@ public class MPC extends Service implements MediaPlayer.OnPreparedListener, Medi
     }
     public ArrayList<Song> getSongs () { return songs;}
     public void stop_pb(){
-        // make it stop MAKE IT STOP
+        mediaPlayer.pause();
     }
 
     @Override
@@ -121,9 +122,45 @@ public class MPC extends Service implements MediaPlayer.OnPreparedListener, Medi
     public void setPlaying(int index) {
         songposition = index;
     }
+
+    public void pauseSong() {
+        mediaPlayer.pause();
+    }
+
+    public void resumePlay() {
+        mediaPlayer.start();
+    }
+
+    //grabs previous song in playlist. If out of bounds start at index 0
+    public void playPrevious() {
+        if (songposition - 1 < 0) {
+            songposition = songs.size();
+            playsong();
+        } else {
+            //System.out.println(songposition);
+            songposition -= 1;
+            playing = songs.get(songposition);
+            //System.out.println(songposition);
+            playsong();
+        }
+    }
+
+    public void playNext() {
+        if (songposition + 1 > songs.size()) {
+            songposition = 0;
+            playsong();
+        } else {
+            songposition += 1;
+            playing = songs.get(songposition);
+            playsong();
+        }
+    }
+
     public void playsong(){
         mediaPlayer.reset();
-        Song playing = songs.get(songposition);
+
+        playing = songs.get(songposition);
+
         String currentsong = playing.get_identification();
         //Uri songuri = ContentUris.withAppendedId(android.provider.MediaStore.Audio.Media.EXTERNAL_CONTENT_URI,playing);
         try{
@@ -138,6 +175,22 @@ public class MPC extends Service implements MediaPlayer.OnPreparedListener, Medi
         MPC getservice () {
             return MPC.this;
         }
+    }
+
+    public boolean isPlaying() {
+        return mediaPlayer.isPlaying();
+    }
+
+    public void continueSong() {
+        Song playing = songs.get(songposition);
+        String currentsong = playing.get_identification();
+        //Uri songuri = ContentUris.withAppendedId(android.provider.MediaStore.Audio.Media.EXTERNAL_CONTENT_URI,playing);
+        try {
+            mediaPlayer.setDataSource(currentsong);
+        } catch (Exception e) {
+            Log.e("mpc", "err setting datasource", e);
+        }
+        mediaPlayer.prepareAsync();
     }
 }
 

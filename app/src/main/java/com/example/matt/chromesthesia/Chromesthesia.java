@@ -1,4 +1,3 @@
-
 package com.example.matt.chromesthesia;
 import com.example.matt.chromesthesia.MPC.binder_music;
 import com.example.matt.chromesthesia.playlistDev.localMusicManager;
@@ -74,11 +73,12 @@ public class Chromesthesia extends AppCompatActivity {
     protected localMusicManager lmm;
     private boolean musicbound = false;
     protected MPC media = new MPC();
+    public int positionVar;//testing this
 
     @Override
     protected void onCreate(Bundle savedInstanceState) throws NullPointerException {
         super.onCreate(savedInstanceState);
-        songView = (ListView)findViewById(R.id.librarylist);
+        songView = (ListView) findViewById(R.id.librarylist);
         setContentView(R.layout.activity_chromesthesia);
         lmm = new localMusicManager();
         //System.out.println("in CHROMESTHESIA after lmm = newlmm();");
@@ -89,8 +89,7 @@ public class Chromesthesia extends AppCompatActivity {
             ID3 ayy = songlist.get(0).get_id3();
             if (ayy == null) {
                 //System.out.println("no id3");
-            }
-            else{
+            } else {
                 //System.out.println(ayy.getTitle());
             }
 
@@ -143,18 +142,19 @@ public class Chromesthesia extends AppCompatActivity {
                 startActivityForResult(playScreenIntent, 0);
             }
         });}
+
     public void playSongPrint(View view) {
         System.out.println("WE CLICKED!");
     }
-    public void playSong(View view, int id) throws NullPointerException{
+
+    public void playSong(View view, int id) throws NullPointerException {
         try {
             System.out.println("Hey we're trying to play songs now!");
             //System.out.println(Integer.parseInt(view.getTag().toString()));
             System.out.println("our position we're trying to play is:  " + id);
             mpservice.setPlaying(id);
             mpservice.playsong();
-        }
-        catch (NullPointerException n){
+        } catch (NullPointerException n) {
             Log.e("Error: ", "No song to play", n);
         }
     }
@@ -173,14 +173,16 @@ public class Chromesthesia extends AppCompatActivity {
             musicbound = false;
         }
     };
+
     @Override
-    public boolean onCreateOptionsMenu (Menu menu){
+    public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_chromesthesia, menu);
         return true;
     }
+
     @Override
-    public boolean onOptionsItemSelected (MenuItem item){
+    public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
@@ -191,15 +193,17 @@ public class Chromesthesia extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
+
     @Override
-    protected void onStart (){
+    protected void onStart() {
         super.onStart();
-        if(player==null){
-            player = new Intent(this,MPC.class);
+        if (player == null) {
+            player = new Intent(this, MPC.class);
             bindService(player, musicconnect, Context.BIND_AUTO_CREATE);
             startService(player);
         }
     }
+
     /**
      * A placeholder fragment containing a simple view.
      */
@@ -209,6 +213,7 @@ public class Chromesthesia extends AppCompatActivity {
          * fragment.
          */
         private static final String ARG_SECTION_NUMBER = "section_number";
+
         public PlaceholderFragment() {
         }
         /**
@@ -222,6 +227,7 @@ public class Chromesthesia extends AppCompatActivity {
             fragment.setArguments(args);
             return fragment;
         }
+
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
@@ -231,6 +237,7 @@ public class Chromesthesia extends AppCompatActivity {
             return rootView;
         }
     }
+
     /**
      * A {@link FragmentPagerAdapter} that returns a fragment corresponding to
      * one of the sections/tabs/pages.
@@ -239,17 +246,20 @@ public class Chromesthesia extends AppCompatActivity {
         public SectionsPagerAdapter(FragmentManager fm) {
             super(fm);
         }
+
         @Override
         public Fragment getItem(int position) {
             // getItem is called to instantiate the fragment for the given page.
             // Return a PlaceholderFragment (defined as a static inner class below).
             return PlaceholderFragment.newInstance(position + 1);
         }
+
         @Override
         public int getCount() {
             // Show 3 total pages.
             return 3;
         }
+
         @Override
         public CharSequence getPageTitle(int position) {
             switch (position) {

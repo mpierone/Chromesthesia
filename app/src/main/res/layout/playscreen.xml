@@ -55,21 +55,10 @@
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="Song Title"
-        android:id="@+id/textView3"
+        android:id="@+id/songTitleText"
         android:layout_marginBottom="71dp"
         android:layout_above="@+id/seekBar"
         android:layout_alignStart="@+id/imageView"
-        android:layout_alignEnd="@+id/imageView" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Artist"
-        android:id="@+id/textView4"
-        android:layout_above="@+id/seekBar"
-        android:layout_alignStart="@+id/textView3"
-        android:layout_marginBottom="36dp"
         android:layout_alignEnd="@+id/imageView" />
 
     <ToggleButton
@@ -83,5 +72,15 @@
         android:textOn=""
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Artist"
+        android:id="@+id/textView4"
+        android:layout_above="@+id/seekBar"
+        android:layout_alignStart="@+id/songTitleText"
+        android:layout_marginBottom="28dp" />
 
 </RelativeLayout>
