@@ -131,7 +131,7 @@ public class MPC extends Service implements MediaPlayer.OnPreparedListener, Medi
         mediaPlayer.start();
     }
 
-    //grabs previous song in playlist. If out of bounds start at index 0
+    //grabs previous song in playlist. If out of bounds start at last index
     public void playPrevious() {
         if (songposition - 1 < 0) {
             songposition = songs.size() - 1;
@@ -145,6 +145,7 @@ public class MPC extends Service implements MediaPlayer.OnPreparedListener, Medi
         }
     }
 
+    //plays next song. If next would go out of bounds then go to index 0
     public void playNext() {
         if (songposition + 1 > songs.size() - 1) {
             songposition = 0;
