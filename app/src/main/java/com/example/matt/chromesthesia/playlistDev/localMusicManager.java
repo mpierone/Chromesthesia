@@ -27,7 +27,7 @@ import java.util.ArrayList;
 public class localMusicManager {
 
 
-    final String SD_LOCATION = (Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_MUSIC).getPath());
+    final String SD_LOCATION = (Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).getPath());
     File sdlocation = new File(SD_LOCATION + "/Download/");
 
     private ArrayList<Song> _songsList;
@@ -43,7 +43,7 @@ public class localMusicManager {
     class musicFinder implements FilenameFilter {
         @Override
         public boolean accept(File dir, String name) {
-            return (name.endsWith(".mp3") || name.endsWith(".MP3"));
+            return (name.toLowerCase().endsWith(".mp3") || name.toLowerCase().endsWith(".flac") || dir.isDirectory());
         }
     }
 
@@ -82,16 +82,56 @@ public class localMusicManager {
             if (sdCard.listFiles().length > 0) {
                 for (File file : sdCard.listFiles(new musicFinder())) {
                     //sets up String[] of track info
-                    System.out.println(file.getAbsolutePath());
-                    Song so = new Song(file.getAbsolutePath());
-                    _songsList.add(so);
+                    //System.out.println(file.getAbsolutePath());
+                    if (file.isDirectory()){
+                        System.out.println("AYYYYYY\n\n\n\n");
+                        System.out.println(file.getAbsoluteFile());
+                        makeSongsList(file.getAbsolutePath());
+                    }
+                    else if (file.getAbsolutePath().toLowerCase().endsWith(".mp3")  || file.getAbsolutePath().toLowerCase().endsWith(".flac")){
+                        Song so = new Song(file.getAbsolutePath());
+                        if (so == null){
+                            System.out.println("so == null!\n");
+                        }
+                        //String thetitle = so.get_id3().getTitle();
+                        //System.out.println(thetitle);
+                        //System.out.println(so.get_id3().getArtist());
+                        //System.out.println(so.get_id3().getAlbum());
+                        _songsList.add(so);
+                    }
                 }
             }
-            System.out.println(_songsList.size());
+            //System.out.println(_songsList.size());
         } catch (Exception e) {
             Log.e("lmm", "err setting datasource", e);
         }
         return _songsList;
     }
-
+    private ArrayList<Song> makeSongsList(String folder) throws Exception {
+        try {
+            File sdCard = new File(folder);
+            if (sdCard.listFiles().length > 0) {
+                for (File file : sdCard.listFiles(new musicFinder())) {
+                    if (file.isDirectory()){
+                        makeSongsList(file.getAbsolutePath());
+                    }
+                    else if (file.getAbsolutePath().toLowerCase().endsWith(".mp3") || file.getAbsolutePath().toLowerCase().endsWith(".flac")){
+                        Song so = new Song(file.getAbsolutePath());
+                        if (so == null){
+                            System.out.println("so == null!\n");
+                        }
+                        //String thetitle = so.get_id3().getTitle();
+                        //System.out.println(thetitle);
+                        //System.out.println(so.get_id3().getArtist());
+                        //System.out.println(so.get_id3().getAlbum());
+                        _songsList.add(so);
+                    }
+                }
+            }
+            //System.out.println(_songsList.size());
+        } catch (Exception e) {
+            Log.e("lmm", "err setting datasource", e);
+        }
+        return _songsList;
+    }
 }

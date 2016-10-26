@@ -9,7 +9,7 @@ import com.example.matt.chromesthesia.playlistDev.mp3Parser;
 import java.util.HashMap;
 
 /**
- * Created by Dave on 10/3/2016.
+ * Created by Will Stewart on 10/3/2016.
  */
 public class Song{
     private HashMap<String, ID3> _song;
@@ -31,7 +31,9 @@ public class Song{
 
 
         _id3 = new mp3Parser().parseMP3(_audioFilePath);
-
+        //System.out.println("we're in SONG.java\n");
+        //System.out.println(_id3.getTitle());
+        //System.out.println("we're leaving SONG.java!");
         //storing song identification
         _song = new HashMap<>();
         _song.put(_id, _id3);
@@ -42,7 +44,8 @@ public class Song{
 
     public ID3 get_id3(){
         //should work because a song object should only have one key in its hashmap
-        return _song.get(_song.keySet());
+        //return _song.get(_song.keySet());
+        return _id3;
     }
 
     public String get_identification(){
