@@ -6,15 +6,13 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 
 import com.example.matt.chromesthesia.playlistDev.Playlist;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 
@@ -23,7 +21,7 @@ import java.util.ArrayList;
  */
 
 public class PlayListSelectionScreen extends Chromesthesia {
-    Button createPlaylist;
+
     private EditText playlistName;
     private LayoutInflater layoutInf;
     private ArrayList<Playlist> playlists; //list of Playlist objects (with their files) saved by the user
@@ -33,10 +31,12 @@ public class PlayListSelectionScreen extends Chromesthesia {
     private ListView playlistView;
 
 
-    public void onCreate(LayoutInflater inflater, ViewGroup container, final Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    public void onCreate(Bundle savedInstancedState) {
+        super.onCreate(savedInstancedState);
         setContentView(R.layout.playlistscreen);
-        playlistView = (ListView)findViewById(R.id.librarylist);
+        playlistView = (ListView)findViewById(R.id.list);
+
+        /*
         System.out.println("PRINTING OUT OUR PLAYLIST ARRAY");
         for (String playlistName : playlistArray) {
             System.out.println(playlistName);
@@ -57,7 +57,17 @@ public class PlayListSelectionScreen extends Chromesthesia {
             }
         });
 
+        Button home = (Button) findViewById(R.id.homeButton);
+        home.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                playlistView.setVisibility(View.INVISIBLE);
+                setContentView(R.layout.homescreen);
+            }
+        });
+
         /*Create Playlist Button onClick code; it's really long so I'm surrounding it with comments because my EYES HURT!!!*/
+        Button createPlaylist = (Button) findViewById(R.id.buttonPrompt);
         createPlaylist.setOnClickListener(new View.OnClickListener() {
             AlertDialog.Builder builder = new AlertDialog.Builder(context);
             @Override
@@ -78,7 +88,7 @@ public class PlayListSelectionScreen extends Chromesthesia {
                             .setPositiveButton("Create", new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int id) {
                                     playlistName.setText(userInput.getText());
-                                    Playlist p = new Playlist(playlistName.getText().toString());
+                                    Playlist p = new Playlist(playlistName.getText().toString(), new File(playlistName.getText().toString()+".txt"));
                                     try {
                                         //tries to save the new blank playlist txt only with the contents "empty"
                                         p.savePlaylist();
@@ -98,6 +108,7 @@ public class PlayListSelectionScreen extends Chromesthesia {
 
         });
         /*End of create playlist dialog box code*/
+
 
     }
 
