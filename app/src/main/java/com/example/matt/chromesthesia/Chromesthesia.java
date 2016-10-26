@@ -5,6 +5,7 @@ import com.example.matt.chromesthesia.playlistDev.localMusicManager;
 import com.example.matt.chromesthesia.playlistDev.*;
 import android.Manifest;
 import android.content.ContentResolver;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Build;
@@ -76,19 +77,17 @@ public class Chromesthesia extends AppCompatActivity {
     protected localMusicManager lmm;
     private boolean musicbound = false;
     protected MPC media = new MPC();
-    private int VERSION = Build.VERSION.SDK_INT;
-
-    //GET PERMISSIONS
-
-    if (VERSION > Build.VERSION_CODES.LOLLIPOP_MR1) {
-        if (!checkIfAlreadyHavePermissions()) {
-            requestAllPermissions();
-        }
-    }
+    public int myVersion = Build.VERSION.SDK_INT;
+    public int myLollipop = Build.VERSION_CODES.LOLLIPOP_MR1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) throws NullPointerException {
         super.onCreate(savedInstanceState);
+        if (myVersion > myLollipop) {
+            if (!checkIfAlreadyHavePermissions()) {
+                requestAllPermissions();
+            }
+        }
         songView = (ListView)findViewById(R.id.librarylist);
         setContentView(R.layout.activity_chromesthesia);
         lmm = new localMusicManager();
@@ -239,10 +238,42 @@ public class Chromesthesia extends AppCompatActivity {
         int mcc = ContextCompat.checkSelfPermission(this, Manifest.permission.MEDIA_CONTENT_CONTROL);
         int mas = ContextCompat.checkSelfPermission(this, Manifest.permission.MODIFY_AUDIO_SETTINGS);
 
-        if ((sdR + sdW + internet + bt + btA + btP + wl + mcc + mas) != 9) {
-
+        if ((sdR != 1)&&(sdW!=1)&&(internet!=1)&&(bt!=1)&&(btA!=1)&&(btP!=1)&&(wl!=1)&&(mcc!=1)&&(mas!=1)) {
+            return false;
+        }
+        else {
+            return true;
         }
     }
+
+    private void requestAllPermissions() {
+        ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                Manifest.permission.INTERNET,
+                Manifest.permission.BLUETOOTH,
+                Manifest.permission.BLUETOOTH_ADMIN,
+                Manifest.permission.BLUETOOTH_PRIVILEGED,
+                Manifest.permission.WAKE_LOCK,
+                Manifest.permission.MEDIA_CONTENT_CONTROL,
+                Manifest.permission.MODIFY_AUDIO_SETTINGS}, 101);
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        switch (requestCode) {
+            case 101:
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    //granted
+                } else {
+                    //not granted
+                }
+                break;
+            default:
+                super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        }
+    }
+
     /**
      * A placeholder fragment containing a simple view.
      */
