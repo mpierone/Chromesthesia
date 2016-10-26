@@ -11,6 +11,7 @@
     <uses-permission android:name="android.permission.MEDIA_CONTENT_CONTROL" />
     <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -35,8 +36,14 @@
                 <category android:name="android.intent.category.OPENABLE" />
             </intent-filter>
         <activity android:name=".Library"></activity>
-        <activity android:name=".PlayListSelectionScreen"></activity>
+        <activity android:name=".PlayListSelectionScreen">
+            <intent-filter>
+                <action android:name="android.intent.category.OPENABLE" />
+                <action android:name="android.intent.action.VIEW" />
+            </intent-filter>
+        </activity>
         <activity android:name=".NowPlayingScreen"></activity>
+        <activity android:name=".playlistDev.CreatePlaylistScreen"></activity>
 
         <meta-data
             android:name="com.google.android.gms.version"

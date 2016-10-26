@@ -10,8 +10,6 @@ import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 import org.mockito.Mock;
 
-import java.util.ArrayList;
-
 /**
  * Created by Isabelle on 10/7/2016.
  */
@@ -59,12 +57,5 @@ public class LocalLibraryTests {
         }
     }
 
-    @Test
-    public void saveAPlaylist() throws Exception{
-        localMusicManager lmm  = new localMusicManager();
-        ArrayList<Song> testerPlaylist = new ArrayList<>();
-        testerPlaylist.add(new Song("C:\\Users\\Isabelle\\Chromesthesia\\app\\src\\main\\res\\raw\\rumine.mp3"));
-        testerPlaylist.add(new Song("C:\\Users\\Isabelle\\Chromesthesia\\app\\src\\main\\res\\raw\\sutphinboulevard.mp3"));
-        lmm.savePlaylist("newplaylist.txt", testerPlaylist);
-    }
+
 }

@@ -63,7 +63,7 @@ public class Chromesthesia extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) throws NullPointerException {
         super.onCreate(savedInstanceState);
         songView = (ListView)findViewById(R.id.librarylist);
-        setContentView(R.layout.activity_chromesthesia);
+        //setContentView(R.layout.activity_chromesthesia);
 
         /*Start of playlist library creation (i.e. populating the playlistList*/
 
@@ -128,14 +128,26 @@ public class Chromesthesia extends AppCompatActivity {
                 startActivityForResult(libraryIntent, 0);
             }
         });
-        Button playlistButton = (Button) findViewById(R.id.playlistButton);
+
+        Button playlistSelectButton = (Button) findViewById(R.id.playlistButton);
+        playlistSelectButton.setClickable(true);
+        playlistSelectButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+               // setContentView(R.layout.playlistscreen);
+                Intent playlistSelectIntent = new Intent(context, PlayListSelectionScreen.class);
+                startActivityForResult(playlistSelectIntent,0);
+            }
+        });
+
+
+        /*Button playlistButton = (Button) findViewById(R.id.playlistButton);
         playlistButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
-                setContentView(R.layout.playlistscreen);
                 Intent playlistIntent = new Intent(view.getContext(), PlayListSelectionScreen.class);
                 startActivityForResult(playlistIntent, 0);
             }
-        });
+        });*/
         Button playScreenButton = (Button) findViewById(R.id.playscreenTestButton);
         playScreenButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
@@ -143,6 +155,7 @@ public class Chromesthesia extends AppCompatActivity {
                 startActivityForResult(playScreenIntent, 0);
             }
         });}
+    public void goHome(View view) {setContentView(R.layout.homescreen);}
     public void playSongPrint(View view) {
         System.out.println("WE CLICKED!");
     }
