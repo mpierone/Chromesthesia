@@ -54,6 +54,7 @@ public class NowPlayingScreen extends Chromesthesia {
             public void onClick(View v) {
                 //call and play next song
                 //if song[index+1] is out of bounds, then go to song[index_1]
+                mpservice.playNext();
             }
         });
 

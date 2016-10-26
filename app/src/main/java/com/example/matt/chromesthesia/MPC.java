@@ -140,10 +140,21 @@ public class MPC extends Service implements MediaPlayer.OnPreparedListener, Medi
             songposition = songs.size();
             playsong();
         } else {
-            System.out.println(songposition);
+            //System.out.println(songposition);
             songposition -= 1;
             playing = songs.get(songposition);
-            System.out.println(songposition);
+            //System.out.println(songposition);
+            playsong();
+        }
+    }
+
+    public void playNext() {
+        if (songposition + 1 > songs.size()) {
+            songposition = 0;
+            playsong();
+        } else {
+            songposition += 1;
+            playing = songs.get(songposition);
             playsong();
         }
     }
