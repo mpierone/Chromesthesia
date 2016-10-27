@@ -1,5 +1,6 @@
 package com.example.matt.chromesthesia;
 
+import android.media.MediaPlayer.OnBufferingUpdateListener;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.media.MediaPlayer;
@@ -11,7 +12,9 @@ import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.ImageButton;
 import android.widget.SeekBar;
+import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.ToggleButton;
 import android.media.MediaPlayer;
 import android.widget.ToggleButton;
@@ -25,8 +28,8 @@ import org.w3c.dom.Text;
  * Created by Matt on 10/8/2016.
  */
 
-public class NowPlayingScreen extends Chromesthesia implements View.OnTouchListener {
-    private SeekBar seekBar;
+public class NowPlayingScreen extends Chromesthesia implements View.OnTouchListener, MediaPlayer.OnBufferingUpdateListener {
+    SeekBar seekBar;
     private final Handler handler = new Handler();
     public void onCreate(Bundle savedInstancedState) {
         super.onCreate(savedInstancedState);
@@ -65,8 +68,28 @@ public class NowPlayingScreen extends Chromesthesia implements View.OnTouchListe
         });
 
         seekBar = (SeekBar) findViewById(R.id.seekBar);
-        seekBar.setMax(99);
+        seekBar.setMax(100);
         seekBar.setOnTouchListener(this);
+
+        Thread refresh = new Thread() {
+
+            @Override
+            public void run() {
+                try {
+                    while (!isInterrupted()) {
+                        Thread.sleep(1000);
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                seekBar.setProgress((int) (((float) mpservice.getPosition() / mpservice.getDuration()) * 100));
+                            }
+                        });
+                    }
+                } catch (InterruptedException e) {
+                }
+            }
+        };
+        refresh.start();
 
     }   //end of onCreate
 
@@ -94,6 +117,12 @@ public class NowPlayingScreen extends Chromesthesia implements View.OnTouchListe
         }
         return false;
     }
+
+    @Override
+    public void onBufferingUpdate(MediaPlayer mp, int percent) {
+        seekBar.setSecondaryProgress(percent);
+    }
+
 
 }//end of class
 

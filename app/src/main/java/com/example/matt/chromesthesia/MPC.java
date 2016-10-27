@@ -13,6 +13,7 @@ import com.example.matt.chromesthesia.Chromesthesia;
 import java.math.BigInteger;
 import java.util.ArrayList;
 import android.net.Uri;
+import android.media.MediaPlayer.OnBufferingUpdateListener;
 import android.os.Binder;
 import android.os.PowerManager;
 import android.util.Log;
@@ -56,6 +57,7 @@ public class MPC extends Service implements MediaPlayer.OnPreparedListener, Medi
         mediaPlayer.setOnPreparedListener(this);
         mediaPlayer.setOnCompletionListener(this);
         mediaPlayer.setOnErrorListener(this);
+
     }
 
     public void startplay (){
@@ -196,6 +198,7 @@ public class MPC extends Service implements MediaPlayer.OnPreparedListener, Medi
 
     //seek bar methods
     int position; //time position of song
+
 
     public int getPosition() {
         return mediaPlayer.getCurrentPosition();
