@@ -32,7 +32,7 @@ public class MPC extends Service implements MediaPlayer.OnPreparedListener, Medi
 
     public void onCreate(){
         super.onCreate();
-        Repeat Loop = Repeat.ALL;
+        Loop = Repeat.ALL;
         songposition = 0;
         mediaPlayer = new MediaPlayer();
         mp_init();
@@ -82,7 +82,10 @@ public class MPC extends Service implements MediaPlayer.OnPreparedListener, Medi
     @Override
     public void onCompletion(MediaPlayer mp) {
         mp.reset();
-
+        if (Loop == null) {
+            System.out.println("WHY IS LOOP NULL?");
+        }
+        System.out.println("onCompletion listener and loop is:  " + Loop);
         switch(Loop) {
             case ALL:
                 songposition = (songposition+1) % songs.size();
@@ -98,15 +101,28 @@ public class MPC extends Service implements MediaPlayer.OnPreparedListener, Medi
                 }
                 break;
         }
-        Song nextsong = songs.get(songposition);
-        String currentsong = nextsong.get_identification();
-        try {
-            mp.setDataSource(currentsong);
+        if (songposition > -1) {
+            Song nextsong = songs.get(songposition);
+            String currentsong = nextsong.get_identification();
+            try {
+                mp.setDataSource(currentsong);
+            }
+            catch (Exception e){
+                Log.e("mpc","err setting datasource on continuous playback", e);
+            }
+            mp.prepareAsync();
         }
-        catch (Exception e){
-            Log.e("mpc","err setting datasource on continuous playback", e);
+        else {
+            mp.stop();
         }
-        mp.prepareAsync();
+    }
+
+    public void pauseSong() {
+        mediaPlayer.pause();
+    }
+
+    public void resumePlay() {
+        mediaPlayer.start();
     }
 
     @Override
@@ -133,6 +149,19 @@ public class MPC extends Service implements MediaPlayer.OnPreparedListener, Medi
             Log.e("mpc","err setting datasource", e);
         }
         mediaPlayer.prepareAsync();
+    }
+    public void setLoop(String setting) {
+        System.out.println("we've called setLoop! and setting is:  "+setting);
+        switch (setting) {
+            case "ALL":
+                Loop = Repeat.ALL;
+                break;
+            case "ONE":
+                Loop = Repeat.ONE;
+                break;
+            case "NONE":
+                Loop = Repeat.NONE;
+        }
     }
     public class binder_music extends Binder {
         MPC getservice () {
