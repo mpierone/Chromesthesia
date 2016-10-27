@@ -61,6 +61,8 @@
         android:layout_alignStart="@+id/imageView"
         android:layout_alignEnd="@+id/imageView" />
 
+
+
     <ToggleButton
         android:layout_width="80dp"
         android:layout_height="80dp"
@@ -78,7 +80,7 @@
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="Artist"
-        android:id="@+id/textView4"
+        android:id="@+id/artistname"
         android:layout_above="@+id/seekBar"
         android:layout_alignStart="@+id/songTitleText"
         android:layout_marginBottom="28dp" />

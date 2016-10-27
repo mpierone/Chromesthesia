@@ -3,22 +3,20 @@ package com.example.matt.chromesthesia;
 // MPC = MEDIA PLAYER CLASS
 
 import android.app.Service;
-import android.content.ContentUris;
 import android.content.Intent;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
-import com.example.matt.chromesthesia.Chromesthesia;
-import java.math.BigInteger;
 import java.util.ArrayList;
 import android.net.Uri;
 import android.os.Binder;
 import android.os.PowerManager;
 import android.util.Log;
+import android.widget.TextView;
+import com.example.matt.chromesthesia.*;
 import com.example.matt.chromesthesia.enums.*;
 
-import java.io.FileNotFoundException;
 
 /**
  * Created by Will Stewart on 9/27/2016. yay
@@ -163,6 +161,7 @@ public class MPC extends Service implements MediaPlayer.OnPreparedListener, Medi
         playing = songs.get(songposition);
 
         String currentsong = playing.get_identification();
+
         //Uri songuri = ContentUris.withAppendedId(android.provider.MediaStore.Audio.Media.EXTERNAL_CONTENT_URI,playing);
         try{
             mediaPlayer.setDataSource(currentsong);
@@ -193,5 +192,14 @@ public class MPC extends Service implements MediaPlayer.OnPreparedListener, Medi
         }
         mediaPlayer.prepareAsync();
     }
+
+    public String getCurrentSongTitle(){
+        return playing.get_id3().getTitle();
+    }
+
+    public String getCurrentArtistName(){
+        return playing.get_id3().getArtist();
+    }
+
 }
 

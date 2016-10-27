@@ -11,6 +11,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import com.example.matt.chromesthesia.playlistDev.*;
 import android.content.*;
+import android.widget.TextView;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
@@ -48,7 +49,14 @@ public class Library extends Chromesthesia {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 playSong(view, position);
-                positionVar = position;
+
+                if(mpservice.isPlaying())
+                {
+                    TextView songTitle = (TextView) findViewById(R.id.songTitleText);
+                    songTitle.setText(mpservice.getCurrentSongTitle());
+                    TextView artistName = (TextView) findViewById(R.id.artistname);
+                    artistName.setText(mpservice.getCurrentArtistName());
+                }
             }
         });
     }

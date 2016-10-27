@@ -52,6 +52,8 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.w3c.dom.Text;
+
 public class Chromesthesia extends AppCompatActivity {
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide
@@ -74,6 +76,7 @@ public class Chromesthesia extends AppCompatActivity {
     private boolean musicbound = false;
     protected MPC media = new MPC();
     public int positionVar;//testing this
+    private TextView songTitle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) throws NullPointerException {
@@ -81,6 +84,9 @@ public class Chromesthesia extends AppCompatActivity {
         songView = (ListView) findViewById(R.id.librarylist);
         setContentView(R.layout.activity_chromesthesia);
         lmm = new localMusicManager();
+
+        songTitle = (TextView) findViewById(R.id.songTitleText);
+
         //System.out.println("in CHROMESTHESIA after lmm = newlmm();");
         try{
             //System.out.println("in the try block in CHROMESTHESIA");
@@ -154,6 +160,7 @@ public class Chromesthesia extends AppCompatActivity {
             System.out.println("our position we're trying to play is:  " + id);
             mpservice.setPlaying(id);
             mpservice.playsong();
+
         } catch (NullPointerException n) {
             Log.e("Error: ", "No song to play", n);
         }
