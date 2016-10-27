@@ -1,6 +1,7 @@
 package com.example.matt.chromesthesia.playlistDev;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -50,6 +51,8 @@ public class CreatePlaylistScreen extends PlayListSelectionScreen {
                         e.printStackTrace();
                     }
                 }
+                Intent goBacktoPlaylists = new Intent(playlistContext, PlayListSelectionScreen.class);
+                startActivityForResult(goBacktoPlaylists,0);
             }
         });
     }

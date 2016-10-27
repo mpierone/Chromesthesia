@@ -31,7 +31,7 @@ public class PlaylistManager {
     String SD_LOCATION = (Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).getPath());
     File sdlocation = new File(SD_LOCATION + "/Download/");
     boolean deviceHasSDCard;
-    protected ArrayList<String> playlistList;
+    //private ArrayList<Playlist> playlistList;
 
     public PlaylistManager(){
         //constructor
@@ -47,17 +47,18 @@ public class PlaylistManager {
     }
 
 
-    /*get Arraylist of all playlists found on sd card*/
-    public ArrayList<String> getPlaylistList(String folder) throws Exception{
+    /*get Arraylist of all playlists found on sd card. We need to call this in the PlaylistSelectionScreen to be able to see our playlists listed there.*/
+    public ArrayList<Playlist> getPlaylistList(String folder) throws Exception{
+        ArrayList<Playlist> playlistList = new ArrayList<>();
         try {
             if (deviceHasSDCard == true) {
-                File sdCard = new File(SD_LOCATION);
-                if (sdCard.listFiles().length > 0) {
-                    for (File file : sdCard.listFiles()) {
+                File playDir = getPlaylistStorageDirectory();
+                if (playDir.listFiles().length > 0) {
+                    for (File file : playDir.listFiles()) {
                         //sets up String[] of track info
                         //System.out.println(file.getAbsolutePath());
                         if (file.isDirectory()) {
-                            System.out.println("keep on lookin'\n\n\n\n");
+                            System.out.println("keep on lookin', subfolders will eventually be how we group similar playlists together\n\n\n\n");
                             System.out.println(file.getAbsoluteFile());
                             getPlaylistList(file.getAbsolutePath());
                         } else if (file.getAbsolutePath().toLowerCase().endsWith(".txt")) {
@@ -65,7 +66,10 @@ public class PlaylistManager {
                             //System.out.println(thetitle);
                             //System.out.println(so.get_id3().getArtist());
                             //System.out.println(so.get_id3().getAlbum());
-                            playlistList.add(file.getName());
+                            String playlistName = file.getName().replace(".txt", "");
+                            Playlist p = new Playlist(playlistName);
+                            playlistList.add(p);
+                            System.out.println("Added " + p._playlistName + " to the playlist ArrayList.");
                         }
                     }
                 }
@@ -73,10 +77,7 @@ public class PlaylistManager {
             }
         }catch(Exception e){
                 Log.e("lmm", "err setting datasource", e);
-
             }
-
-
         return playlistList;
     }
 

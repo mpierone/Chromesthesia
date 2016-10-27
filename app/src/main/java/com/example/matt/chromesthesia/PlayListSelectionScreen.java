@@ -1,10 +1,12 @@
 package com.example.matt.chromesthesia;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -22,39 +24,41 @@ public class PlayListSelectionScreen extends Chromesthesia {
 
     private EditText playlistName;
     private LayoutInflater layoutInf;
-    private ArrayList<Playlist> playlists; //list of Playlist objects (with their files) saved by the user
-
+     //list of Playlist objects (with their files) saved by the user
     private ArrayList<String> playlistArray; //list of Playlist NAMES saved by the user
     private ListView listView;
     private ListView playlistView;
+    public Context playlistContext = this;
 
 
     public void onCreate(Bundle savedInstancedState) {
         super.onCreate(savedInstancedState);
         setContentView(R.layout.playlistscreen);
-        playlistView = (ListView)findViewById(R.id.list);
+        playlistView = (ListView)findViewById(R.id.playlistView);
 
-        /*
+        createPlaylistList();
         System.out.println("PRINTING OUT OUR PLAYLIST ARRAY");
         for (String playlistName : playlistArray) {
             System.out.println(playlistName);
         }
         try
         {
-            ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, playlistArray);
-            playlistView.setAdapter(arrayAdapter);
+            if (playlistArray == null){
+                String emptyAdapterMsg = "Something went wrong, we can't find the playlist array!";
+                ArrayList<String> empties = new ArrayList<>();
+                empties.add(emptyAdapterMsg);
+                ArrayAdapter a = new ArrayAdapter<String>(getBaseContext(), android.R.layout.simple_list_item_1, empties);
+                playlistView.setAdapter(a);
+            }
+            else{
+                ArrayAdapter<String> pArrayAdapter = new ArrayAdapter<String>(getBaseContext(), android.R.layout.simple_list_item_1, playlistArray);
+                playlistView.setAdapter(pArrayAdapter);
+            }
         }
         catch (NullPointerException e){
             Log.e("Error:","No playlists found.", e);
         }
-        playlistView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                playlistArray.get(position);
-                //some method for selection of the playlist
-            }
-        });
-        */
+
 
         /*Create Playlist Button onClick code; it's really long so I'm surrounding it with comments because my EYES HURT!!!*/
         Button createPlaylist = (Button) findViewById(R.id.buttonPrompt);
@@ -72,6 +76,7 @@ public class PlayListSelectionScreen extends Chromesthesia {
     }
 
     public void createPlaylistList() {
+        ArrayList<Playlist> playlists;
         String playlistName;
         playlists = playlistList;
         System.out.println("size is:");
@@ -86,7 +91,7 @@ public class PlayListSelectionScreen extends Chromesthesia {
             }
         }
         catch (Exception e){
-            Log.e("lmm in library.java","stuff broke",e);
+            Log.e("pm in PSScreen.java","stuff broke",e);
         }
 
     }

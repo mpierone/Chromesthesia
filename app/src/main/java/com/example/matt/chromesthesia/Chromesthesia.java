@@ -27,6 +27,7 @@ import android.widget.Toast;
 import com.example.matt.chromesthesia.MPC.binder_music;
 import com.example.matt.chromesthesia.playlistDev.ID3;
 import com.example.matt.chromesthesia.playlistDev.Playlist;
+import com.example.matt.chromesthesia.playlistDev.PlaylistManager;
 import com.example.matt.chromesthesia.playlistDev.localMusicManager;
 
 import java.util.ArrayList;
@@ -66,8 +67,12 @@ public class Chromesthesia extends AppCompatActivity {
         //setContentView(R.layout.activity_chromesthesia);
 
         /*Start of playlist library creation (i.e. populating the playlistList*/
-
-
+        PlaylistManager pm = new PlaylistManager();
+        try {
+            playlistList = pm.getPlaylistList(pm.getPlaylistStorageDirectory().getAbsolutePath());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         /*End of playlistList creation code*/
 
 
