@@ -193,5 +193,20 @@ public class MPC extends Service implements MediaPlayer.OnPreparedListener, Medi
         }
         mediaPlayer.prepareAsync();
     }
+
+    //seek bar methods
+    int position; //time position of song
+
+    public int getPosition() {
+        return mediaPlayer.getCurrentPosition();
+    }
+
+    public int getDuration() {
+        return mediaPlayer.getDuration();
+    }
+
+    public void seek(int position) {
+        mediaPlayer.seekTo(position);
+    }
 }
 

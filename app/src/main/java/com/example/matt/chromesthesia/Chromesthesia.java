@@ -24,6 +24,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
+import android.widget.SeekBar;
+import android.view.View.OnFocusChangeListener;
 import android.widget.TextView;
 import android.os.IBinder;
 import android.content.ComponentName;
@@ -32,6 +34,8 @@ import android.content.Intent;
 import android.content.ServiceConnection;
 import android.view.View;
 import java.util.ArrayList;
+import java.util.logging.Handler;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -74,7 +78,6 @@ public class Chromesthesia extends AppCompatActivity {
     private boolean musicbound = false;
     protected MPC media = new MPC();
     public int positionVar;//testing this
-
     @Override
     protected void onCreate(Bundle savedInstanceState) throws NullPointerException {
         super.onCreate(savedInstanceState);
@@ -135,13 +138,17 @@ public class Chromesthesia extends AppCompatActivity {
                 startActivityForResult(playlistIntent, 0);
             }
         });
+        //make now playing screen
         Button playScreenButton = (Button) findViewById(R.id.playscreenTestButton);
         playScreenButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
                 Intent playScreenIntent = new Intent(view.getContext(), NowPlayingScreen.class);
                 startActivityForResult(playScreenIntent, 0);
             }
-        });}
+        });
+
+    }
+
 
     public void playSongPrint(View view) {
         System.out.println("WE CLICKED!");
@@ -273,4 +280,5 @@ public class Chromesthesia extends AppCompatActivity {
             return null;
         }
     }
+
 }
