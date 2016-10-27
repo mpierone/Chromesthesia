@@ -42,7 +42,18 @@
             </intent-filter>
         </activity>
         <activity android:name=".NowPlayingScreen"></activity>
-        <activity android:name=".playlistDev.CreatePlaylistScreen"></activity>
+        <activity android:name=".playlistDev.CreatePlaylistScreen">
+            <intent-filter>
+                <action android:name="android.intent.category.OPENABLE" />
+                <action android:name="android.intent.action.VIEW" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".AddSongsToPlaylistScreen">
+            <intent-filter>
+                <action android:name="android.intent.category.OPENABLE" />
+                <action android:name="android.intent.action.VIEW" />
+            </intent-filter>
+        </activity>
 
         <meta-data
             android:name="com.google.android.gms.version"

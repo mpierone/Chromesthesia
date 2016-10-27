@@ -1,18 +1,15 @@
 package com.example.matt.chromesthesia;
 
-import android.app.Fragment;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import com.example.matt.chromesthesia.playlistDev.*;
-import android.content.*;
 
-import java.lang.reflect.Array;
+import com.example.matt.chromesthesia.playlistDev.localMusicManager;
+
 import java.util.ArrayList;
 
 /**
@@ -25,6 +22,7 @@ public class Library extends Chromesthesia {
     private ArrayList<String> songArray;
     private ListView listView;
     private ListView songView;
+    public ArrayAdapter<String> arrayAdapter;
     localMusicManager lMM = new localMusicManager();
     public void onCreate(Bundle savedInstancedState) {
         super.onCreate(savedInstancedState);
@@ -37,7 +35,7 @@ public class Library extends Chromesthesia {
         }
         try
         {
-            ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, songArray);
+            arrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, songArray);
             songView.setAdapter(arrayAdapter);
         }
         catch (NullPointerException e){

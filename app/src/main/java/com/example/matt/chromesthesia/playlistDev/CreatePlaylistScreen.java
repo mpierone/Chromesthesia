@@ -8,6 +8,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.example.matt.chromesthesia.AddSongsToPlaylistScreen;
 import com.example.matt.chromesthesia.PlayListSelectionScreen;
 import com.example.matt.chromesthesia.R;
 
@@ -51,8 +52,9 @@ public class CreatePlaylistScreen extends PlayListSelectionScreen {
                         e.printStackTrace();
                     }
                 }
-                Intent goBacktoPlaylists = new Intent(playlistContext, PlayListSelectionScreen.class);
-                startActivityForResult(goBacktoPlaylists,0);
+
+                Intent goToAddSongs = new Intent(getBaseContext(), AddSongsToPlaylistScreen.class);
+                startActivityForResult(goToAddSongs,0);
             }
         });
     }
