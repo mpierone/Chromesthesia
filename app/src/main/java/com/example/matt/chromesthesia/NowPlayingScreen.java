@@ -11,22 +11,31 @@ import android.widget.TextView;
 import android.widget.ToggleButton;
 import android.media.MediaPlayer;
 import android.widget.ToggleButton;
-
+import android.content.Intent;
 /**
  * Created by Matt on 10/8/2016.
  */
 
 public class NowPlayingScreen extends Chromesthesia {
 
+    //private Intent player;
+    protected TextView artistName;
+    protected TextView songTitle;
+
     public void onCreate(Bundle savedInstancedState) {
         super.onCreate(savedInstancedState);
         setContentView(R.layout.playscreen);
 
-        //if(mpservice.isPlaying()){
-         //   updatePlayScreenInfo();
-        //}
-
-
+        if(mpservice != null) {
+            updatePlayScreenInfo();
+        }
+        if (mpservice==null) {
+            System.out.println("NOWPLAYINGSCREEN AND SERVICE OBJECT IS NULL");
+        }
+        artistName = (TextView) findViewById(R.id.artistname);
+        songTitle = (TextView) findViewById(R.id.artistname);
+        artistName.setText("");
+        songTitle.setText("");
         final ToggleButton playButton = (ToggleButton) findViewById(R.id.playButton);
         final ImageButton previousButton = (ImageButton) findViewById(R.id.previousButton);
         final ImageButton nextButton = (ImageButton) findViewById(R.id.nextButton);
@@ -69,9 +78,7 @@ public class NowPlayingScreen extends Chromesthesia {
     }
 
         public void updatePlayScreenInfo(){
-        TextView songTitle = (TextView) findViewById(R.id.songTitleText);
         songTitle.setText(mpservice.getCurrentSongTitle());
-        TextView artistName = (TextView) findViewById(R.id.artistname);
         artistName.setText(mpservice.getCurrentArtistName());
     }
 
