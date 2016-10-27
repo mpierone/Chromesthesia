@@ -82,6 +82,7 @@ public class MPC extends Service implements MediaPlayer.OnPreparedListener, Medi
     @Override
     public void onCompletion(MediaPlayer mp) {
         mp.reset();
+        System.out.println("we're in oncompletion and songposition is:  " + songposition);
         if (Loop == null) {
             System.out.println("WHY IS LOOP NULL?");
         }
@@ -94,10 +95,12 @@ public class MPC extends Service implements MediaPlayer.OnPreparedListener, Medi
                 System.out.println("repeat is set to one");
                 break;
             case NONE:
-                System.out.println("repeat is set to NONE");
-                songposition++;
-                if (songposition > songs.size()-1) {
+                System.out.println(songposition);
+                songposition = songposition + 1;
+                System.out.println("repeat is set to NONE:  songpos = "+ songposition + " and songsizse = " + songs.size());
+                if (songposition == songs.size()) {
                     songposition = -1;
+                    mp.reset();
                 }
                 break;
         }
@@ -113,7 +116,7 @@ public class MPC extends Service implements MediaPlayer.OnPreparedListener, Medi
             mp.prepareAsync();
         }
         else {
-            mp.stop();
+           // mp.reset();
         }
     }
 
