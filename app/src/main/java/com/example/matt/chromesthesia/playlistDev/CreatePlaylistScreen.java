@@ -1,5 +1,6 @@
 package com.example.matt.chromesthesia.playlistDev;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -11,6 +12,8 @@ import com.example.matt.chromesthesia.R;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 
 /**
  * Created by Isabelle on 10/26/2016.
@@ -31,15 +34,84 @@ public class CreatePlaylistScreen extends PlayListSelectionScreen {
         createGo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String playlistName = editText.getText().toString();
-                Playlist p = new Playlist(playlistName, new File(playlistName + ".txt"));
-                try {
-                    p.savePlaylist();
-                } catch (FileNotFoundException e) {
-                    System.out.println("Couldn't save the playlist text file.");
-                    e.printStackTrace();
+               final String playlistName = editText.getText().toString();
+
+                //if there IS an sdCard:
+                Playlist p = new Playlist(playlistName);
+                p.savePlaylist();
+
+
+                //if there is NOT an sdCard:
+                if (p.isSavedOnExternalStorage==false) {
+                    try {
+                        saveToInternalStorage(getFilesDir().toString(), p);
+
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
                 }
             }
         });
     }
+
+
+
+
+public void saveToInternalStorage(String intMemPath, Playlist p) throws IOException {
+    File intMem = new File(intMemPath);
+    File playlistFile = new File (p.getNameOfTextFile());
+    if (intMem.listFiles().length > 0){
+        for (File file: intMem.listFiles()){
+            FileOutputStream fos = openFileOutput(playlistFile.getName(), Context.MODE_PRIVATE);
+            if (file.isDirectory()){
+                saveToInternalStorage(file.getAbsolutePath(), p);
+            }
+            if (file.getAbsolutePath().toLowerCase() == playlistFile.getAbsolutePath().toLowerCase()) {
+                deleteFile(file.getName());
+
+                try {
+
+                    if (p._playlistSongs != null) {
+                        for (String s : p.getPlaylistFilenamesArray()) {
+                            s += "\n";
+                            fos.write(s.getBytes());
+                            System.out.println("Added " + s);
+                            fos.close();
+                        }
+                    }
+                    else {
+                        String empty = "empty";
+                        fos.write(empty.getBytes());
+                        fos.close();
+                        System.out.println("This is an empty playlist. No songs to save to text file.");
+                    }
+
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            else{
+                if (p._playlistSongs != null) {
+                    for (String s : p.getPlaylistFilenamesArray()) {
+                        s += "\n";
+                        fos.write(s.getBytes());
+                        System.out.println("Added " + s);
+                        fos.close();
+                    }
+                }
+                else {
+                    String empty = "empty";
+                    fos.write(empty.getBytes());
+                    fos.close();
+                    System.out.println("This is an empty playlist. No songs to save to text file.");
+                }
+            }
+            }
+        }
+    System.out.println("Saved " + playlistFile + " in internal storage at " + intMemPath);
+    }
 }
+
+

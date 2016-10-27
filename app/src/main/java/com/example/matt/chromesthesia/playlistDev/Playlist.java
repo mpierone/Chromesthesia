@@ -18,21 +18,42 @@ public class Playlist {
     String _playlistName;
     ArrayList<Song> _playlistSongs;
     ArrayList<Song> defaultEmptyPlaylistFiles;
-    File _playlistFile;
-    public Playlist(String name, File playlistTxtDoc){
+    String _playlistFileName;
+    File _playlistTxtDoc;
+    boolean isSavedOnExternalStorage;
+    public Playlist(String name){
         //constructor
         _playlistName = name;
-        _playlistFile = playlistTxtDoc;
+        String filename = _playlistName + ".txt";
         _playlistSongs = defaultEmptyPlaylistFiles;
 
+        PlaylistManager pm = new PlaylistManager();
+        _playlistTxtDoc = new File (pm.getPlaylistStorageDirectory(), filename);
+
+    }
+
+    public void savePlaylist(){
+    PlaylistManager pm = new PlaylistManager();
+        if (pm.deviceHasSDCard == true) {
+            try {
+                pm.savePlaylist(this);
+            } catch (FileNotFoundException e) {
+                System.out.println("Couldn't find the storage directory to save the txt document.");
+                e.printStackTrace();
+            }
+            isSavedOnExternalStorage = true;
+        }else{
+            isSavedOnExternalStorage = false;
+            System.out.println("No SD Card found. Trying internal storage.");
+        }
     }
 
     public void setPlaylistName(String playlistName){
         _playlistName = playlistName;
     }
 
-    public File get_playlistTxtFile(){
-        return _playlistFile;
+    public String getNameOfTextFile(){
+        return _playlistTxtDoc.getName();
     }
 
     public String getPlaylistName(){

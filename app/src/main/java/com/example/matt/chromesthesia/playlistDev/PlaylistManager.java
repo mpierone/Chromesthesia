@@ -16,54 +16,81 @@ import java.util.Scanner;
 /**
  * Created by Isabelle on 10/25/2016.
  * Finds playlists saved by user.
- */
+ *
+ * If you don't have an SD card, it won't be able to write your text documents to anything.
+ *
+ * This is why I added the openFileInput() to the get Playlistlist method
+ * and openFileOutput() to the save feature. These methods are used to find
+ * internal storage. All files saved to internal storage from an application
+ * are private to that application by default
+ * */
+
 
 public class PlaylistManager {
-    final String SD_LOCATION = (Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).getPath());
+
+    String SD_LOCATION = (Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).getPath());
     File sdlocation = new File(SD_LOCATION + "/Download/");
-    protected ArrayList<Playlist> playlistList;
+    boolean deviceHasSDCard;
+    protected ArrayList<String> playlistList;
+
+    public PlaylistManager(){
+        //constructor
+        if (isExternalStorageReadable() == true && isExternalStorageWritable() ==true){
+            String SD_LOCATION = (Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).getPath());
+            File sdlocation = new File(SD_LOCATION + "/Download/");
+            deviceHasSDCard = true;
+        }
+        else{
+            deviceHasSDCard = false;
+        }
+
+    }
+
 
     /*get Arraylist of all playlists found on sd card*/
-    public ArrayList<Playlist> getPlaylistList(String folder) throws Exception{
+    public ArrayList<String> getPlaylistList(String folder) throws Exception{
         try {
-            File sdCard = new File(SD_LOCATION);
-            if (sdCard.listFiles().length > 0) {
-                for (File file : sdCard.listFiles()) {
-                    //sets up String[] of track info
-                    //System.out.println(file.getAbsolutePath());
-                    if (file.isDirectory()) {
-                        System.out.println("keep on lookin'\n\n\n\n");
-                        System.out.println(file.getAbsoluteFile());
-                        getPlaylistList(file.getAbsolutePath());
-                    } else if (file.getAbsolutePath().toLowerCase().endsWith(".txt")) {
-                        Playlist p = new Playlist(file.getName().subSequence(0,file.getName().length()-4).toString(), file.getAbsoluteFile());
-                        if (p == null) {
-                            System.out.println("p == null!\n");
+            if (deviceHasSDCard == true) {
+                File sdCard = new File(SD_LOCATION);
+                if (sdCard.listFiles().length > 0) {
+                    for (File file : sdCard.listFiles()) {
+                        //sets up String[] of track info
+                        //System.out.println(file.getAbsolutePath());
+                        if (file.isDirectory()) {
+                            System.out.println("keep on lookin'\n\n\n\n");
+                            System.out.println(file.getAbsoluteFile());
+                            getPlaylistList(file.getAbsolutePath());
+                        } else if (file.getAbsolutePath().toLowerCase().endsWith(".txt")) {
+                            //String thetitle = so.get_id3().getTitle();
+                            //System.out.println(thetitle);
+                            //System.out.println(so.get_id3().getArtist());
+                            //System.out.println(so.get_id3().getAlbum());
+                            playlistList.add(file.getName());
                         }
-                        //String thetitle = so.get_id3().getTitle();
-                        //System.out.println(thetitle);
-                        //System.out.println(so.get_id3().getArtist());
-                        //System.out.println(so.get_id3().getAlbum());
-                        playlistList.add(p);
                     }
                 }
+                //System.out.println(_songsList.size());
             }
-            //System.out.println(_songsList.size());
-        } catch (Exception e) {
-            Log.e("lmm", "err setting datasource", e);
-        }
+        }catch(Exception e){
+                Log.e("lmm", "err setting datasource", e);
+
+            }
+
+
         return playlistList;
     }
 
 
 
-    /**using this in saving the playlist txt files to the sd card*/
+    /**using this in saving the playlist txt files to the sd card? */
     public File getPlaylistStorageDirectory(){
         //directory creation
-        File file = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), ".txt");
-        if (!file.mkdirs()){
-            System.out.println("Playlist Directory not created");
-        }
+            File file = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), "playlists");
+            if (!file.exists()) {
+                file.mkdirs();
+                System.out.println("Couldn't find the folder containing your playlists in Downloads");
+                System.out.println("Created new playlists folder in Downloads");
+            }
         return file;
     }
 
@@ -96,59 +123,155 @@ public class PlaylistManager {
     * If I use setPlaylistFiles and save again, I need to make sure it clears the contents of _playlistname.txt
     * and replaces it with the new arraylist of audio files to find
     * */
-    public void savePlaylist(String directory, Playlist playlist) throws FileNotFoundException {
-        File _playlistFile = playlist._playlistFile;
+    public void savePlaylist(Playlist playlist) throws FileNotFoundException {
+        File _playlistFile = playlist._playlistTxtDoc;
         ArrayList<Song> _playlistSongs = playlist._playlistSongs;
-        File sdCard = new File(directory);
-        try {
-            if (sdCard.listFiles().length > 0) {
-                for (File file : sdCard.listFiles()) {
-                    if (file.isDirectory()) {
-                        savePlaylist(file.getName(), playlist);
-                        //code for finding it in a subfolder
-                    }
-                    if (file.getAbsolutePath().toLowerCase() == playlist._playlistFile.getAbsolutePath().toLowerCase()) {
-                        //code for editing an existing playlist
-                    } else if (!_playlistFile.exists()) {
-                        _playlistFile.createNewFile();
-                        FileWriter writer = new FileWriter(_playlistFile);
-                        BufferedWriter bw = new BufferedWriter(writer);
-                        if (_playlistSongs != null) {
-                            for (String s : playlist.getPlaylistFilenamesArray()) {
-                                bw.append(s);
-                                bw.append("\n");
-                                System.out.println("Added " + s);
-                            }
-                        } else {
-                            bw.append("empty");
-                            System.out.println("This is an empty playlist. No songs to save to text file.");
+        File plStorageDir = getPlaylistStorageDirectory();
+        if (deviceHasSDCard == true) {
+            try {
+                FileWriter writer = new FileWriter(_playlistFile);
+                BufferedWriter bw = new BufferedWriter(writer);
+                //Go to directory and look for files and list them
+                if (plStorageDir.listFiles().length > 0) {
+                    //Once you find the directory, check list of files for:
+
+                    for (File file : plStorageDir.listFiles()) {
+                        //folders within the directory, and search those
+                        if (file.isDirectory()) {
+                            savePlaylist(file.getAbsolutePath(), playlist);
+                            //code for finding it in a subfolder
                         }
-                        bw.close();
-                        writer.close();
+                        //if the current file is the playlist's txt file and overwrite it with new information stored in playlistSongs array list
+                        if (file.getAbsolutePath().toLowerCase() == _playlistFile.getAbsolutePath().toLowerCase()) {
+                            file.delete();
+                            _playlistFile = new File (getPlaylistStorageDirectory(), playlist._playlistFileName);
+                            if (_playlistSongs != null) {
+                                for (String s : playlist.getPlaylistFilenamesArray()) {
+                                    bw.append(s);
+                                    bw.append("\n");
+                                    System.out.println("Added " + s);
+                                }
+                            } else {
+                                bw.append("empty");
+                                System.out.println("This is an empty playlist. No songs to save to text file.");
+                            }
+                        }
+                        //if the file exists in the folder; if not, then create a new file and write the playlistSongs array list contents to it line by line
+                        else if (!_playlistFile.exists()) {
+                            _playlistFile = new File(getPlaylistStorageDirectory(),playlist._playlistFileName);
+                            if (_playlistSongs != null) {
+                                for (String s : playlist.getPlaylistFilenamesArray()) {
+                                    bw.append(s);
+                                    bw.append("\n");
+                                    System.out.println("Added " + s);
+                                }
+                            } else {
+                                bw.append("empty");
+                                System.out.println("This is an empty playlist. No songs to save to text file.");
+                            }
+                            bw.close();
+                            writer.close();
+                        }
                     }
 
-                    //code for creating a new playlist when the list of files does not include the playlist text file
                 }
-
+                //if the folder was empty to begin with!
+                else if (plStorageDir.listFiles().length == 0){
+                    if (_playlistSongs != null) {
+                        for (String s : playlist.getPlaylistFilenamesArray()) {
+                            bw.append(s);
+                            bw.append("\n");
+                            System.out.println("Added " + s);
+                        }
+                    } else {
+                        bw.append("empty");
+                        System.out.println("This is an empty playlist. No songs to save to text file.");
+                    }
+                    bw.close();
+                    writer.close();
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
             }
-        } catch (IOException e) {
-            e.printStackTrace();
         }
-        /*First try at coding this method from a stack overflow example
-        PrintWriter pw = new PrintWriter(new FileOutputStream(_playlistName + ".txt"));
-        if (_playlistSongs != defaultEmptyPlaylistFiles){
-            for (String s : this.getPlaylistFilenamesArray())
-                pw.println(s);
-        }
-        else{
-            pw.println("empty");
-            System.out.println("This is an empty playlist. No songs to save to text file.");
-        }
-        pw.close();*/
-
-
+        System.out.println(playlist.getPlaylistName() + " was saved as " + playlist.getNameOfTextFile() + " in " + getPlaylistStorageDirectory() + ".");
     }
 
+
+    //overloading savePlaylist for recursion to find subfolders
+    public void savePlaylist(String directory, Playlist playlist) throws FileNotFoundException {
+        File _playlistFile = new File (getPlaylistStorageDirectory(),playlist._playlistFileName);
+        ArrayList<Song> _playlistSongs = playlist._playlistSongs;
+        File plStorageDir = new File (directory);
+        if (deviceHasSDCard == true) {
+            try {
+                FileWriter writer = new FileWriter(_playlistFile);
+                BufferedWriter bw = new BufferedWriter(writer);
+                //Go to directory and look for files and list them
+                if (plStorageDir.listFiles().length > 0) {
+                    //Once you find the directory, check list of files for:
+
+                    for (File file : plStorageDir.listFiles()) {
+                        //folders within the directory, and search those
+                        if (file.isDirectory()) {
+                            savePlaylist(file.getAbsolutePath(), playlist);
+                            //code for finding it in a subfolder
+                        }
+                        //if the current file is the playlist's txt file and overwrite it with new information stored in playlistSongs array list
+                        if (file.getAbsolutePath().toLowerCase() == _playlistFile.getAbsolutePath().toLowerCase()) {
+                            file.delete();
+                            _playlistFile = new File (getPlaylistStorageDirectory(), playlist._playlistFileName);
+                            if (_playlistSongs != null) {
+                                for (String s : playlist.getPlaylistFilenamesArray()) {
+                                    bw.append(s);
+                                    bw.append("\n");
+                                    System.out.println("Added " + s);
+                                }
+                            } else {
+                                bw.append("empty");
+                                System.out.println("This is an empty playlist. No songs to save to text file.");
+                            }
+                        }
+                        //if the file exists in the folder; if not, then create a new file and write the playlistSongs array list contents to it line by line
+                        else if (!_playlistFile.exists()) {
+                            _playlistFile = new File(getPlaylistStorageDirectory(),playlist._playlistFileName);
+                            if (_playlistSongs != null) {
+                                for (String s : playlist.getPlaylistFilenamesArray()) {
+                                    bw.append(s);
+                                    bw.append("\n");
+                                    System.out.println("Added " + s);
+                                }
+                            } else {
+                                bw.append("empty");
+                                System.out.println("This is an empty playlist. No songs to save to text file.");
+                            }
+                            bw.close();
+                            writer.close();
+                        }
+                    }
+
+                }
+                //if the folder was empty to begin with!
+                else if (plStorageDir.listFiles().length == 0){
+                    if (_playlistSongs != null) {
+                        for (String s : playlist.getPlaylistFilenamesArray()) {
+                            bw.append(s);
+                            bw.append("\n");
+                            System.out.println("Added " + s);
+                        }
+                    } else {
+                        bw.append("empty");
+                        System.out.println("This is an empty playlist. No songs to save to text file.");
+                    }
+                    bw.close();
+                    writer.close();
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        System.out.println(playlist.getPlaylistName() + " was saved as " + playlist.getNameOfTextFile() + " in " + getPlaylistStorageDirectory() + ".");
+    }
 
 
     /*Loading the playlist from text file back into an ArrayList<String>*/
@@ -160,6 +283,8 @@ public class PlaylistManager {
         }
         return storedPlaylist;
     }
+
+
 
 
 }
