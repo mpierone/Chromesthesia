@@ -1,5 +1,6 @@
 package com.example.matt.chromesthesia;
 
+//import android.icu.util.TimeUnit;
 import android.media.MediaPlayer.OnBufferingUpdateListener;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -19,6 +20,7 @@ import android.widget.ToggleButton;
 import android.media.MediaPlayer;
 import android.widget.ToggleButton;
 
+import java.util.concurrent.TimeUnit;
 import com.example.matt.chromesthesia.MPC;
 
 import org.w3c.dom.Text;
@@ -38,6 +40,11 @@ public class NowPlayingScreen extends Chromesthesia implements View.OnTouchListe
         final ImageButton previousButton = (ImageButton) findViewById(R.id.previousButton);
         final ImageButton nextButton = (ImageButton) findViewById(R.id.nextButton);
         TextView songTitle = (TextView) findViewById(R.id.songTitleText);
+        final TextView totalTime = (TextView) findViewById(R.id.totalTime);
+        final TextView currentTime = (TextView) findViewById(R.id.currentTime);
+
+        currentTime.setText("0:00");
+        totalTime.setText("X:XX");
         //if isCheck is true pause button shows. If False then play button shows
         playButton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -70,9 +77,8 @@ public class NowPlayingScreen extends Chromesthesia implements View.OnTouchListe
         seekBar = (SeekBar) findViewById(R.id.seekBar);
         seekBar.setMax(100);
         seekBar.setOnTouchListener(this);
-
+        //Thread will refresh seekbar and times every second
         Thread refresh = new Thread() {
-
             @Override
             public void run() {
                 try {
@@ -81,7 +87,12 @@ public class NowPlayingScreen extends Chromesthesia implements View.OnTouchListe
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
+                                int duration = mpservice.getDuration();
+                                int current = mpservice.getPosition();
                                 seekBar.setProgress((int) (((float) mpservice.getPosition() / mpservice.getDuration()) * 100));
+                                currentTime.setText(displayTime(current));
+                                totalTime.setText(displayTime(duration));
+
                             }
                         });
                     }
@@ -121,6 +132,14 @@ public class NowPlayingScreen extends Chromesthesia implements View.OnTouchListe
     @Override
     public void onBufferingUpdate(MediaPlayer mp, int percent) {
         seekBar.setSecondaryProgress(percent);
+    }
+
+    //function to get times to display nicely
+    public String displayTime(int time) {
+        return String.format("%02d:%02d",
+                TimeUnit.MILLISECONDS.toMinutes(time),
+                TimeUnit.MILLISECONDS.toSeconds(time) -
+                        TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(time)));
     }
 
 

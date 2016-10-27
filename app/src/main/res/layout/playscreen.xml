@@ -79,8 +79,24 @@
         android:layout_height="25dp"
         android:id="@+id/seekBar"
         android:indeterminate="false"
-        android:layout_above="@+id/nextButton"
-        android:layout_alignEnd="@+id/nextButton"
+        android:layout_above="@+id/previousButton"
+        android:layout_alignEnd="@+id/songTitleText"
         android:layout_alignStart="@+id/textView4" />
+
+    <TextView
+        android:text="00:00"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/currentTime"
+        android:layout_above="@+id/seekBar"
+        android:layout_alignStart="@+id/seekBar" />
+
+    <TextView
+        android:text="XX:XX"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/totalTime"
+        android:layout_above="@+id/seekBar"
+        android:layout_alignEnd="@+id/seekBar" />
 
 </RelativeLayout>
