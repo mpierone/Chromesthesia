@@ -41,11 +41,10 @@ public class NowPlayingScreen extends Chromesthesia implements View.OnTouchListe
         final ToggleButton playButton = (ToggleButton) findViewById(R.id.playButton);
         final ImageButton previousButton = (ImageButton) findViewById(R.id.previousButton);
         final ImageButton nextButton = (ImageButton) findViewById(R.id.nextButton);
-        final TextView songTitle = (TextView) findViewById(R.id.songTitleText);
         final TextView artistName = (TextView) findViewById(R.id.artistText);
         final TextView totalTime = (TextView) findViewById(R.id.totalTime);
         final TextView currentTime = (TextView) findViewById(R.id.currentTime);
-        TextView songTitle = (TextView) findViewById(R.id.songTitleText);
+        final TextView songTitle = (TextView) findViewById(R.id.songTitleText);
         final RadioGroup repeatButtons = (RadioGroup) findViewById(R.id.repeatButtons);
 
         currentTime.setText("0:00");
