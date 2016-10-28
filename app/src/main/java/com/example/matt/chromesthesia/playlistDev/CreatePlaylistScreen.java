@@ -24,9 +24,9 @@ import java.io.IOException;
 public class CreatePlaylistScreen extends PlayListSelectionScreen {
     View createPlaylistView;
     protected Playlist p;
-    String playlistName;
+    protected String playlistName;
     public CreatePlaylistScreen(){
-        p = new Playlist(playlistName);
+
     }
     public void onCreate(Bundle savedInstancedState) {
         super.onCreate(savedInstancedState);
@@ -41,7 +41,7 @@ public class CreatePlaylistScreen extends PlayListSelectionScreen {
             @Override
             public void onClick(View v) {
                playlistName = editText.getText().toString();
-
+                p = new Playlist(playlistName);
                 //if there IS an sdCard:
 
                 p.savePlaylist();

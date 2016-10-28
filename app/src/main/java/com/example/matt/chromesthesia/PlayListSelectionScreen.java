@@ -25,7 +25,7 @@ public class PlayListSelectionScreen extends Chromesthesia {
     private EditText playlistName;
     private LayoutInflater layoutInf;
      //list of Playlist objects (with their files) saved by the user
-    private ArrayList<String> playlistArray; //list of Playlist NAMES saved by the user
+    protected ArrayList<String> playlistArray; //list of Playlist NAMES saved by the user
     private ListView listView;
     private ListView playlistView;
     public Context playlistContext = this;

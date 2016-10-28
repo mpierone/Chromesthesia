@@ -3,8 +3,6 @@ package com.example.matt.chromesthesia.playlistDev;
 import android.os.Environment;
 import android.util.Log;
 
-import com.example.matt.chromesthesia.Song;
-
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -126,7 +124,7 @@ public class PlaylistManager {
     * */
     public void savePlaylist(Playlist playlist) throws FileNotFoundException {
         File _playlistFile = playlist._playlistTxtDoc;
-        ArrayList<Song> _playlistSongs = playlist._playlistSongs;
+        //ArrayList<Song> _playlistSongs = playlist._playlistSongs;
         File plStorageDir = getPlaylistStorageDirectory();
         if (deviceHasSDCard == true) {
             try {
@@ -146,8 +144,8 @@ public class PlaylistManager {
                         if (file.getAbsolutePath().toLowerCase() == _playlistFile.getAbsolutePath().toLowerCase()) {
                             file.delete();
                             _playlistFile = new File (getPlaylistStorageDirectory(), playlist._playlistFileName);
-                            if (_playlistSongs != null) {
-                                for (String s : playlist.getFilenamesArray()) {
+                            if (playlist.stringFilenames != null) {
+                                for (String s : playlist.stringFilenames) {
                                     bw.append(s);
                                     bw.append("\n");
                                     System.out.println("Added " + s);
@@ -160,8 +158,8 @@ public class PlaylistManager {
                         //if the file exists in the folder; if not, then create a new file and write the playlistSongs array list contents to it line by line
                         else if (!_playlistFile.exists()) {
                             _playlistFile = new File(getPlaylistStorageDirectory(),playlist._playlistFileName);
-                            if (_playlistSongs != null) {
-                                for (String s : playlist.getFilenamesArray()) {
+                            if (playlist.stringFilenames != null) {
+                                for (String s : playlist.stringFilenames) {
                                     bw.append(s);
                                     bw.append("\n");
                                     System.out.println("Added " + s);
@@ -178,8 +176,8 @@ public class PlaylistManager {
                 }
                 //if the folder was empty to begin with!
                 else if (plStorageDir.listFiles().length == 0){
-                    if (_playlistSongs != null) {
-                        for (String s : playlist.getFilenamesArray()) {
+                    if (playlist.stringFilenames != null) {
+                        for (String s : playlist.stringFilenames) {
                             bw.append(s);
                             bw.append("\n");
                             System.out.println("Added " + s);
@@ -202,7 +200,7 @@ public class PlaylistManager {
     //overloading savePlaylist for recursion to find subfolders
     public void savePlaylist(String directory, Playlist playlist) throws FileNotFoundException {
         File _playlistFile = new File (getPlaylistStorageDirectory(),playlist._playlistFileName);
-        ArrayList<Song> _playlistSongs = playlist._playlistSongs;
+       // ArrayList<Song> _playlistSongs = playlist._playlistSongs;
         File plStorageDir = new File (directory);
         if (deviceHasSDCard == true) {
             try {
@@ -222,8 +220,8 @@ public class PlaylistManager {
                         if (file.getAbsolutePath().toLowerCase() == _playlistFile.getAbsolutePath().toLowerCase()) {
                             file.delete();
                             _playlistFile = new File (getPlaylistStorageDirectory(), playlist._playlistFileName);
-                            if (_playlistSongs != null) {
-                                for (String s : playlist.getFilenamesArray()) {
+                            if (playlist.stringFilenames != null) {
+                                for (String s : playlist.stringFilenames) {
                                     bw.append(s);
                                     bw.append("\n");
                                     System.out.println("Added " + s);
@@ -236,8 +234,8 @@ public class PlaylistManager {
                         //if the file exists in the folder; if not, then create a new file and write the playlistSongs array list contents to it line by line
                         else if (!_playlistFile.exists()) {
                             _playlistFile = new File(getPlaylistStorageDirectory(),playlist._playlistFileName);
-                            if (_playlistSongs != null) {
-                                for (String s : playlist.getFilenamesArray()) {
+                            if (playlist.stringFilenames != null) {
+                                for (String s : playlist.stringFilenames) {
                                     bw.append(s);
                                     bw.append("\n");
                                     System.out.println("Added " + s);
@@ -254,8 +252,8 @@ public class PlaylistManager {
                 }
                 //if the folder was empty to begin with!
                 else if (plStorageDir.listFiles().length == 0){
-                    if (_playlistSongs != null) {
-                        for (String s : playlist.getFilenamesArray()) {
+                    if (playlist.stringFilenames != null) {
+                        for (String s : playlist.stringFilenames) {
                             bw.append(s);
                             bw.append("\n");
                             System.out.println("Added " + s);

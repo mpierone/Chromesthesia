@@ -13,6 +13,7 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.example.matt.chromesthesia.playlistDev.CreatePlaylistScreen;
+import com.example.matt.chromesthesia.playlistDev.Playlist;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -36,6 +37,7 @@ public class AddSongsToPlaylistScreen extends CreatePlaylistScreen{
     public Context addSongsContext;
     public ArrayList<String> songArray;
     public ArrayAdapter arrayAdapter;
+    public Playlist pl;
     public AddSongsToPlaylistScreen(){
         //constructor
     }
@@ -63,6 +65,7 @@ public class AddSongsToPlaylistScreen extends CreatePlaylistScreen{
             @Override
             public void onClick(View v) {
                 //code for saving the selected songs to the playlist's file.
+                pl.savePlaylist();
 
                 //Go back to Playlist Selection Screen:
                 Intent goBackToPlaylists = new Intent(playlistContext, PlayListSelectionScreen.class);
@@ -73,8 +76,14 @@ public class AddSongsToPlaylistScreen extends CreatePlaylistScreen{
         addSongsView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                p.stringFilenames.add(songArray.get(position));
-                Toast t = Toast.makeText(playlistContext, "Playlist files: " + p.stringFilenames,Toast.LENGTH_LONG);
+
+                if(playlistArray.size()>=1){
+                pl = new Playlist(playlistArray.get(playlistArray.size()-1));}
+                else{
+                    pl = new Playlist(playlistArray.get(0));
+                }
+                pl.stringFilenames.add(songArray.get(position));
+                Toast t = Toast.makeText(playlistContext, "Playlist files: " + pl.stringFilenames,Toast.LENGTH_LONG);
                 t.show();
 
             }
