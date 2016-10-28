@@ -34,7 +34,7 @@ public class Playlist {
 
     }
 
-    public void savePlaylist(){
+   /* public void savePlaylist(){
     PlaylistManager pm = new PlaylistManager();
         if (pm.deviceHasSDCard == true) {
             try {
@@ -48,7 +48,7 @@ public class Playlist {
             isSavedOnExternalStorage = false;
             System.out.println("No SD Card found. Trying internal storage.");
         }
-    }
+    }*/
 
     public void setPlaylistName(String playlistName){
         _playlistName = playlistName;

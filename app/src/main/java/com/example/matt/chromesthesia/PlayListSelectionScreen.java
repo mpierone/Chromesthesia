@@ -11,7 +11,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 
-import com.example.matt.chromesthesia.playlistDev.CreatePlaylistScreen;
 import com.example.matt.chromesthesia.playlistDev.Playlist;
 
 import java.util.ArrayList;
@@ -66,7 +65,7 @@ public class PlayListSelectionScreen extends Chromesthesia {
             @Override
             public void onClick(View v) {
                 //code for opening up another screen with playlist creation stuff
-                Intent createIntent = new Intent(context, CreatePlaylistScreen.class);
+                Intent createIntent = new Intent(context, AddSongsToPlaylistScreen.class);
                 startActivityForResult(createIntent,0);
             }
         });

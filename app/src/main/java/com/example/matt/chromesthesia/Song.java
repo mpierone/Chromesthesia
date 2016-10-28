@@ -1,7 +1,5 @@
 package com.example.matt.chromesthesia;
 
-import android.net.Uri;
-
 import com.example.matt.chromesthesia.playlistDev.ID3;
 import com.example.matt.chromesthesia.playlistDev.localMusicManager;
 import com.example.matt.chromesthesia.playlistDev.mp3Parser;
@@ -15,6 +13,7 @@ public class Song{
     private HashMap<String, ID3> _song;
     private String _id;
     private String _audioFilePath;
+    private String _filename;
     private ID3 _id3;
     private localMusicManager _localManager;
 
@@ -28,6 +27,7 @@ public class Song{
 
         //song attributes:
         _audioFilePath = audioFilePath;
+        _filename = _audioFilePath.substring(_audioFilePath.lastIndexOf('/')+1,_audioFilePath.length()-1);
 
 
         _id3 = new mp3Parser().parseMP3(_audioFilePath);
@@ -41,6 +41,9 @@ public class Song{
     }
 
     //getters:
+    public String getFilename(){
+        return _filename;
+    }
 
     public ID3 get_id3(){
         //should work because a song object should only have one key in its hashmap

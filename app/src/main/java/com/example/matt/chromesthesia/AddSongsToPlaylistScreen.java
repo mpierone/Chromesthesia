@@ -9,13 +9,15 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import com.example.matt.chromesthesia.playlistDev.CreatePlaylistScreen;
 import com.example.matt.chromesthesia.playlistDev.Playlist;
+import com.example.matt.chromesthesia.playlistDev.PlaylistManager;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 
 /**
@@ -26,7 +28,7 @@ import java.util.ArrayList;
  * */
 
 
-public class AddSongsToPlaylistScreen extends CreatePlaylistScreen{
+public class AddSongsToPlaylistScreen extends PlayListSelectionScreen{
 
     String SD_LOCATION = (Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).getPath());
     File sdlocation = new File(SD_LOCATION + "/Download/");
@@ -46,6 +48,9 @@ public class AddSongsToPlaylistScreen extends CreatePlaylistScreen{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.addsongstoplaylistscreen);
         addSongsView = (ListView)findViewById(R.id.list);
+       // TextView textView = (TextView) findViewById(R.id.typeYourMessage);
+        final EditText editText = (EditText) findViewById(R.id.inputPlaylistName);
+        pl = new Playlist(editText.getText().toString());
         createMusicList();
         System.out.println("PRINTING OUT OUR SONGARRAY");
         for (String s : songArray) {
@@ -60,12 +65,33 @@ public class AddSongsToPlaylistScreen extends CreatePlaylistScreen{
             Log.e("Error:","No songs in playlist", e);
         }
 
+        addSongsView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                pl.stringFilenames.add(songlist.get(position).getFilename());
+                Toast t = Toast.makeText(playlistContext, "Playlist files: " + pl.stringFilenames,Toast.LENGTH_LONG);
+                t.show();
+
+            }
+        });
+
         Button saveExitBtn = (Button) findViewById(R.id.addSongsSave);
         saveExitBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                pl.stringFilenames.add("1234");
                 //code for saving the selected songs to the playlist's file.
-                pl.savePlaylist();
+                PlaylistManager pm = new PlaylistManager();
+                try {
+                    pm.savePlaylist(pl, editText.getText().toString());
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                }
+                try {
+                    pm.savePlaylist(pl, editText.getText().toString());
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                }
 
                 //Go back to Playlist Selection Screen:
                 Intent goBackToPlaylists = new Intent(playlistContext, PlayListSelectionScreen.class);
@@ -73,21 +99,7 @@ public class AddSongsToPlaylistScreen extends CreatePlaylistScreen{
             }
         });
 
-        addSongsView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-                if(playlistArray.size()>=1){
-                pl = new Playlist(playlistArray.get(playlistArray.size()-1));}
-                else{
-                    pl = new Playlist(playlistArray.get(0));
-                }
-                pl.stringFilenames.add(songArray.get(position));
-                Toast t = Toast.makeText(playlistContext, "Playlist files: " + pl.stringFilenames,Toast.LENGTH_LONG);
-                t.show();
-
-            }
-        });
     }
 
 

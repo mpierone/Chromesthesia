@@ -1,14 +1,9 @@
 package com.example.matt.chromesthesia.playlistDev;
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.TextView;
 
-import com.example.matt.chromesthesia.AddSongsToPlaylistScreen;
 import com.example.matt.chromesthesia.PlayListSelectionScreen;
 import com.example.matt.chromesthesia.R;
 
@@ -31,36 +26,7 @@ public class CreatePlaylistScreen extends PlayListSelectionScreen {
     public void onCreate(Bundle savedInstancedState) {
         super.onCreate(savedInstancedState);
         setContentView(R.layout.playlistprompt);
-        TextView textView = (TextView) findViewById(R.id.typeYourMessage);
-        final EditText editText = (EditText) findViewById(R.id.inputPlaylistName);
-        Button createGo = (Button) findViewById(R.id.btnCreatePlaylist);
 
-
-        /*on click for button*/
-        createGo.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-               playlistName = editText.getText().toString();
-                p = new Playlist(playlistName);
-                //if there IS an sdCard:
-
-                p.savePlaylist();
-
-
-                //if there is NOT an sdCard:
-                if (p.isSavedOnExternalStorage==false) {
-                    try {
-                        saveToInternalStorage(getFilesDir().toString(), p);
-
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                }
-
-                Intent goToAddSongs = new Intent(getBaseContext(), AddSongsToPlaylistScreen.class);
-                startActivityForResult(goToAddSongs,0);
-            }
-        });
     }
 
 

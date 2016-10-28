@@ -12,6 +12,26 @@
         android:text="Save and Exit"
         />
 
+    <TextView
+        android:id="@+id/typeYourMessage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Enter a name for your new playlist: "
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:visibility="visible"
+        android:textColor="@color/colorPrimaryDark"/>
+
+    <EditText
+        android:id="@+id/inputPlaylistName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="visible"
+        android:textColor="@color/colorPrimaryDark"
+        android:contextClickable="true"
+        android:saveEnabled="true"
+        >
+    </EditText>
+
     <TextView android:id="@+id/instAddSongs"
         android:layout_width="match_parent" android:layout_height="wrap_content"
         android:gravity="center_vertical|center_horizontal"
