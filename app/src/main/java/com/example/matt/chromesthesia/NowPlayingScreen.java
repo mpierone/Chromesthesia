@@ -16,6 +16,8 @@ import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.ToggleButton;
 import android.media.MediaPlayer;
 import android.widget.ToggleButton;
@@ -43,6 +45,8 @@ public class NowPlayingScreen extends Chromesthesia implements View.OnTouchListe
         final TextView artistName = (TextView) findViewById(R.id.artistText);
         final TextView totalTime = (TextView) findViewById(R.id.totalTime);
         final TextView currentTime = (TextView) findViewById(R.id.currentTime);
+        TextView songTitle = (TextView) findViewById(R.id.songTitleText);
+        final RadioGroup repeatButtons = (RadioGroup) findViewById(R.id.repeatButtons);
 
         currentTime.setText("0:00");
         totalTime.setText("X:XX");
@@ -74,6 +78,14 @@ public class NowPlayingScreen extends Chromesthesia implements View.OnTouchListe
                 //if song[index+1] is out of bounds, then go to song[index_1]
                 playButton.setChecked(false);
                 mpservice.playNext();
+            }
+        });
+        repeatButtons.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener()
+        {
+            public void onCheckedChanged(RadioGroup group, int id) {
+                System.out.println("We're in onCheckedChanged!!");
+                RadioButton rb=(RadioButton)findViewById(id);
+                mpservice.setLoop(getResources().getResourceEntryName(id));
             }
         });
 
