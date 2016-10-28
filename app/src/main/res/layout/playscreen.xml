@@ -69,7 +69,7 @@
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="Artist"
-        android:id="@+id/textView4"
+        android:id="@+id/artistText"
         android:layout_above="@+id/seekBar"
         android:layout_alignStart="@+id/songTitleText"
         android:layout_marginBottom="28dp" />
@@ -81,15 +81,7 @@
         android:indeterminate="false"
         android:layout_above="@+id/previousButton"
         android:layout_alignEnd="@+id/songTitleText"
-        android:layout_alignStart="@+id/textView4" />
-
-    <TextView
-        android:text="00:00"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/currentTime"
-        android:layout_above="@+id/seekBar"
-        android:layout_alignStart="@+id/seekBar" />
+        android:layout_alignStart="@+id/artistText" />
 
     <TextView
         android:text="XX:XX"
@@ -98,5 +90,13 @@
         android:id="@+id/totalTime"
         android:layout_above="@+id/seekBar"
         android:layout_alignEnd="@+id/seekBar" />
+
+    <TextView
+        android:text="00:00"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/currentTime"
+        android:layout_above="@+id/seekBar"
+        android:layout_alignStart="@+id/seekBar" />
 
 </RelativeLayout>

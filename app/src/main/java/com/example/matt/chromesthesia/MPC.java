@@ -86,21 +86,7 @@ public class MPC extends Service implements MediaPlayer.OnPreparedListener, Medi
     public void onCompletion(MediaPlayer mp) {
         mp.reset();
 
-        switch(Loop) {
-            case ALL:
-                songposition = (songposition+1) % songs.size();
-                break;
-            case ONE:
-                System.out.println("repeat is set to one");
-                break;
-            case NONE:
-                System.out.println("repeat is set to NONE");
-                songposition++;
-                if (songposition > songs.size()-1) {
-                    songposition = -1;
-                }
-                break;
-        }
+
         Song nextsong = songs.get(songposition);
         String currentsong = nextsong.get_identification();
         try {
@@ -210,6 +196,14 @@ public class MPC extends Service implements MediaPlayer.OnPreparedListener, Medi
 
     public void seek(int position) {
         mediaPlayer.seekTo(position);
+    }
+
+    public String getName() {
+        return songs.get(songposition).get_id3().getTitle();
+    }
+
+    public String getArtist() {
+        return songs.get(songposition).get_id3().getArtist();
     }
 }
 

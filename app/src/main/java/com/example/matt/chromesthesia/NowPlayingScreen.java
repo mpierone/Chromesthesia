@@ -39,7 +39,8 @@ public class NowPlayingScreen extends Chromesthesia implements View.OnTouchListe
         final ToggleButton playButton = (ToggleButton) findViewById(R.id.playButton);
         final ImageButton previousButton = (ImageButton) findViewById(R.id.previousButton);
         final ImageButton nextButton = (ImageButton) findViewById(R.id.nextButton);
-        TextView songTitle = (TextView) findViewById(R.id.songTitleText);
+        final TextView songTitle = (TextView) findViewById(R.id.songTitleText);
+        final TextView artistName = (TextView) findViewById(R.id.artistText);
         final TextView totalTime = (TextView) findViewById(R.id.totalTime);
         final TextView currentTime = (TextView) findViewById(R.id.currentTime);
 
@@ -61,6 +62,7 @@ public class NowPlayingScreen extends Chromesthesia implements View.OnTouchListe
             public void onClick(View v) {
                 //call and play previous song
                 //if song[index-1] would == null, then go to song[highest_index]
+                playButton.setChecked(false);
                 mpservice.playPrevious();
             }
         });
@@ -70,6 +72,7 @@ public class NowPlayingScreen extends Chromesthesia implements View.OnTouchListe
             public void onClick(View v) {
                 //call and play next song
                 //if song[index+1] is out of bounds, then go to song[index_1]
+                playButton.setChecked(false);
                 mpservice.playNext();
             }
         });
@@ -92,7 +95,8 @@ public class NowPlayingScreen extends Chromesthesia implements View.OnTouchListe
                                 seekBar.setProgress((int) (((float) mpservice.getPosition() / mpservice.getDuration()) * 100));
                                 currentTime.setText(displayTime(current));
                                 totalTime.setText(displayTime(duration));
-
+                                artistName.setText(mpservice.getArtist());
+                                songTitle.setText(mpservice.getName());
                             }
                         });
                     }
