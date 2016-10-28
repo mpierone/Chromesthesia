@@ -8,6 +8,8 @@ import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.ToggleButton;
 import android.media.MediaPlayer;
 import android.widget.ToggleButton;
@@ -28,6 +30,8 @@ public class NowPlayingScreen extends Chromesthesia {
         final ToggleButton playButton = (ToggleButton) findViewById(R.id.playButton);
         final ImageButton previousButton = (ImageButton) findViewById(R.id.previousButton);
         final ImageButton nextButton = (ImageButton) findViewById(R.id.nextButton);
+        TextView songTitle = (TextView) findViewById(R.id.songTitleText);
+        final RadioGroup repeatButtons = (RadioGroup) findViewById(R.id.repeatButtons);
         TextView songTitle = (TextView) findViewById(R.id.songTitleText);
 
         //if isCheck is true pause button shows. If False then play button shows
@@ -56,6 +60,17 @@ public class NowPlayingScreen extends Chromesthesia {
                 //call and play next song
                 //if song[index+1] is out of bounds, then go to song[index_1]
                 mpservice.playNext();
+            }
+        });
+        repeatButtons.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener()
+        {
+            public void onCheckedChanged(RadioGroup group, int id) {
+                System.out.println("We're in onCheckedChanged!!");
+                RadioButton rb=(RadioButton)findViewById(id);
+
+    }
+}
+                mpservice.setLoop(getResources().getResourceEntryName(id));
             }
         });
 
