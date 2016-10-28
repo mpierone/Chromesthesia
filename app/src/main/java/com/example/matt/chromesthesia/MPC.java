@@ -100,7 +100,7 @@ public class MPC extends Service implements MediaPlayer.OnPreparedListener, Medi
                 songposition = songposition + 1;
                 System.out.println("repeat is set to NONE:  songpos = "+ songposition + " and songsizse = " + songs.size());
                 if (songposition == songs.size()) {
-                    songposition = -1;
+                    songposition = 0;
                     mp.reset();
                 }
                 break;
@@ -141,15 +141,6 @@ public class MPC extends Service implements MediaPlayer.OnPreparedListener, Medi
     public void setPlaying(int index) {
         songposition = index;
     }
-
-    public void pauseSong() {
-        mediaPlayer.pause();
-    }
-
-    public void resumePlay() {
-        mediaPlayer.start();
-    }
-
     //grabs previous song in playlist. If out of bounds start at last index
     public void playPrevious() {
         if (songposition - 1 < 0) {

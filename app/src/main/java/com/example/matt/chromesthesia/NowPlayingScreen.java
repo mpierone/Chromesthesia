@@ -32,7 +32,6 @@ public class NowPlayingScreen extends Chromesthesia {
         final ImageButton nextButton = (ImageButton) findViewById(R.id.nextButton);
         TextView songTitle = (TextView) findViewById(R.id.songTitleText);
         final RadioGroup repeatButtons = (RadioGroup) findViewById(R.id.repeatButtons);
-        TextView songTitle = (TextView) findViewById(R.id.songTitleText);
 
         //if isCheck is true pause button shows. If False then play button shows
         playButton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -67,9 +66,6 @@ public class NowPlayingScreen extends Chromesthesia {
             public void onCheckedChanged(RadioGroup group, int id) {
                 System.out.println("We're in onCheckedChanged!!");
                 RadioButton rb=(RadioButton)findViewById(id);
-
-    }
-}
                 mpservice.setLoop(getResources().getResourceEntryName(id));
             }
         });
