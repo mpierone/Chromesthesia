@@ -4,13 +4,18 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Environment;
+import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.example.matt.chromesthesia.playlistDev.CreatePlaylistScreen;
 
 import java.io.File;
+import java.util.ArrayList;
 
 /**
  * Created by Isabelle on 10/25/2016.
@@ -27,17 +32,31 @@ public class AddSongsToPlaylistScreen extends CreatePlaylistScreen{
     boolean deviceHasSDCard;
     //private ArrayList<Playlist> playlistList;
     ListView addSongsView;
+    private ArrayList<Song> songs;
     public Context addSongsContext;
+    public ArrayList<String> songArray;
+    public ArrayAdapter arrayAdapter;
     public AddSongsToPlaylistScreen(){
         //constructor
-        addSongsContext = this;
     }
 
     public void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.addsongstoplaylistscreen);
-        addSongsView = (ListView)findViewById(R.id.addsongsLibrary);
-
+        addSongsView = (ListView)findViewById(R.id.list);
+        createMusicList();
+        System.out.println("PRINTING OUT OUR SONGARRAY");
+        for (String s : songArray) {
+            System.out.println(s);
+        }
+        try
+        {
+            arrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, songArray);
+            addSongsView.setAdapter(arrayAdapter);
+        }
+        catch (NullPointerException e){
+            Log.e("Error:","No songs in playlist", e);
+        }
 
         Button saveExitBtn = (Button) findViewById(R.id.addSongsSave);
         saveExitBtn.setOnClickListener(new View.OnClickListener() {
@@ -51,10 +70,43 @@ public class AddSongsToPlaylistScreen extends CreatePlaylistScreen{
             }
         });
 
+        addSongsView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                p.stringFilenames.add(songArray.get(position));
+                Toast t = Toast.makeText(playlistContext, "Playlist files: " + p.stringFilenames,Toast.LENGTH_LONG);
+                t.show();
 
-        Library lib = new Library();
-        addSongsView.setAdapter(lib.arrayAdapter);
+            }
+        });
     }
 
+
+    public void createMusicList() {
+        String songName;
+        String artistName;
+        String mergedName;
+        songs = songlist;
+        System.out.println("in library.java and size is:");
+        System.out.println(songs.size());
+        songArray = new ArrayList<>();
+        //String[] songArray = new String[songs.size()];
+        //String[] sampleArray = {"1", "2", "3"};
+        //sampleArray = {"1", "2", "3"};
+        int i = 0;
+        try{
+            for(Song s : songs) {
+                songName = s.get_id3().getTitle();
+                artistName = s.get_id3().getArtist();
+                mergedName = songName + " - " + artistName;
+                System.out.println(mergedName);
+                songArray.add(mergedName);
+            }
+        }
+        catch (Exception e){
+            Log.e("lmm in library.java","stuff broke",e);
+        }
+
+    }
 
 }

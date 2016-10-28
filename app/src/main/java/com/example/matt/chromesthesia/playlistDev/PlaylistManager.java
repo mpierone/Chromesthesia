@@ -147,7 +147,7 @@ public class PlaylistManager {
                             file.delete();
                             _playlistFile = new File (getPlaylistStorageDirectory(), playlist._playlistFileName);
                             if (_playlistSongs != null) {
-                                for (String s : playlist.getPlaylistFilenamesArray()) {
+                                for (String s : playlist.getFilenamesArray()) {
                                     bw.append(s);
                                     bw.append("\n");
                                     System.out.println("Added " + s);
@@ -161,7 +161,7 @@ public class PlaylistManager {
                         else if (!_playlistFile.exists()) {
                             _playlistFile = new File(getPlaylistStorageDirectory(),playlist._playlistFileName);
                             if (_playlistSongs != null) {
-                                for (String s : playlist.getPlaylistFilenamesArray()) {
+                                for (String s : playlist.getFilenamesArray()) {
                                     bw.append(s);
                                     bw.append("\n");
                                     System.out.println("Added " + s);
@@ -179,7 +179,7 @@ public class PlaylistManager {
                 //if the folder was empty to begin with!
                 else if (plStorageDir.listFiles().length == 0){
                     if (_playlistSongs != null) {
-                        for (String s : playlist.getPlaylistFilenamesArray()) {
+                        for (String s : playlist.getFilenamesArray()) {
                             bw.append(s);
                             bw.append("\n");
                             System.out.println("Added " + s);
@@ -223,7 +223,7 @@ public class PlaylistManager {
                             file.delete();
                             _playlistFile = new File (getPlaylistStorageDirectory(), playlist._playlistFileName);
                             if (_playlistSongs != null) {
-                                for (String s : playlist.getPlaylistFilenamesArray()) {
+                                for (String s : playlist.getFilenamesArray()) {
                                     bw.append(s);
                                     bw.append("\n");
                                     System.out.println("Added " + s);
@@ -237,7 +237,7 @@ public class PlaylistManager {
                         else if (!_playlistFile.exists()) {
                             _playlistFile = new File(getPlaylistStorageDirectory(),playlist._playlistFileName);
                             if (_playlistSongs != null) {
-                                for (String s : playlist.getPlaylistFilenamesArray()) {
+                                for (String s : playlist.getFilenamesArray()) {
                                     bw.append(s);
                                     bw.append("\n");
                                     System.out.println("Added " + s);
@@ -255,7 +255,7 @@ public class PlaylistManager {
                 //if the folder was empty to begin with!
                 else if (plStorageDir.listFiles().length == 0){
                     if (_playlistSongs != null) {
-                        for (String s : playlist.getPlaylistFilenamesArray()) {
+                        for (String s : playlist.getFilenamesArray()) {
                             bw.append(s);
                             bw.append("\n");
                             System.out.println("Added " + s);

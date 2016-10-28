@@ -18,6 +18,7 @@ public class Playlist {
     String _playlistName;
     ArrayList<Song> _playlistSongs;
     ArrayList<Song> defaultEmptyPlaylistFiles;
+    public ArrayList<String> stringFilenames;
     String _playlistFileName;
     File _playlistTxtDoc;
     boolean isSavedOnExternalStorage;
@@ -29,6 +30,7 @@ public class Playlist {
 
         PlaylistManager pm = new PlaylistManager();
         _playlistTxtDoc = new File (pm.getPlaylistStorageDirectory(), filename);
+        stringFilenames = new ArrayList<>();
 
     }
 
@@ -68,7 +70,9 @@ public class Playlist {
         return _playlistSongs;
     }
 
-    public ArrayList<String> getPlaylistFilenamesArray(){
+    public ArrayList<String> getFilenamesArray(){return stringFilenames;}
+
+    public ArrayList<String> extractFilenamesFromSongs(){
         ArrayList<String> filenames = new ArrayList<>();
         for (Song s : _playlistSongs){
             filenames.add(s.get_audioFilePath());
@@ -85,7 +89,6 @@ public class Playlist {
     * true = in playlist, add the song to the Playlist object's songs*/
     private boolean boolAddToPlaylist(File txtFilename,String sdFilename) throws FileNotFoundException {
         PlaylistManager pm = new PlaylistManager();
-
         return pm.loadPlaylist(txtFilename).contains(sdFilename);
     }
 

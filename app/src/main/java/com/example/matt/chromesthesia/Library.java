@@ -19,7 +19,7 @@ import java.util.ArrayList;
 public class Library extends Chromesthesia {
     private LayoutInflater layoutInf;
     private ArrayList<Song> songs;
-    private ArrayList<String> songArray;
+    protected ArrayList<String> songArray;
     private ListView listView;
     private ListView songView;
     public ArrayAdapter<String> arrayAdapter;

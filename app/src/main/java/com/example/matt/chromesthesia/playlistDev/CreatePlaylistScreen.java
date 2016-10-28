@@ -23,7 +23,11 @@ import java.io.IOException;
 
 public class CreatePlaylistScreen extends PlayListSelectionScreen {
     View createPlaylistView;
-
+    protected Playlist p;
+    String playlistName;
+    public CreatePlaylistScreen(){
+        p = new Playlist(playlistName);
+    }
     public void onCreate(Bundle savedInstancedState) {
         super.onCreate(savedInstancedState);
         setContentView(R.layout.playlistprompt);
@@ -36,10 +40,10 @@ public class CreatePlaylistScreen extends PlayListSelectionScreen {
         createGo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               final String playlistName = editText.getText().toString();
+               playlistName = editText.getText().toString();
 
                 //if there IS an sdCard:
-                Playlist p = new Playlist(playlistName);
+
                 p.savePlaylist();
 
 
@@ -77,7 +81,7 @@ public void saveToInternalStorage(String intMemPath, Playlist p) throws IOExcept
                 try {
 
                     if (p._playlistSongs != null) {
-                        for (String s : p.getPlaylistFilenamesArray()) {
+                        for (String s : p.getFilenamesArray()) {
                             s += "\n";
                             fos.write(s.getBytes());
                             System.out.println("Added " + s);
@@ -99,7 +103,7 @@ public void saveToInternalStorage(String intMemPath, Playlist p) throws IOExcept
             }
             else{
                 if (p._playlistSongs != null) {
-                    for (String s : p.getPlaylistFilenamesArray()) {
+                    for (String s : p.getFilenamesArray()) {
                         s += "\n";
                         fos.write(s.getBytes());
                         System.out.println("Added " + s);
