@@ -1,21 +1,18 @@
 package com.example.matt.chromesthesia;
 
-import android.app.Fragment;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.GridView;
 import android.widget.ListView;
 import com.example.matt.chromesthesia.playlistDev.*;
 import android.content.*;
 import android.widget.TextView;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.Set;
 
 /**
  * Created by matt & will on 10/1/2016.
@@ -27,6 +24,7 @@ public class Library extends Chromesthesia {
     private ArrayList<String> songArray;
     private ListView listView;
     private ListView songView;
+    private ImageAdapter imgAdapter;
     localMusicManager lMM = new localMusicManager();
     public void onCreate(Bundle savedInstancedState) {
         super.onCreate(savedInstancedState);
@@ -53,9 +51,47 @@ public class Library extends Chromesthesia {
                 if(mpservice.isPlaying())
                 {
                     TextView songTitle = (TextView) findViewById(R.id.songTitleText);
-                    songTitle.setText(mpservice.getCurrentSongTitle());
-                    TextView artistName = (TextView) findViewById(R.id.artistname);
-                    artistName.setText(mpservice.getCurrentArtistName());
+                    songTitle.setText(mpservice.getName());
+                    TextView artistName = (TextView) findViewById(R.id.artistText);
+                    artistName.setText(mpservice.getArtist());
+                }
+            }
+        });
+        final GridView gridview = (GridView) findViewById(R.id.libraryGridView);
+        gridview.setAdapter(imgAdapter = new ImageAdapter(this));
+
+        gridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            public void onItemClick(AdapterView<?> parent, View v,
+                                    int position, long id) {
+                if(position == 0){
+                    mpservice.playPrevious();
+                }
+                /*
+                if(mpservice.isPlaying()){
+                    imgAdapter.mThumbIds[1] = R.drawable.pausebutton;
+                }
+                else{
+                    imgAdapter.mThumbIds[1] = R.drawable.playbuttonunpressed;
+
+                }
+                */
+                if(position == 1){
+                    mpservice.resumePlay();
+                    //imgAdapter.mThumbIds[1] = R.drawable.playbuttonunpressed;
+                    //System.out.println(Integer.toString(imgAdapter.mThumbIds[1]));
+                }
+                if(position == 2){
+                    mpservice.pauseSong();
+                    //imgAdapter.mThumbIds[1] = R.drawable.pausebutton;
+                    //System.out.println(Integer.toString(imgAdapter.mThumbIds[1]));
+
+                }
+                if(position == 3){
+                    mpservice.playNext();
+                }
+                if(position == 4){
+                    Intent libraryToPlayScreenIntent = new Intent(v.getContext(), NowPlayingScreen.class);
+                    startActivity(libraryToPlayScreenIntent);
                 }
             }
         });
