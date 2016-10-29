@@ -31,7 +31,7 @@
         <ListView
             android:id="@+id/librarylist"
             android:layout_width="wrap_content"
-            android:layout_height="393dp"
+            android:layout_height="match_parent"
             android:drawSelectorOnTop="false"
             android:visibility="visible"
             android:clickable="true"
@@ -41,19 +41,26 @@
 
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="78dp"
+        android:layout_height="150dp"
         >
-    <GridView xmlns:android="http://schemas.android.com/apk/res/android"
-        android:id="@+id/libraryGridView"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:columnWidth="90dp"
-        android:numColumns="6"
-        android:verticalSpacing="1dp"
-        android:horizontalSpacing="1dp"
-        android:stretchMode="columnWidth"
-        android:gravity="center"
-        android:clickable="true"
-        />
+
+        <ProgressBar
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:progressDrawable="@drawable/progressbarcolor"
+            android:id="@+id/progressB" />
+
+        <GridView
+            android:id="@+id/libraryGridView"
+            android:layout_width="match_parent"
+            android:layout_height="102dp"
+            android:columnWidth="90dp"
+            android:numColumns="6"
+            android:verticalSpacing="1dp"
+            android:horizontalSpacing="1dp"
+            android:stretchMode="columnWidth"
+            android:gravity="center"
+            />
     </FrameLayout>
 </LinearLayout>

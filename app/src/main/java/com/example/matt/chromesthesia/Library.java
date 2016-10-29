@@ -1,6 +1,7 @@
 package com.example.matt.chromesthesia;
 
 import android.os.Bundle;
+import android.transition.TransitionManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,9 +11,12 @@ import android.widget.GridView;
 import android.widget.ListView;
 import com.example.matt.chromesthesia.playlistDev.*;
 import android.content.*;
+import android.widget.ProgressBar;
+import android.widget.SeekBar;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Created by matt & will on 10/1/2016.
@@ -25,6 +29,7 @@ public class Library extends Chromesthesia {
     private ListView listView;
     private ListView songView;
     private ImageAdapter imgAdapter;
+    private ProgressBar progressB;
     localMusicManager lMM = new localMusicManager();
     public void onCreate(Bundle savedInstancedState) {
         super.onCreate(savedInstancedState);
@@ -95,6 +100,29 @@ public class Library extends Chromesthesia {
                 }
             }
         });
+
+        progressB = (ProgressBar) findViewById(R.id.progressB);
+        progressB.setMax(100);
+        Thread refresh = new Thread() {
+            @Override
+            public void run() {
+                try {
+                    while (!isInterrupted()) {
+                        Thread.sleep(1000);
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                progressB.setProgress((int) (((float) mpservice.getPosition() / mpservice.getDuration()) * 100));
+                            }
+                        });
+                    }
+                } catch (InterruptedException e) {
+                }
+            }
+        };
+        refresh.start();
+
+
     }
 
     public void createMusicList() {
