@@ -54,6 +54,12 @@
                 <action android:name="android.intent.action.VIEW" />
             </intent-filter>
         </activity>
+        <activity android:name=".PlaylistContents">
+            <intent-filter>
+                <action android:name="android.intent.category.OPENABLE"/>
+                <action android:name="android.intent.action.VIEW" />
+            </intent-filter>
+        </activity>
 
         <meta-data
             android:name="com.google.android.gms.version"

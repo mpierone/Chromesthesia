@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -28,7 +29,9 @@ public class PlayListSelectionScreen extends Chromesthesia {
     private ListView listView;
     private ListView playlistView;
     public Context playlistContext = this;
+    protected Playlist selPlay;
 
+    protected String selectedPlaylist;
 
     public void onCreate(Bundle savedInstancedState) {
         super.onCreate(savedInstancedState);
@@ -58,6 +61,15 @@ public class PlayListSelectionScreen extends Chromesthesia {
             Log.e("Error:","No playlists found.", e);
         }
 
+        /*On click for selecting a playlist*/
+        playlistView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                selectedPlaylist = playlistArray.get(position);
+                Intent openPlaylistContents = new Intent(context, PlaylistContents.class);
+                startActivityForResult(openPlaylistContents,0);
+            }
+        });
 
         /*Create Playlist Button onClick code; it's really long so I'm surrounding it with comments because my EYES HURT!!!*/
         Button createPlaylist = (Button) findViewById(R.id.buttonPrompt);

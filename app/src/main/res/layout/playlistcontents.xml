@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <!-- The frame layout is here since we will be showing either
+   the empty view or the list view.  -->
+    <TextView
+        android:textColor="@color/colorPrimaryDark"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:id="@+id/playlistName" />
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="469dp"
+        >
+        <!-- Here is the list. Since we are using a ListActivity, we
+             have to call it "@android:id/list" so ListActivity will
+             find it -->
+        <ListView
+            android:id="@+id/playlistContents"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawSelectorOnTop="false"
+            android:visibility="visible"
+            android:clickable="true"
+
+            />
+    </FrameLayout>
+       <TextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/songtitle"
+        android:textColor="@color/common_google_signin_btn_text_dark_focused"
+        android:textSize="20sp"
+        android:textStyle="bold"/>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/artistname"
+        android:textColor="#FFFFFF99"
+        android:textSize="18sp"
+        tools:textColor="@color/common_google_signin_btn_text_dark_focused" />
+
+</LinearLayout>

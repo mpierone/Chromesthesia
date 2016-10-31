@@ -69,7 +69,7 @@ public class AddSongsToPlaylistScreen extends PlayListSelectionScreen{
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 pl.stringFilenames.add(songlist.get(position).getFilename());
-                Toast t = Toast.makeText(playlistContext, "Playlist files: " + pl.stringFilenames,Toast.LENGTH_LONG);
+                Toast t = Toast.makeText(playlistContext, "Playlist files: " + pl.stringFilenames,Toast.LENGTH_SHORT);
                 t.show();
 
             }
@@ -79,6 +79,8 @@ public class AddSongsToPlaylistScreen extends PlayListSelectionScreen{
         saveExitBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                 //for some reason it adds a null object to the arraylist so this is a hardcoded fix we'll fix later
                 pl.stringFilenames.add("1234");
                 //code for saving the selected songs to the playlist's file.
                 PlaylistManager pm = new PlaylistManager();

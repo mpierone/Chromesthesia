@@ -27,7 +27,8 @@ public class Song{
 
         //song attributes:
         _audioFilePath = audioFilePath;
-        _filename = _audioFilePath.substring(_audioFilePath.lastIndexOf('/')+1,_audioFilePath.length()-1);
+        _filename = _audioFilePath.substring(_audioFilePath.lastIndexOf('/')+1,_audioFilePath.lastIndexOf('.')) + ".mp3";
+
 
 
         _id3 = new mp3Parser().parseMP3(_audioFilePath);

@@ -8,7 +8,6 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Scanner;
 
 /**
  * Created by Isabelle on 10/25/2016.
@@ -30,14 +29,13 @@ public class PlaylistManager {
     boolean deviceHasSDCard;
     //private ArrayList<Playlist> playlistList;
 
-    public PlaylistManager(){
+    public PlaylistManager() {
         //constructor
-        if (isExternalStorageReadable() == true && isExternalStorageWritable() ==true){
+        if (isExternalStorageReadable() == true && isExternalStorageWritable() == true) {
             String SD_LOCATION = (Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).getPath());
             File sdlocation = new File(SD_LOCATION + "/Download/");
             deviceHasSDCard = true;
-        }
-        else{
+        } else {
             deviceHasSDCard = false;
         }
 
@@ -45,7 +43,7 @@ public class PlaylistManager {
 
 
     /*get Arraylist of all playlists found on sd card. We need to call this in the PlaylistSelectionScreen to be able to see our playlists listed there.*/
-    public ArrayList<Playlist> getPlaylistList(String folder) throws Exception{
+    public ArrayList<Playlist> getPlaylistList(String folder) throws Exception {
         ArrayList<Playlist> playlistList = new ArrayList<>();
         try {
             if (deviceHasSDCard == true) {
@@ -65,6 +63,8 @@ public class PlaylistManager {
                             //System.out.println(so.get_id3().getAlbum());
                             String playlistName = file.getName().replace(".txt", "");
                             Playlist p = new Playlist(playlistName);
+                            p._playlistTxtDoc = file;
+                            p._playlistFileName = file.getName();
                             playlistList.add(p);
                             System.out.println("Added " + p._playlistName + " to the playlist ArrayList.");
                         }
@@ -72,26 +72,26 @@ public class PlaylistManager {
                 }
                 //System.out.println(_songsList.size());
             }
-        }catch(Exception e){
-                Log.e("lmm", "err setting datasource", e);
-            }
+        } catch (Exception e) {
+            Log.e("lmm", "err setting datasource", e);
+        }
         return playlistList;
     }
 
 
-
-    /**using this in saving the playlist txt files to the sd card? */
-    public File getPlaylistStorageDirectory(){
+    /**
+     * using this in saving the playlist txt files to the sd card?
+     */
+    public File getPlaylistStorageDirectory() {
         //directory creation
-            File file = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), "playlists");
-            if (!file.exists()) {
-                file.mkdirs();
-                System.out.println("Couldn't find the folder containing your playlists in Downloads");
-                System.out.println("Created new playlists folder in Downloads");
-            }
+        File file = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), "playlists");
+        if (!file.exists()) {
+            file.mkdirs();
+            System.out.println("Couldn't find the folder containing your playlists in Downloads");
+            System.out.println("Created new playlists folder in Downloads");
+        }
         return file;
     }
-
 
 
     /* Checks if external storage is available for read and write */
@@ -123,57 +123,40 @@ public class PlaylistManager {
     * */
     public void savePlaylist(Playlist playlist, String name) throws FileNotFoundException {
         //ArrayList<Song> _playlistSongs = playlist._playlistSongs;
+
         File plStorageDir = getPlaylistStorageDirectory();
         String[] data = new String[playlist.stringFilenames.size()];
 
-        for (int i=0; i<playlist.stringFilenames.size()-1; i++){
+        for (int i = 0; i < playlist.stringFilenames.size() - 1; i++) {
             data[i] = playlist.stringFilenames.get(i);
         }
-            FileOutputStream fos = null;
-            try
-            {
-                fos = new FileOutputStream(plStorageDir + "/" + name +".txt");
-            }
-            catch (FileNotFoundException e) {e.printStackTrace();}
-            try
-            {
-                try
-                {
-                    for (int i = 0; i<data.length-1; i++)
-                    {
-                        fos.write(data[i].getBytes());
-                        if (i < data.length-1)
-                        {
-                            fos.write("\n".getBytes());
-                        }
-                        System.out.println(data[i]);
+        FileOutputStream fos = null;
+        try {
+            fos = new FileOutputStream(plStorageDir + "/" + name + ".txt");
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        try {
+            try {
+                for (int i = 0; i < data.length-1; i++) {
+                    fos.write(data[i].getBytes());
+                    if (i < data.length - 1) {
+                        fos.write("\n".getBytes());
                     }
+                    System.out.println(data[i]);
                 }
-                catch (IOException e) {e.printStackTrace();}
+            } catch (IOException e) {
+                e.printStackTrace();
             }
-            finally
-            {
-                try
-                {
-                    fos.close();
-                }
-                catch (IOException e) {e.printStackTrace();}
+        } finally {
+            try {
+                fos.close();
+            } catch (IOException e) {
+                e.printStackTrace();
             }
+        }
         System.out.println(playlist.getPlaylistName() + " was saved as " + playlist.getNameOfTextFile() + " in " + getPlaylistStorageDirectory() + ".");
     }
-
-
-    /*Loading the playlist from text file back into an ArrayList<String>*/
-    public ArrayList<String> loadPlaylist(File txtfilename) throws FileNotFoundException {
-        ArrayList<String> storedPlaylist = new ArrayList<>();
-        Scanner scan = new Scanner(txtfilename);
-        while (scan.hasNext()) {
-            storedPlaylist.add(scan.next());
-        }
-        return storedPlaylist;
-    }
-
-
 
 
 }
