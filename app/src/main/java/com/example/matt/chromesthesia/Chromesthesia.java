@@ -127,21 +127,25 @@ public class Chromesthesia extends AppCompatActivity {
             Log.e("chromesthesia", "err setting datasource", e);
         }
         //ActivityCompat.requestPermissions(, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE});
-        if (player == null && selectedPlaylist==null) {
+        if (player == null) {
             System.out.println("PLAYER IS NULL!");
             Toast.makeText(Chromesthesia.this, "PLAYER IS NULL!", Toast.LENGTH_LONG).show();
             System.out.println("songlist is:  " + songlist.size());
             player = new Intent(this, MPC.class);
-            bindService(player, musicconnect, Context.BIND_AUTO_CREATE);
-            startService(player);
-            if (mpservice == null) {
-                System.out.println("why am I Null?!?!");
+            if (selectedPlaylist!= null) {
+                System.out.println("Now playing your selected playlist");
+                bindService(player,pmusicconnect,Context.BIND_AUTO_CREATE );
+                startService(player);
+            }
+            else {
+                bindService(player, musicconnect, Context.BIND_AUTO_CREATE);
+                startService(player);
+                if (mpservice == null) {
+                    System.out.println("why am I Null?!?!");
+                }
             }
         }
-        if (selectedPlaylist!=null) {
-            player = new Intent(this, MPC.class);
-            switchToPlaylistService();
-        }
+
         /*End of library creation code*/
 
 
@@ -222,15 +226,28 @@ public class Chromesthesia extends AppCompatActivity {
         }
     };
 
-    public void switchToPlaylistService() {
-        try {
-            mpservice.setSngs(new PlaylistContents().populatePlaylist(new PlaylistManager().getPlaylistStorageDirectory().getAbsolutePath()));
-            System.out.println("Selected playlist: " + selectedPlaylist + ", is the list of songs we are using." );
-        } catch (Exception e) {
-            e.printStackTrace();
+    private ServiceConnection pmusicconnect = new ServiceConnection() {
+        @Override
+        public void onServiceConnected(ComponentName name, IBinder service) {
+            binder_music binder = (binder_music) service;
+            Toast.makeText(Chromesthesia.this, "We're in onServiceConnected!", Toast.LENGTH_LONG).show();
+            System.out.println("we're in onServiceConnected!");
+            mpservice = binder.getservice();
+            if (selectedPlaylist==null){
+                mpservice.setSngs(songlist);
+            }
+            else if (selectedPlaylist!=null){
+                Bundle extras = getIntent().getExtras();
+                mpservice.setSngs(new ArrayList<>((ArrayList<Song>) extras.get("PLAYLIST")));
+            }
+            musicbound = true;
         }
-    }
 
+        @Override
+        public void onServiceDisconnected(ComponentName name) {
+
+        }
+    };
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

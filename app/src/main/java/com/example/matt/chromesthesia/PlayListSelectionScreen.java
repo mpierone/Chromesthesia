@@ -67,11 +67,17 @@ public class PlayListSelectionScreen extends Chromesthesia {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 selectedPlaylist = playlistArray.get(position);
                 System.out.println("!!!!!!in playlist onclick listener:  "+selectedPlaylist);
+
                 Intent openPlaylistContents = new Intent(context, PlaylistContents.class);
                 Intent updateSelectedPlaylist = new Intent(context, Chromesthesia.class);
+                Intent sendPlaylistToChromesthesia = new Intent(context, Chromesthesia.class);
+
                 String x = playlistArray.get(position);
                 openPlaylistContents.putExtra("VALUE", x );
                 updateSelectedPlaylist.putExtra("VALUE", x);
+                sendPlaylistToChromesthesia.putExtra("PLAYLIST", songlist);
+
+                startActivity(sendPlaylistToChromesthesia);
                 startActivity(updateSelectedPlaylist);
                 startActivityForResult(openPlaylistContents,0);
 
