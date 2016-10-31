@@ -1,0 +1,16 @@
+date: October 11, 2016
+meeting_type: ta # meeting_type can "group", "ta", or "instructor"
+attendance: [<jhuang42>, <wlstewar>, <iacaneda>, <mpierone>]
+absent: []
+excused_absences: [ {ubit:<mpierone>,reason: had a job interview}
+  ]
+task_progress: [ # All group members must be included here even if they haven't made any progress since the last meeting
+  {ubit: <iacaneda>, progress: none},
+  {ubit: <jhuang42>, progress: none},
+  {ubit: <mpierone>, progress: none},
+  {ubit: <wlstewar>, progress: none}
+
+issues: [ # Post any issues here. Issues that cannot be addressed by the group should especially be included
+  ]
+Notes:  | # Anything covered in the meeting that doesn't fit elsewhere.
+- We need to start working ASAP if we want to succeed in this sprint / project.
