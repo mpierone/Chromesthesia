@@ -1,7 +1,9 @@
 package com.example.matt.chromesthesia;
 
 import android.content.Intent;
+import android.app.Fragment;
 import android.os.Bundle;
+import android.transition.TransitionManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,10 +13,16 @@ import android.widget.GridView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import com.example.matt.chromesthesia.playlistDev.*;
+import android.content.*;
+import android.widget.ProgressBar;
+import android.widget.SeekBar;
+import android.widget.TextView;
 
 import com.example.matt.chromesthesia.playlistDev.localMusicManager;
 
 import java.util.ArrayList;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Created by matt & will on 10/1/2016.
