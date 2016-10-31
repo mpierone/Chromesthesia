@@ -1,51 +1,19 @@
 
 package com.example.matt.chromesthesia;
-import com.example.matt.chromesthesia.MPC.binder_music;
-import com.example.matt.chromesthesia.playlistDev.localMusicManager;
-import com.example.matt.chromesthesia.playlistDev.*;
 import android.Manifest;
-import android.content.ContentResolver;
+import android.content.ComponentName;
+import android.content.Context;
+import android.content.Intent;
+import android.content.ServiceConnection;
 import android.content.pm.PackageManager;
-import android.database.Cursor;
-import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
+import android.os.IBinder;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.content.ContextCompat;
-import android.support.v4.view.ViewPager;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
-import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ListView;
-import android.widget.RelativeLayout;
-import android.widget.SeekBar;
-import android.view.View.OnFocusChangeListener;
-import android.widget.TextView;
-import android.os.IBinder;
-import android.content.ComponentName;
-import android.content.Context;
-import android.content.Intent;
-import android.content.ServiceConnection;
-import android.view.View;
-import java.util.ArrayList;
-import java.util.logging.Handler;
-
-import android.content.Intent;
-import android.os.Bundle;
-import android.os.IBinder;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -198,7 +166,7 @@ public class Chromesthesia extends AppCompatActivity {
                 startActivityForResult(playlistIntent, 0);
             }
         });*/
-        });
+
         //make now playing screen
         Button playScreenButton = (Button) findViewById(R.id.playscreenTestButton);
         playScreenButton.setOnClickListener(new View.OnClickListener() {
@@ -223,11 +191,7 @@ public class Chromesthesia extends AppCompatActivity {
             Log.e("Error: ", "No song to play", n);
         }
     }
-<<<<<<< Temporary merge branch 1
-    // compile 'com.google.android.gms:play-services-appindexing:8.4.0' this fixes build.gradle when it gives an error in the manifest
 
-=======
->>>>>>> Temporary merge branch 2
     private ServiceConnection musicconnect = new ServiceConnection() {
         @Override
         public void onServiceConnected(ComponentName name, IBinder service) {
