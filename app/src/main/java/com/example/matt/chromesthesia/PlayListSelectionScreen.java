@@ -77,7 +77,7 @@ public class PlayListSelectionScreen extends Chromesthesia {
                 updateSelectedPlaylist.putExtra("VALUE", x);
                 sendPlaylistToChromesthesia.putExtra("PLAYLIST", songlist);
 
-                startActivity(sendPlaylistToChromesthesia);
+                //startActivity(sendPlaylistToChromesthesia);
                 startActivity(updateSelectedPlaylist);
                 startActivityForResult(openPlaylistContents,0);
 
