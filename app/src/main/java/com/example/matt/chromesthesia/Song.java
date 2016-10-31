@@ -1,7 +1,5 @@
 package com.example.matt.chromesthesia;
 
-import android.net.Uri;
-
 import com.example.matt.chromesthesia.playlistDev.ID3;
 import com.example.matt.chromesthesia.playlistDev.localMusicManager;
 import com.example.matt.chromesthesia.playlistDev.mp3Parser;
@@ -15,6 +13,7 @@ public class Song{
     private HashMap<String, ID3> _song;
     private String _id;
     private String _audioFilePath;
+    private String _filename;
     private ID3 _id3;
     private localMusicManager _localManager;
 
@@ -29,6 +28,9 @@ public class Song{
         //song attributes:
         _audioFilePath = audioFilePath;
 
+        _filename = _audioFilePath.substring(_audioFilePath.lastIndexOf('/')+1,_audioFilePath.lastIndexOf('.')) + ".mp3";
+
+
 
         _id3 = new mp3Parser().parseMP3(_audioFilePath);
         //System.out.println("we're in SONG.java\n");
@@ -41,6 +43,9 @@ public class Song{
     }
 
     //getters:
+    public String getFilename(){
+        return _filename;
+    }
 
     public ID3 get_id3(){
         //should work because a song object should only have one key in its hashmap
@@ -56,8 +61,9 @@ public class Song{
         return _audioFilePath;
     }
 
-
-
+    public void set_filename(String newFilename){
+        _filename = newFilename;
+    }
     /*Generates a unique song ID for the track.
         MUST:
          - Check songsList for a repeated entry

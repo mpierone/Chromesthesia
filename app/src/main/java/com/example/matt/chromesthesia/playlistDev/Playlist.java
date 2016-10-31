@@ -1,11 +1,12 @@
 package com.example.matt.chromesthesia.playlistDev;
 
-import android.util.Log;
-
 import com.example.matt.chromesthesia.Song;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
 
 /**
@@ -16,38 +17,73 @@ import java.util.ArrayList;
 
 public class Playlist {
     String _playlistName;
-    ArrayList<Song> _playlistSongs;
+    public ArrayList<Song> _playlistSongs;
     ArrayList<Song> defaultEmptyPlaylistFiles;
-    File _playlistFile;
-    public Playlist(String name, File playlistTxtDoc){
+    public ArrayList<String> stringFilenames;
+    String _playlistFileName;
+    File _playlistTxtDoc;
+    boolean isSavedOnExternalStorage;
+
+    public Playlist(String name){
         //constructor
         _playlistName = name;
-        _playlistFile = playlistTxtDoc;
-        _playlistSongs = defaultEmptyPlaylistFiles;
+        _playlistFileName = _playlistName + ".txt";
+
+        PlaylistManager pm = new PlaylistManager();
+        _playlistTxtDoc = new File (pm.getPlaylistStorageDirectory(), _playlistFileName);
+
+        stringFilenames = new ArrayList<>();
+        _playlistSongs = new ArrayList<>();
+
+
+        if(stringFilenames.size()>0) {
+            for (String s : stringFilenames) {
+                try {
+                    Song so = new Song(s);
+                    _playlistSongs.add(so);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }
 
     }
+
+   /* public void savePlaylist(){
+    PlaylistManager pm = new PlaylistManager();
+        if (pm.deviceHasSDCard == true) {
+            try {
+                pm.savePlaylist(this);
+            } catch (FileNotFoundException e) {
+                System.out.println("Couldn't find the storage directory to save the txt document.");
+                e.printStackTrace();
+            }
+            isSavedOnExternalStorage = true;
+        }else{
+            isSavedOnExternalStorage = false;
+            System.out.println("No SD Card found. Trying internal storage.");
+        }
+    }*/
 
     public void setPlaylistName(String playlistName){
         _playlistName = playlistName;
     }
 
-    public File get_playlistTxtFile(){
-        return _playlistFile;
+    public String getNameOfTextFile(){
+        return _playlistTxtDoc.getName();
     }
 
     public String getPlaylistName(){
         return _playlistName;
     }
 
-    public void setPlaylistFiles(ArrayList<Song> playlistSongs){
-        _playlistSongs = playlistSongs;
-    }
-
     public ArrayList<Song> getPlaylistAudioFiles(){
         return _playlistSongs;
     }
 
-    public ArrayList<String> getPlaylistFilenamesArray(){
+    public ArrayList<String> getFilenamesArray(){return stringFilenames;}
+
+    public ArrayList<String> extractFilenamesFromSongs(){
         ArrayList<String> filenames = new ArrayList<>();
         for (Song s : _playlistSongs){
             filenames.add(s.get_audioFilePath());
@@ -59,52 +95,54 @@ public class Playlist {
     /*For use in playlist creation*/
 
 
-    /*Taking the loaded playlist and checking if a file found on the SDCard is in the playlist
-    * false = not in playlist, so don't include in the Playlist object's songs
-    * true = in playlist, add the song to the Playlist object's songs*/
-    private boolean boolAddToPlaylist(File txtFilename,String sdFilename) throws FileNotFoundException {
+    /*Loading the playlist from text file back into an ArrayList<String>*/
+    public ArrayList<String> loadPlaylist() throws FileNotFoundException {
         PlaylistManager pm = new PlaylistManager();
-
-        return pm.loadPlaylist(txtFilename).contains(sdFilename);
-    }
+        File plStorageDir = pm.getPlaylistStorageDirectory();
 
 
-    /*Add songs to playlist if they are supposed to be there*/
-
-    public ArrayList<Song> populatePlaylist(String folder, File txtSavedPlaylist) throws Exception {
-        localMusicManager lmm = new localMusicManager();
-        try {
-            File sdCard = new File(folder);
-            if (sdCard.listFiles().length > 0) {
-                for (File file : sdCard.listFiles()){
-                    /*Recursively call to find subfolders*/
-                    if (file.isDirectory()) {
-                        populatePlaylist(file.getAbsolutePath(), txtSavedPlaylist);
-                    }
-                    /*here is where we'll find our songs stored in a text file
-                    * if the Arraylist<> read from the txt file contains the filename found on the SD Card, add it to the songsList
-                    * If not, then skip it
-                    * */
-                    else if (file.getAbsolutePath().toLowerCase().endsWith(".mp3")
-                            && boolAddToPlaylist(txtSavedPlaylist, file.getName()) == true
-                            ) {
-                        Song so = new Song(file.getAbsolutePath());
-                        if (so == null) {
-                            System.out.println("so == null!\n");
-                        }
-                        //String thetitle = so.get_id3().getTitle();
-                        //System.out.println(thetitle);
-                        //System.out.println(so.get_id3().getArtist());
-                        //System.out.println(so.get_id3().getAlbum());
-                        _playlistSongs.add(so);
-                    }
-                }
+        try(BufferedReader br = new BufferedReader(new FileReader(plStorageDir + "/" + _playlistFileName))){
+            for (String line; (line = br.readLine()) != null;){
+             stringFilenames.add(line);
+                System.out.println("Added " + line + " to " + _playlistName);
             }
-            //System.out.println(_songsList.size());
-        } catch (Exception e) {
-            Log.e("lmm", "err setting datasource", e);
+        } catch (IOException e) {
+            e.printStackTrace();
         }
-        return _playlistSongs;
+
+
+        /*
+        String[] data = new String[stringFilenames.size()];
+
+        for (int i = 0; i < stringFilenames.size() - 1; i++) {
+            data[i] = stringFilenames.get(i);
+        }
+        FileInputStream input = null;
+        try {
+            //it doesn't know what the playlist's filename is
+            input = new FileInputStream(plStorageDir + "/" + _playlistFileName);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        try {
+            try {
+                for (int i = 0; i < data.length - 1; i++) {
+                    stringFilenames.add(String.valueOf(input.read(data[i].getBytes())));
+                    System.out.println(data[i]);
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        } finally {
+            try {
+                input.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }*/
+        System.out.println("Loaded playlist " + _playlistName + " from " + _playlistFileName + " with size " + stringFilenames.size());
+
+        return stringFilenames;
     }
 
 
