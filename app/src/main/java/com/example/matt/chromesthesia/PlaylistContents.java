@@ -145,7 +145,7 @@ public class PlaylistContents extends PlayListSelectionScreen {
                     * if the Arraylist<> read from the txt file contains the filename found on the SD Card, add it to the songsList
                     * If not, then skip it
                     * */
-                    else if (file.getAbsolutePath().toLowerCase().endsWith(".mp3")
+                    else if ((file.getAbsolutePath().toLowerCase().endsWith(".mp3") || file.getAbsolutePath().toLowerCase().endsWith(".flac"))
                             && boolAddToPlaylist(file.getName(), selPlay) == true
                             ) {
                         Song so = new Song(file.getAbsolutePath());
