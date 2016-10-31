@@ -111,6 +111,8 @@ public class PlaylistContents extends PlayListSelectionScreen {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 //code for getting play functionality
+                songArray.get(position);
+                playSong(view, position);
             }
         });
 
