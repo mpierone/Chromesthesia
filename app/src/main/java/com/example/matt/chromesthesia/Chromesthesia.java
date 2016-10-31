@@ -25,6 +25,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.GridView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.SeekBar;
@@ -157,7 +158,9 @@ public class Chromesthesia extends AppCompatActivity {
                 Intent playScreenIntent = new Intent(view.getContext(), NowPlayingScreen.class);
                 startActivityForResult(playScreenIntent, 0);
             }
-        });}
+        });
+
+    }
 
     public void playSongPrint(View view) {
         System.out.println("WE CLICKED!");
