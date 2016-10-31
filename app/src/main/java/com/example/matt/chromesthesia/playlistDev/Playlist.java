@@ -2,9 +2,10 @@ package com.example.matt.chromesthesia.playlistDev;
 
 import com.example.matt.chromesthesia.Song;
 
+import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -98,6 +99,19 @@ public class Playlist {
     public ArrayList<String> loadPlaylist() throws FileNotFoundException {
         PlaylistManager pm = new PlaylistManager();
         File plStorageDir = pm.getPlaylistStorageDirectory();
+
+
+        try(BufferedReader br = new BufferedReader(new FileReader(plStorageDir + "/" + _playlistFileName))){
+            for (String line; (line = br.readLine()) != null;){
+             stringFilenames.add(line);
+                System.out.println("Added " + line + " to " + _playlistName);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+
+        /*
         String[] data = new String[stringFilenames.size()];
 
         for (int i = 0; i < stringFilenames.size() - 1; i++) {
@@ -105,6 +119,7 @@ public class Playlist {
         }
         FileInputStream input = null;
         try {
+            //it doesn't know what the playlist's filename is
             input = new FileInputStream(plStorageDir + "/" + _playlistFileName);
         } catch (FileNotFoundException e) {
             e.printStackTrace();
@@ -124,8 +139,8 @@ public class Playlist {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-        }
-        System.out.println("Loaded playlist " + _playlistName + " from " + _playlistFileName + " with size " + stringFilenames);
+        }*/
+        System.out.println("Loaded playlist " + _playlistName + " from " + _playlistFileName + " with size " + stringFilenames.size());
 
         return stringFilenames;
     }

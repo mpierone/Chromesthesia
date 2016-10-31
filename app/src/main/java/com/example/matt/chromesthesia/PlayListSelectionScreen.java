@@ -31,7 +31,7 @@ public class PlayListSelectionScreen extends Chromesthesia {
     public Context playlistContext = this;
     protected Playlist selPlay;
 
-    protected String selectedPlaylist;
+    private String selectedPlaylist;
 
     public void onCreate(Bundle savedInstancedState) {
         super.onCreate(savedInstancedState);
@@ -66,8 +66,12 @@ public class PlayListSelectionScreen extends Chromesthesia {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 selectedPlaylist = playlistArray.get(position);
+                System.out.println("!!!!!!in playlist onclick listener:  "+selectedPlaylist);
                 Intent openPlaylistContents = new Intent(context, PlaylistContents.class);
+                String x = playlistArray.get(position);
+                openPlaylistContents.putExtra("VALUE", x );
                 startActivityForResult(openPlaylistContents,0);
+
             }
         });
 
@@ -105,6 +109,9 @@ public class PlayListSelectionScreen extends Chromesthesia {
             Log.e("pm in PSScreen.java","stuff broke",e);
         }
 
+    }
+    public String getPlaylist() {
+        return selectedPlaylist;
     }
     }
 

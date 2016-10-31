@@ -1,5 +1,6 @@
 package com.example.matt.chromesthesia;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -32,9 +33,23 @@ public class PlaylistContents extends PlayListSelectionScreen {
         setContentView(R.layout.playlistcontents);
         playlistName = (TextView) findViewById(R.id.playlistName);
         contentsView = (ListView) findViewById(R.id.playlistContents);
-        playlistName.setText(selectedPlaylist);
-
-        selPlay = new Playlist(selectedPlaylist);
+        //playlistName.setText();
+        Intent intent = this.getIntent();
+        String pl;
+        if (savedInstancedState == null) {
+            Bundle extras = getIntent().getExtras();
+            if(extras == null) {
+                pl = "HELLA NULL";
+            }
+            else {
+                pl = extras.getString("VALUE");
+            }
+        }
+        else {
+            pl = (String) savedInstancedState.getSerializable("VALUE");
+        }
+        System.out.println("playlistContents.java selectedPlaylist:  "+ pl);
+        selPlay = new Playlist(pl);
 
         /*Populating playlist songs array*/
         localMusicManager lmm = new localMusicManager();
@@ -42,7 +57,7 @@ public class PlaylistContents extends PlayListSelectionScreen {
             populatePlaylist(lmm.getSD_LOCATION());
             createSongArray();
             for (Song s : selPlay._playlistSongs){
-                System.out.println("Added " + s.get_id3().getTitle() + " by " + s.get_id3().getArtist() + " to playlist: " +selectedPlaylist);
+                System.out.println("Added " + s.get_id3().getTitle() + " by " + s.get_id3().getArtist() + " to playlist: " +pl);
             }
         } catch (Exception e) {
             e.printStackTrace();
