@@ -1,10 +1,46 @@
 
 package com.example.matt.chromesthesia;
-
+import com.example.matt.chromesthesia.MPC.binder_music;
+import com.example.matt.chromesthesia.playlistDev.localMusicManager;
+import com.example.matt.chromesthesia.playlistDev.*;
+import android.Manifest;
+import android.content.ContentResolver;
+import android.content.pm.PackageManager;
+import android.database.Cursor;
+import android.net.Uri;
+import android.os.Build;
+import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.content.ContextCompat;
+import android.support.v4.view.ViewPager;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ListView;
+import android.widget.RelativeLayout;
+import android.widget.SeekBar;
+import android.view.View.OnFocusChangeListener;
+import android.widget.TextView;
+import android.os.IBinder;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
+import android.view.View;
+import java.util.ArrayList;
+import java.util.logging.Handler;
+
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.support.v4.app.Fragment;
@@ -53,6 +89,10 @@ public class Chromesthesia extends AppCompatActivity {
     private ListView songView;
     protected localMusicManager lmm;
     private boolean musicbound = false;
+    protected MPC media = new MPC();
+    public int positionVar;//testing this
+    public int myVersion = Build.VERSION.SDK_INT;
+    public int myLollipop = Build.VERSION_CODES.LOLLIPOP_MR1;
 
 
 
@@ -63,6 +103,11 @@ public class Chromesthesia extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) throws NullPointerException {
         super.onCreate(savedInstanceState);
+        if (myVersion > myLollipop) {
+            if (!checkIfAlreadyHavePermissions()) {
+                requestAllPermissions();
+            }
+        }
         songView = (ListView)findViewById(R.id.librarylist);
         //setContentView(R.layout.activity_chromesthesia);
 
@@ -153,6 +198,8 @@ public class Chromesthesia extends AppCompatActivity {
                 startActivityForResult(playlistIntent, 0);
             }
         });*/
+        });
+        //make now playing screen
         Button playScreenButton = (Button) findViewById(R.id.playscreenTestButton);
         playScreenButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
@@ -164,18 +211,23 @@ public class Chromesthesia extends AppCompatActivity {
     public void playSongPrint(View view) {
         System.out.println("WE CLICKED!");
     }
-    public void playSong(View view, int id) throws NullPointerException{
+
+    public void playSong(View view, int id) throws NullPointerException {
         try {
             System.out.println("Hey we're trying to play songs now!");
             //System.out.println(Integer.parseInt(view.getTag().toString()));
             System.out.println("our position we're trying to play is:  " + id);
             mpservice.setPlaying(id);
             mpservice.playsong();
-        }
-        catch (NullPointerException n){
+        } catch (NullPointerException n) {
             Log.e("Error: ", "No song to play", n);
         }
     }
+<<<<<<< Temporary merge branch 1
+    // compile 'com.google.android.gms:play-services-appindexing:8.4.0' this fixes build.gradle when it gives an error in the manifest
+
+=======
+>>>>>>> Temporary merge branch 2
     private ServiceConnection musicconnect = new ServiceConnection() {
         @Override
         public void onServiceConnected(ComponentName name, IBinder service) {
@@ -191,14 +243,16 @@ public class Chromesthesia extends AppCompatActivity {
             musicbound = false;
         }
     };
+
     @Override
-    public boolean onCreateOptionsMenu (Menu menu){
+    public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_chromesthesia, menu);
         return true;
     }
+
     @Override
-    public boolean onOptionsItemSelected (MenuItem item){
+    public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
@@ -209,15 +263,81 @@ public class Chromesthesia extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
+
     @Override
-    protected void onStart (){
+    protected void onStart() {
         super.onStart();
-        if(player==null){
-            player = new Intent(this,MPC.class);
+        if (player == null) {
+            player = new Intent(this, MPC.class);
             bindService(player, musicconnect, Context.BIND_AUTO_CREATE);
             startService(player);
         }
     }
+
+
+    /*
+    * Here we check if we already have the permissions that Chromesthesia uses.
+    * The names are a bit cryptic:
+    *
+    * sdR = sd card 'Read' external storage
+    * sdW = sd card 'Write' external storage
+    * internet = permission for internet
+    * bt = regular bluetooth
+    * btA = bluetooth admin
+    * btP = bluetooth privileged
+    * wl = Wake Lock permission
+    * mcc = Media Content Control permission
+    * mas = Modify Audio Settings permission
+    *
+    * That's all the permissions right now!
+    * */
+    private boolean checkIfAlreadyHavePermissions() {
+        int sdR = ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE);
+        int sdW = ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE);
+        int internet = ContextCompat.checkSelfPermission(this, Manifest.permission.INTERNET);
+        int bt = ContextCompat.checkSelfPermission(this, Manifest.permission.BLUETOOTH);
+        int btA = ContextCompat.checkSelfPermission(this, Manifest.permission.BLUETOOTH_ADMIN);
+        int btP = ContextCompat.checkSelfPermission(this, Manifest.permission.BLUETOOTH_PRIVILEGED);
+        int wl = ContextCompat.checkSelfPermission(this, Manifest.permission.WAKE_LOCK);
+        int mcc = ContextCompat.checkSelfPermission(this, Manifest.permission.MEDIA_CONTENT_CONTROL);
+        int mas = ContextCompat.checkSelfPermission(this, Manifest.permission.MODIFY_AUDIO_SETTINGS);
+
+        if ((sdR != 1)&&(sdW!=1)&&(internet!=1)&&(bt!=1)&&(btA!=1)&&(btP!=1)&&(wl!=1)&&(mcc!=1)&&(mas!=1)) {
+            return false;
+        }
+        else {
+            return true;
+        }
+    }
+
+    private void requestAllPermissions() {
+        ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                Manifest.permission.INTERNET,
+                Manifest.permission.BLUETOOTH,
+                Manifest.permission.BLUETOOTH_ADMIN,
+                Manifest.permission.BLUETOOTH_PRIVILEGED,
+                Manifest.permission.WAKE_LOCK,
+                Manifest.permission.MEDIA_CONTENT_CONTROL,
+                Manifest.permission.MODIFY_AUDIO_SETTINGS}, 101);
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        switch (requestCode) {
+            case 101:
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    //granted
+                } else {
+                    //not granted
+                }
+                break;
+            default:
+                super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        }
+    }
+
     /**
      * A placeholder fragment containing a simple view.
      */
@@ -227,6 +347,7 @@ public class Chromesthesia extends AppCompatActivity {
          * fragment.
          */
         private static final String ARG_SECTION_NUMBER = "section_number";
+
         public PlaceholderFragment() {
         }
         /**
@@ -240,6 +361,7 @@ public class Chromesthesia extends AppCompatActivity {
             fragment.setArguments(args);
             return fragment;
         }
+
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
@@ -250,7 +372,6 @@ public class Chromesthesia extends AppCompatActivity {
         }
     }
 
-
     /**
      * A {@link FragmentPagerAdapter} that returns a fragment corresponding to
      * one of the sections/tabs/pages.
@@ -259,17 +380,20 @@ public class Chromesthesia extends AppCompatActivity {
         public SectionsPagerAdapter(FragmentManager fm) {
             super(fm);
         }
+
         @Override
         public Fragment getItem(int position) {
             // getItem is called to instantiate the fragment for the given page.
             // Return a PlaceholderFragment (defined as a static inner class below).
             return PlaceholderFragment.newInstance(position + 1);
         }
+
         @Override
         public int getCount() {
             // Show 3 total pages.
             return 3;
         }
+
         @Override
         public CharSequence getPageTitle(int position) {
             switch (position) {
