@@ -58,6 +58,7 @@ public class Chromesthesia extends AppCompatActivity {
     protected localMusicManager lmm;
     private boolean musicbound = false;
     protected MPC media = new MPC();
+    protected String selectedPlaylist;
     public int positionVar;//testing this
     public int myVersion = Build.VERSION.SDK_INT;
     public int myLollipop = Build.VERSION_CODES.LOLLIPOP_MR1;
@@ -86,8 +87,24 @@ public class Chromesthesia extends AppCompatActivity {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        /*End of playlistList creation code*/
 
+        String pl;
+        if (savedInstanceState == null) {
+            Bundle extras = getIntent().getExtras();
+            if(extras == null) {
+                pl = "selectedplaylist variable not update in chromesthesia";
+            }
+            else {
+                pl = extras.getString("VALUE");
+                selectedPlaylist = pl;
+            }
+        }
+        else {
+            pl = (String) savedInstanceState.getSerializable("VALUE");
+        }
+        System.out.println("playlistContents.java selectedPlaylist:  "+ pl);
+
+        /*End of playlistList creation code*/
 
 
         /*start of music library creation*/
@@ -110,7 +127,7 @@ public class Chromesthesia extends AppCompatActivity {
             Log.e("chromesthesia", "err setting datasource", e);
         }
         //ActivityCompat.requestPermissions(, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE});
-        if (player == null) {
+        if (player == null && selectedPlaylist==null) {
             System.out.println("PLAYER IS NULL!");
             Toast.makeText(Chromesthesia.this, "PLAYER IS NULL!", Toast.LENGTH_LONG).show();
             System.out.println("songlist is:  " + songlist.size());
@@ -120,6 +137,10 @@ public class Chromesthesia extends AppCompatActivity {
             if (mpservice == null) {
                 System.out.println("why am I Null?!?!");
             }
+        }
+        if (selectedPlaylist!=null) {
+            player = new Intent(this, MPC.class);
+            switchToPlaylistService();
         }
         /*End of library creation code*/
 
@@ -194,11 +215,22 @@ public class Chromesthesia extends AppCompatActivity {
             mpservice.setSngs(songlist);
             musicbound = true;
         }
+
         @Override
         public void onServiceDisconnected(ComponentName name) {
             musicbound = false;
         }
     };
+
+    public void switchToPlaylistService() {
+        try {
+            mpservice.setSngs(new PlaylistContents().populatePlaylist(new PlaylistManager().getPlaylistStorageDirectory().getAbsolutePath()));
+            System.out.println("Selected playlist: " + selectedPlaylist + ", is the list of songs we are using." );
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -225,10 +257,12 @@ public class Chromesthesia extends AppCompatActivity {
         super.onStart();
         if (player == null) {
             player = new Intent(this, MPC.class);
-            bindService(player, musicconnect, Context.BIND_AUTO_CREATE);
+            bindService(player, musicconnect, Context.BIND_AUTO_CREATE);}
             startService(player);
         }
-    }
+
+
+
 
 
     /*
@@ -332,7 +366,7 @@ public class Chromesthesia extends AppCompatActivity {
      * A {@link FragmentPagerAdapter} that returns a fragment corresponding to
      * one of the sections/tabs/pages.
      */
-    public class SectionsPagerAdapter extends FragmentPagerAdapter {
+    class SectionsPagerAdapter extends FragmentPagerAdapter {
         public SectionsPagerAdapter(FragmentManager fm) {
             super(fm);
         }

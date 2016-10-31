@@ -27,6 +27,7 @@ public class Song{
 
         //song attributes:
         _audioFilePath = audioFilePath;
+
         _filename = _audioFilePath.substring(_audioFilePath.lastIndexOf('/')+1,_audioFilePath.lastIndexOf('.')) + ".mp3";
 
 
@@ -60,8 +61,9 @@ public class Song{
         return _audioFilePath;
     }
 
-
-
+    public void set_filename(String newFilename){
+        _filename = newFilename;
+    }
     /*Generates a unique song ID for the track.
         MUST:
          - Check songsList for a repeated entry

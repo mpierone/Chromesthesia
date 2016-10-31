@@ -25,7 +25,7 @@ public class PlaylistContents extends PlayListSelectionScreen {
     ListView contentsView;
     TextView playlistName;
     //ArrayList<Song> _playlistSongs;
-    ArrayList<String> songArray;
+    ArrayList<String> psongArray;
 
     public void onCreate(Bundle savedInstancedState) {
         super.onCreate(savedInstancedState);
@@ -71,7 +71,7 @@ public class PlaylistContents extends PlayListSelectionScreen {
 
         try
         {
-            if (songArray == null){
+            if (psongArray == null){
                 String emptyAdapterMsg = "Something went wrong, we can't find the playlist's songs array!";
                 System.out.println(selPlay._playlistSongs);
                 ArrayList<String> empties = new ArrayList<>();
@@ -80,7 +80,7 @@ public class PlaylistContents extends PlayListSelectionScreen {
                 contentsView.setAdapter(a);
             }
             else{
-                ArrayAdapter<String> pArrayAdapter = new ArrayAdapter<String>(getBaseContext(), android.R.layout.simple_list_item_1, songArray);
+                ArrayAdapter<String> pArrayAdapter = new ArrayAdapter<String>(getBaseContext(), android.R.layout.simple_list_item_1, psongArray);
                 contentsView.setAdapter(pArrayAdapter);
             }
         }
@@ -111,7 +111,7 @@ public class PlaylistContents extends PlayListSelectionScreen {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 //code for getting play functionality
-                songArray.get(position);
+                psongArray.get(position);
                 playSong(view, position);
             }
         });
@@ -151,7 +151,9 @@ public class PlaylistContents extends PlayListSelectionScreen {
                             && boolAddToPlaylist(file.getName(), selPlay) == true
                             ) {
                         Song so = new Song(file.getAbsolutePath());
+                        so.set_filename(file.getName());
                         selPlay._playlistSongs.add(so);
+
                         if (so == null) {
                             System.out.println("so == null!\n");
                         }
@@ -174,7 +176,7 @@ public class PlaylistContents extends PlayListSelectionScreen {
         String songName;
         String artistName;
         String mergedName;
-        songArray = new ArrayList<>();
+        psongArray = new ArrayList<>();
         int i = 0;
         try{
             for(Song s : selPlay._playlistSongs) {
@@ -182,7 +184,7 @@ public class PlaylistContents extends PlayListSelectionScreen {
                 artistName = s.get_id3().getArtist();
                 mergedName = songName + " - " + artistName;
                 System.out.println(mergedName);
-                songArray.add(mergedName);
+                psongArray.add(mergedName);
             }
         }
         catch (Exception e){
