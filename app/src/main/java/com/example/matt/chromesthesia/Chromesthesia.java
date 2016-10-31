@@ -158,7 +158,7 @@ public class Chromesthesia extends AppCompatActivity {
             }
         });
 
-        
+
         //make now playing screen
         Button playScreenButton = (Button) findViewById(R.id.playscreenTestButton);
         playScreenButton.setOnClickListener(new View.OnClickListener() {
