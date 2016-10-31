@@ -22,7 +22,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.GridView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -159,14 +158,7 @@ public class Chromesthesia extends AppCompatActivity {
             }
         });
 
-
-        Button playlistButton = (Button) findViewById(R.id.playlistButton);
-        playlistButton.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View view) {
-                Intent playlistIntent = new Intent(view.getContext(), PlayList.class);
-                startActivityForResult(playlistIntent, 0);
-            }
-        });
+        
         //make now playing screen
         Button playScreenButton = (Button) findViewById(R.id.playscreenTestButton);
         playScreenButton.setOnClickListener(new View.OnClickListener() {
