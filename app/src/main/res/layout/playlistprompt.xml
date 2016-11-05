@@ -8,30 +8,6 @@
     android:padding="10dp"
     android:theme="@android:style/Theme.Holo.Dialog" >
 
-    <TextView
-        android:id="@+id/typeYourMessage"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Type Your Message : "
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:visibility="visible" />
 
-    <EditText
-        android:id="@+id/inputPlaylistName"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:visibility="visible"
-        tools:background="@color/common_google_signin_btn_text_dark_pressed"
-        android:foreground="?android:attr/colorForeground">
-    </EditText>
-
-    <Button
-        android:id="@+id/btnCreatePlaylist"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:visibility="visible"
-        android:text="Create Playlist"
-        android:background="@color/common_plus_signin_btn_text_dark_default"
-        tools:background="@color/colorPrimaryDark" />
 
 </LinearLayout>

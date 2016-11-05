@@ -1,15 +1,19 @@
 
 package com.example.matt.chromesthesia;
-
+import android.Manifest;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.IBinder;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -27,6 +31,7 @@ import android.widget.Toast;
 import com.example.matt.chromesthesia.MPC.binder_music;
 import com.example.matt.chromesthesia.playlistDev.ID3;
 import com.example.matt.chromesthesia.playlistDev.Playlist;
+import com.example.matt.chromesthesia.playlistDev.PlaylistManager;
 import com.example.matt.chromesthesia.playlistDev.localMusicManager;
 
 import java.util.ArrayList;
@@ -52,6 +57,11 @@ public class Chromesthesia extends AppCompatActivity {
     private ListView songView;
     protected localMusicManager lmm;
     private boolean musicbound = false;
+    protected MPC media = new MPC();
+    protected String selectedPlaylist;
+    public int positionVar;//testing this
+    public int myVersion = Build.VERSION.SDK_INT;
+    public int myLollipop = Build.VERSION_CODES.LOLLIPOP_MR1;
 
 
 
@@ -62,14 +72,39 @@ public class Chromesthesia extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) throws NullPointerException {
         super.onCreate(savedInstanceState);
+        if (myVersion > myLollipop) {
+            if (!checkIfAlreadyHavePermissions()) {
+                requestAllPermissions();
+            }
+        }
         songView = (ListView)findViewById(R.id.librarylist);
         //setContentView(R.layout.activity_chromesthesia);
 
         /*Start of playlist library creation (i.e. populating the playlistList*/
+        PlaylistManager pm = new PlaylistManager();
+        try {
+            playlistList = pm.getPlaylistList(pm.getPlaylistStorageDirectory().getAbsolutePath());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
+        String pl;
+        if (savedInstanceState == null) {
+            Bundle extras = getIntent().getExtras();
+            if(extras == null) {
+                pl = "selectedplaylist variable not update in chromesthesia";
+            }
+            else {
+                pl = extras.getString("VALUE");
+                selectedPlaylist = pl;
+            }
+        }
+        else {
+            pl = (String) savedInstanceState.getSerializable("VALUE");
+        }
+        System.out.println("playlistContents.java selectedPlaylist:  "+ pl);
 
         /*End of playlistList creation code*/
-
 
 
         /*start of music library creation*/
@@ -97,12 +132,20 @@ public class Chromesthesia extends AppCompatActivity {
             Toast.makeText(Chromesthesia.this, "PLAYER IS NULL!", Toast.LENGTH_LONG).show();
             System.out.println("songlist is:  " + songlist.size());
             player = new Intent(this, MPC.class);
-            bindService(player, musicconnect, Context.BIND_AUTO_CREATE);
-            startService(player);
-            if (mpservice == null) {
-                System.out.println("why am I Null?!?!");
+            if (selectedPlaylist!= null) {
+                System.out.println("Now playing your selected playlist");
+                bindService(player,pmusicconnect,Context.BIND_AUTO_CREATE );
+                startService(player);
+            }
+            else {
+                bindService(player, musicconnect, Context.BIND_AUTO_CREATE);
+                startService(player);
+                if (mpservice == null) {
+                    System.out.println("why am I Null?!?!");
+                }
             }
         }
+
         /*End of library creation code*/
 
 
@@ -141,13 +184,7 @@ public class Chromesthesia extends AppCompatActivity {
         });
 
 
-        /*Button playlistButton = (Button) findViewById(R.id.playlistButton);
-        playlistButton.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View view) {
-                Intent playlistIntent = new Intent(view.getContext(), PlayListSelectionScreen.class);
-                startActivityForResult(playlistIntent, 0);
-            }
-        });*/
+        //make now playing screen
         Button playScreenButton = (Button) findViewById(R.id.playscreenTestButton);
         playScreenButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
@@ -159,18 +196,19 @@ public class Chromesthesia extends AppCompatActivity {
     public void playSongPrint(View view) {
         System.out.println("WE CLICKED!");
     }
-    public void playSong(View view, int id) throws NullPointerException{
+
+    public void playSong(View view, int id) throws NullPointerException {
         try {
             System.out.println("Hey we're trying to play songs now!");
             //System.out.println(Integer.parseInt(view.getTag().toString()));
             System.out.println("our position we're trying to play is:  " + id);
             mpservice.setPlaying(id);
             mpservice.playsong();
-        }
-        catch (NullPointerException n){
+        } catch (NullPointerException n) {
             Log.e("Error: ", "No song to play", n);
         }
     }
+
     private ServiceConnection musicconnect = new ServiceConnection() {
         @Override
         public void onServiceConnected(ComponentName name, IBinder service) {
@@ -181,19 +219,45 @@ public class Chromesthesia extends AppCompatActivity {
             mpservice.setSngs(songlist);
             musicbound = true;
         }
+
         @Override
         public void onServiceDisconnected(ComponentName name) {
             musicbound = false;
         }
     };
+
+    private ServiceConnection pmusicconnect = new ServiceConnection() {
+        @Override
+        public void onServiceConnected(ComponentName name, IBinder service) {
+            binder_music binder = (binder_music) service;
+            Toast.makeText(Chromesthesia.this, "We're in onServiceConnected!", Toast.LENGTH_LONG).show();
+            System.out.println("we're in onServiceConnected!");
+            mpservice = binder.getservice();
+            if (selectedPlaylist==null){
+                mpservice.setSngs(songlist);
+            }
+            else if (selectedPlaylist!=null){
+                Bundle extras = getIntent().getExtras();
+                mpservice.setSngs(new ArrayList<>((ArrayList<Song>) extras.get("PLAYLIST")));
+            }
+            musicbound = true;
+        }
+
+        @Override
+        public void onServiceDisconnected(ComponentName name) {
+
+        }
+    };
+
     @Override
-    public boolean onCreateOptionsMenu (Menu menu){
+    public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_chromesthesia, menu);
         return true;
     }
+
     @Override
-    public boolean onOptionsItemSelected (MenuItem item){
+    public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
@@ -204,15 +268,83 @@ public class Chromesthesia extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
+
     @Override
-    protected void onStart (){
+    protected void onStart() {
         super.onStart();
-        if(player==null){
-            player = new Intent(this,MPC.class);
-            bindService(player, musicconnect, Context.BIND_AUTO_CREATE);
+        if (player == null) {
+            player = new Intent(this, MPC.class);
+            bindService(player, musicconnect, Context.BIND_AUTO_CREATE);}
             startService(player);
         }
+
+
+
+
+
+    /*
+    * Here we check if we already have the permissions that Chromesthesia uses.
+    * The names are a bit cryptic:
+    *
+    * sdR = sd card 'Read' external storage
+    * sdW = sd card 'Write' external storage
+    * internet = permission for internet
+    * bt = regular bluetooth
+    * btA = bluetooth admin
+    * btP = bluetooth privileged
+    * wl = Wake Lock permission
+    * mcc = Media Content Control permission
+    * mas = Modify Audio Settings permission
+    *
+    * That's all the permissions right now!
+    * */
+    private boolean checkIfAlreadyHavePermissions() {
+        int sdR = ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE);
+        int sdW = ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE);
+        int internet = ContextCompat.checkSelfPermission(this, Manifest.permission.INTERNET);
+        int bt = ContextCompat.checkSelfPermission(this, Manifest.permission.BLUETOOTH);
+        int btA = ContextCompat.checkSelfPermission(this, Manifest.permission.BLUETOOTH_ADMIN);
+        int btP = ContextCompat.checkSelfPermission(this, Manifest.permission.BLUETOOTH_PRIVILEGED);
+        int wl = ContextCompat.checkSelfPermission(this, Manifest.permission.WAKE_LOCK);
+        int mcc = ContextCompat.checkSelfPermission(this, Manifest.permission.MEDIA_CONTENT_CONTROL);
+        int mas = ContextCompat.checkSelfPermission(this, Manifest.permission.MODIFY_AUDIO_SETTINGS);
+
+        if ((sdR != 1)&&(sdW!=1)&&(internet!=1)&&(bt!=1)&&(btA!=1)&&(btP!=1)&&(wl!=1)&&(mcc!=1)&&(mas!=1)) {
+            return false;
+        }
+        else {
+            return true;
+        }
     }
+
+    private void requestAllPermissions() {
+        ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                Manifest.permission.INTERNET,
+                Manifest.permission.BLUETOOTH,
+                Manifest.permission.BLUETOOTH_ADMIN,
+                Manifest.permission.BLUETOOTH_PRIVILEGED,
+                Manifest.permission.WAKE_LOCK,
+                Manifest.permission.MEDIA_CONTENT_CONTROL,
+                Manifest.permission.MODIFY_AUDIO_SETTINGS}, 101);
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        switch (requestCode) {
+            case 101:
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    //granted
+                } else {
+                    //not granted
+                }
+                break;
+            default:
+                super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        }
+    }
+
     /**
      * A placeholder fragment containing a simple view.
      */
@@ -222,6 +354,7 @@ public class Chromesthesia extends AppCompatActivity {
          * fragment.
          */
         private static final String ARG_SECTION_NUMBER = "section_number";
+
         public PlaceholderFragment() {
         }
         /**
@@ -235,6 +368,7 @@ public class Chromesthesia extends AppCompatActivity {
             fragment.setArguments(args);
             return fragment;
         }
+
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
@@ -245,26 +379,28 @@ public class Chromesthesia extends AppCompatActivity {
         }
     }
 
-
     /**
      * A {@link FragmentPagerAdapter} that returns a fragment corresponding to
      * one of the sections/tabs/pages.
      */
-    public class SectionsPagerAdapter extends FragmentPagerAdapter {
+    class SectionsPagerAdapter extends FragmentPagerAdapter {
         public SectionsPagerAdapter(FragmentManager fm) {
             super(fm);
         }
+
         @Override
         public Fragment getItem(int position) {
             // getItem is called to instantiate the fragment for the given page.
             // Return a PlaceholderFragment (defined as a static inner class below).
             return PlaceholderFragment.newInstance(position + 1);
         }
+
         @Override
         public int getCount() {
             // Show 3 total pages.
             return 3;
         }
+
         @Override
         public CharSequence getPageTitle(int position) {
             switch (position) {
