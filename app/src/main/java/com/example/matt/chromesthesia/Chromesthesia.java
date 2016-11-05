@@ -134,7 +134,7 @@ public class Chromesthesia extends AppCompatActivity {
             player = new Intent(this, MPC.class);
             if (selectedPlaylist!= null) {
                 System.out.println("Now playing your selected playlist");
-                bindService(player,pmusicconnect,Context.BIND_AUTO_CREATE );
+                bindService(player,musicconnect,Context.BIND_AUTO_CREATE );
                 startService(player);
             }
             else {
@@ -226,28 +226,6 @@ public class Chromesthesia extends AppCompatActivity {
         }
     };
 
-    private ServiceConnection pmusicconnect = new ServiceConnection() {
-        @Override
-        public void onServiceConnected(ComponentName name, IBinder service) {
-            binder_music binder = (binder_music) service;
-            Toast.makeText(Chromesthesia.this, "We're in onServiceConnected!", Toast.LENGTH_LONG).show();
-            System.out.println("we're in onServiceConnected!");
-            mpservice = binder.getservice();
-            if (selectedPlaylist==null){
-                mpservice.setSngs(songlist);
-            }
-            else if (selectedPlaylist!=null){
-                Bundle extras = getIntent().getExtras();
-                mpservice.setSngs(new ArrayList<>((ArrayList<Song>) extras.get("PLAYLIST")));
-            }
-            musicbound = true;
-        }
-
-        @Override
-        public void onServiceDisconnected(ComponentName name) {
-
-        }
-    };
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
