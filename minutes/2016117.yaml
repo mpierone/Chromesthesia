@@ -1,0 +1,18 @@
+date: November 7, 2016
+meeting_type: ta # meeting_type can "group", "ta", or "instructor"
+attendance: [<wlstewar>, <jhuang42>, <mpierone>]
+absent: [<jhuang42>]
+excused_absences: [ {ubit:<iacaneda>,reason: attending funeral}
+  ]
+task_progress: [ # All group members must be included here even if they haven't made any progress since the last meeting
+  {ubit: <iacaneda>, progress: none},
+  {ubit: <jhuang42>, progress: none},
+  {ubit: <mpierone>, progress: none},
+  {ubit: <wlstewar>, progress: none}
+
+issues: [ # Post any issues here. Issues that cannot be addressed by the group should especially be included
+  ]
+Notes:  | # Anything covered in the meeting that doesn't fit elsewhere.
+- Going to discuss actual tasks tomorrow in week 2 TA meeting.
+- Prepare real tasks for tomorrow.
+- Figure out documentation on fragments.
