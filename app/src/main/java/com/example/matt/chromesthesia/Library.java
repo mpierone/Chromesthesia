@@ -1,10 +1,12 @@
 package com.example.matt.chromesthesia;
 
+import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.transition.TransitionManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.GridView;
@@ -22,7 +24,10 @@ import java.util.concurrent.TimeUnit;
  * Created by matt & will on 10/1/2016.
  */
 
-public class Library extends Chromesthesia {
+public class Library extends Fragment {
+
+    public Library(){}
+
     private LayoutInflater layoutInf;
     private ArrayList<Song> songs;
     private ArrayList<String> songArray;
@@ -30,40 +35,17 @@ public class Library extends Chromesthesia {
     private ListView songView;
     private ImageAdapter imgAdapter;
     private ProgressBar progressB;
-    localMusicManager lMM = new localMusicManager();
-    public void onCreate(Bundle savedInstancedState) {
-        super.onCreate(savedInstancedState);
-        createMusicList();
-        setContentView(R.layout.libraryscreen);
-        songView = (ListView)findViewById(R.id.librarylist);
-        System.out.println("PRINTING OUT OUR SONGARRAY");
-        for (String s : songArray) {
-            System.out.println(s);
-        }
-        try
-        {
-            ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, songArray);
-            songView.setAdapter(arrayAdapter);
-        }
-        catch (NullPointerException e){
-            Log.e("Error:","No songs in playlist", e);
-        }
-        songView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                playSong(view, position);
+    public MPC mpservice;
 
-                if(mpservice.isPlaying())
-                {
-                    TextView songTitle = (TextView) findViewById(R.id.songTitleText);
-                    songTitle.setText(mpservice.getName());
-                    TextView artistName = (TextView) findViewById(R.id.artistText);
-                    artistName.setText(mpservice.getArtist());
-                }
-            }
-        });
-        final GridView gridview = (GridView) findViewById(R.id.libraryGridView);
-        gridview.setAdapter(imgAdapter = new ImageAdapter(this));
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        final View rootView = inflater.inflate(R.layout.libraryscreen, container, false);
+        createMusicList();
+        songView = (ListView)rootView.findViewById(R.id.librarylist);
+        System.out.println("PRINTING OUT OUR SONGARRAY");
+        final GridView gridview = (GridView)rootView.findViewById(R.id.libraryGridView);
+        gridview.setAdapter(imgAdapter = new ImageAdapter(gridview.getContext()));
 
         gridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View v,
@@ -101,7 +83,7 @@ public class Library extends Chromesthesia {
             }
         });
 
-        progressB = (ProgressBar) findViewById(R.id.progressB);
+        progressB = (ProgressBar)rootView.findViewById(R.id.progressB);
         progressB.setMax(100);
         Thread refresh = new Thread() {
             @Override
@@ -109,7 +91,7 @@ public class Library extends Chromesthesia {
                 try {
                     while (!isInterrupted()) {
                         Thread.sleep(1000);
-                        runOnUiThread(new Runnable() {
+                        getActivity().runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
                                 progressB.setProgress((int) (((float) mpservice.getPosition() / mpservice.getDuration()) * 100));
@@ -122,14 +104,13 @@ public class Library extends Chromesthesia {
         };
         refresh.start();
 
-
+    return rootView;
     }
 
     public void createMusicList() {
         String songName;
         String artistName;
         String mergedName;
-        songs = songlist;
         System.out.println("in library.java and size is:");
         System.out.println(songs.size());
         songArray = new ArrayList<>();

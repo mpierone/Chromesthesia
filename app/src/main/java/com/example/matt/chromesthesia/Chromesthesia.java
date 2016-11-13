@@ -3,18 +3,15 @@ import com.example.matt.chromesthesia.MPC.binder_music;
 import com.example.matt.chromesthesia.playlistDev.localMusicManager;
 import com.example.matt.chromesthesia.playlistDev.*;
 import android.Manifest;
-import android.content.ContentResolver;
 import android.content.pm.PackageManager;
-import android.database.Cursor;
-import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
+import android.support.design.widget.TabLayout;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
@@ -25,39 +22,19 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.GridView;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.RelativeLayout;
-import android.widget.SeekBar;
-import android.view.View.OnFocusChangeListener;
 import android.widget.TextView;
 import android.os.IBinder;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
-import android.view.View;
-import java.util.ArrayList;
-import java.util.logging.Handler;
 
-import android.content.Intent;
-import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.view.ViewPager;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
-import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
+import java.util.ArrayList;
+
 import android.widget.Button;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
 import android.widget.Toast;
 
 public class Chromesthesia extends AppCompatActivity {
@@ -73,9 +50,9 @@ public class Chromesthesia extends AppCompatActivity {
     /**
      * The {@link ViewPager} that will host the section contents.
      */
-    private ViewPager mViewPager;
+    private FragmentPagerStateAdapter fragmentPagerStateAdapter;
     protected ArrayList<Song> songlist;
-    protected MPC mpservice;
+    public MPC mpservice;
     private Intent player;
     private ListView songView;
     protected localMusicManager lmm;
@@ -84,9 +61,31 @@ public class Chromesthesia extends AppCompatActivity {
     public int positionVar;//testing this
     public int myVersion = Build.VERSION.SDK_INT;
     public int myLollipop = Build.VERSION_CODES.LOLLIPOP_MR1;
+    Toolbar toolbar;
+    TabLayout tabLayout;
+    ViewPager viewPager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) throws NullPointerException {
+        toolbar = (Toolbar)findViewById(R.id.toolBar);
+        setSupportActionBar(toolbar);
+        tabLayout = (TabLayout)findViewById(R.id.tabLayout);
+        viewPager = (ViewPager)findViewById(R.id.viewPager);
+        fragmentPagerStateAdapter = new FragmentPagerStateAdapter(getSupportFragmentManager());
+        fragmentPagerStateAdapter.addFragments(new Library(), "Library");
+        fragmentPagerStateAdapter.addFragments(new NowPlayingScreen(), "NowPlaying");
+        fragmentPagerStateAdapter.addFragments(new PlayList(), "PlayList");
+        if(viewPager == null) {
+            System.out.println("z");
+        }
+        else{
+            System.out.println("isLit");
+        }
+        viewPager.setAdapter(fragmentPagerStateAdapter);
+        viewPager.setOffscreenPageLimit(3);
+        tabLayout.setupWithViewPager(viewPager);
+
+
         super.onCreate(savedInstanceState);
         if (myVersion > myLollipop) {
             if (!checkIfAlreadyHavePermissions()) {
@@ -94,8 +93,8 @@ public class Chromesthesia extends AppCompatActivity {
             }
         }
         songView = (ListView)findViewById(R.id.librarylist);
-        setContentView(R.layout.activity_chromesthesia);
         lmm = new localMusicManager();
+        System.out.println("z");
         //System.out.println("in CHROMESTHESIA after lmm = newlmm();");
         try{
             //System.out.println("in the try block in CHROMESTHESIA");
@@ -125,18 +124,7 @@ public class Chromesthesia extends AppCompatActivity {
                 System.out.println("why am I Null?!?!");
             }
         }
-
-        //Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        //setSupportActionBar(toolbar);
         setContentView(R.layout.homescreen);
-        //Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        //setSupportActionBar(toolbar);
-        // Create the adapter that will return a fragment for each of the three
-        // primary sections of the activity.
-        //mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
-        // Set up the ViewPager with the sections adapter.
-        //mViewPager = (ViewPager) findViewById(RelativeLayout.generateViewId());
-        //mViewPager.setAdapter(mSectionsPagerAdapter);
         Button libraryButton = (Button) findViewById(R.id.libraryButton);
         libraryButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
