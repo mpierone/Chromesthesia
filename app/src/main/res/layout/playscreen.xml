@@ -99,12 +99,14 @@
         android:layout_above="@+id/seekBar"
         android:layout_alignStart="@+id/seekBar" />
 
-    <RadioGroup xmlns:android="http://schemas.android.com/apk/res/android"
+    <RadioGroup
         android:id="@+id/repeatButtons"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:onClick="onCheckChanged">
+        android:layout_alignTop="@+id/imageView"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="37dp">
         <RadioButton android:id="@+id/ALL"
             android:tag="ALL"
             android:layout_width="wrap_content"

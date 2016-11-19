@@ -125,7 +125,7 @@ public class MPC extends Service implements MediaPlayer.OnPreparedListener, Medi
         }
     }
 
-    public void pauseSong() {
+    public void pauseSong() {//
         prepared = false;
         mediaPlayer.pause();
     }

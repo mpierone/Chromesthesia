@@ -42,7 +42,7 @@ public class NowPlayingScreen extends Fragment{
     SeekBar seekBar;
     public MPC mpservice;
     Chromesthesia chromesthesia;
-
+    private View rootView;
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
@@ -52,8 +52,14 @@ public class NowPlayingScreen extends Fragment{
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        final View rootView = inflater.inflate(R.layout.playscreen, container, false);
+        rootView = inflater.inflate(R.layout.playscreen, container, false);
         super.onCreate(savedInstanceState);
+        return rootView;
+    }//end of onCreate
+
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
         final ToggleButton playButton = (ToggleButton) rootView.findViewById(R.id.playButton);
         final ImageButton previousButton = (ImageButton) rootView.findViewById(R.id.previousButton);
         final ImageButton nextButton = (ImageButton) rootView.findViewById(R.id.nextButton);
@@ -62,53 +68,52 @@ public class NowPlayingScreen extends Fragment{
         final TextView currentTime = (TextView) rootView.findViewById(R.id.currentTime);
         final TextView songTitle = (TextView) rootView.findViewById(R.id.songTitleText);
         final RadioGroup repeatButtons = (RadioGroup) rootView.findViewById(R.id.repeatButtons);
-
-    currentTime.setText("0:00");
-    totalTime.setText("X:XX");
-    //if isCheck is true pause button shows. If False then play button shows
-    playButton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-        public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-            if (!isChecked) {
-                chromesthesia.mpservice.resumePlay();         //if true
-            } else {
-                chromesthesia.mpservice.pauseSong();
+        currentTime.setText("0:00");
+        totalTime.setText("X:XX");
+        //if isCheck is true pause button shows. If False then play button shows
+        playButton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (!isChecked) {
+                    chromesthesia.mpservice.resumePlay();         //if true
+                } else {
+                    chromesthesia.mpservice.pauseSong();
+                }
             }
-        }
-    });
+        });
 
-    previousButton.setOnClickListener(new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            //call and play previous song
-            //if song[index-1] would == null, then go to song[highest_index]
-            playButton.setChecked(false);
-            chromesthesia.mpservice.playPrevious();
-        }
-    });
+        previousButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //call and play previous song
+                //if song[index-1] would == null, then go to song[highest_index]
+                playButton.setChecked(false);
+                chromesthesia.mpservice.playPrevious();
+            }
+        });
 
-    nextButton.setOnClickListener(new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            //call and play next song
-            //if song[index+1] is out of bounds, then go to song[index_1]
-            playButton.setChecked(false);
-            chromesthesia.mpservice.playNext();
-        }
-    });
-    repeatButtons.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener()
-    {
-        public void onCheckedChanged(RadioGroup group, int id) {
-        System.out.println("We're in onCheckedChanged!!");
-        RadioButton rb=(RadioButton)rootView.findViewById(id);
-        chromesthesia.mpservice.setLoop(getResources().getResourceEntryName(id));
-    }
-    });
+        nextButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //call and play next song
+                //if song[index+1] is out of bounds, then go to song[index_1]
+                playButton.setChecked(false);
+                chromesthesia.mpservice.playNext();
+            }
+        });
+        repeatButtons.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener()
+        {
+            public void onCheckedChanged(RadioGroup group, int id) {
+                System.out.println("We're in onCheckedChanged!!");
+                RadioButton rb=(RadioButton)rootView.findViewById(id);
+                chromesthesia.mpservice.setLoop(getResources().getResourceEntryName(id));
+            }
+        });
 
-    seekBar = (SeekBar)rootView.findViewById(R.id.seekBar);
-    seekBar.setMax(100);
-    //seekBar.setOnTouchListener((View.OnTouchListener) seekBar);
-    //Thread will refresh seekbar and times every second
-    /*Thread refresh = new Thread() {
+        seekBar = (SeekBar)rootView.findViewById(R.id.seekBar);
+        seekBar.setMax(100);
+        //seekBar.setOnTouchListener((View.OnTouchListener) seekBar);
+        //Thread will refresh seekbar and times every second
+    Thread refresh = new Thread() {
         @Override
         public void run() {
             try {
@@ -117,13 +122,15 @@ public class NowPlayingScreen extends Fragment{
                     getActivity().runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            int duration = chromesthesia.mpservice.getDuration();
-                            int current = chromesthesia.mpservice.getPosition();
-                            seekBar.setProgress((int) (((float) chromesthesia.mpservice.getPosition() / chromesthesia.mpservice.getDuration()) * 100));
-                            currentTime.setText(displayTime(current));
-                            totalTime.setText(displayTime(duration));
-                            artistName.setText(chromesthesia.mpservice.getArtist());
-                            songTitle.setText(chromesthesia.mpservice.getName());
+                            if (chromesthesia.mpservice.prepared) {
+                                int duration = chromesthesia.mpservice.getDuration();
+                                int current = chromesthesia.mpservice.getPosition();
+                                seekBar.setProgress((int) (((float) chromesthesia.mpservice.getPosition() / chromesthesia.mpservice.getDuration()) * 100));
+                                currentTime.setText(displayTime(current));
+                                totalTime.setText(displayTime(duration));
+                                artistName.setText(chromesthesia.mpservice.getArtist());
+                                songTitle.setText(chromesthesia.mpservice.getName());
+                            }
                         }
                     });
 
@@ -136,9 +143,8 @@ public class NowPlayingScreen extends Fragment{
             }
         }
     };
-    refresh.start();*/
-        return rootView;
-    }//end of onCreate
+    refresh.start();
+    }
 
     private void seekBarUpdater() {
         seekBar.setProgress((int) (((float) chromesthesia.mpservice.getPosition() / chromesthesia.mpservice.getDuration()) * 100));

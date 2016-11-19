@@ -13,6 +13,8 @@ import android.widget.GridView;
 import android.widget.ListView;
 import android.content.*;
 import android.widget.ProgressBar;
+import android.widget.TextView;
+
 import java.util.ArrayList;
 
 /**
@@ -22,7 +24,8 @@ import java.util.ArrayList;
 public class Library extends Fragment {
 
     public Library(){}
-
+    public Thread refresh;
+    private View rootView;
     private LayoutInflater layoutInf;
     private ArrayList<Song> songs;
     private ArrayList<String> songArray;
@@ -30,7 +33,7 @@ public class Library extends Fragment {
     private ImageAdapter imgAdapter;
     static ArrayAdapter<String> listAdapter;
     private ProgressBar progressB;
-    public MPC mpservice;
+    //public MPC mpservice;
     Chromesthesia chromesthesia;
 
     @Override
@@ -42,11 +45,10 @@ public class Library extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        final View rootView = inflater.inflate(R.layout.libraryscreen, container, false);
+        rootView = inflater.inflate(R.layout.libraryscreen, container, false);
         createMusicList();
         songView = (ListView)rootView.findViewById(R.id.librarylist);
         listAdapter = new ArrayAdapter<String>(getActivity(), R.layout.arow) {};
-
         System.out.println("PRINTING OUT OUR SONGARRAY");
         final GridView gridview = (GridView)rootView.findViewById(R.id.libraryGridView);
         gridview.setAdapter(listAdapter);
@@ -76,8 +78,29 @@ public class Library extends Fragment {
 
         progressB = (ProgressBar)rootView.findViewById(R.id.progressB);
         progressB.setMax(100);
+        return rootView;
+    }
 
-        Thread refresh = new Thread() {
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        songView = (ListView) rootView.findViewById(R.id.librarylist);
+        songView.setAdapter(new ArrayAdapter<String>(rootView.getContext(), android.R.layout.simple_list_item_1, songArray));
+        songView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                chromesthesia.playSong(view, position);
+
+                if(chromesthesia.mpservice.isPlaying())
+                {
+                    TextView songTitle = (TextView) rootView.findViewById(R.id.songTitleText);
+                    songTitle.setText(chromesthesia.mpservice.getName());
+                    TextView artistName = (TextView) rootView.findViewById(R.id.artistText);
+                    artistName.setText(chromesthesia.mpservice.getArtist());
+                }
+            }
+        });
+        refresh = new Thread() {
             @Override
             public void run() {
                 while (true) {
@@ -91,23 +114,18 @@ public class Library extends Fragment {
                     }
 
                     getActivity().runOnUiThread(new Runnable() {
-                                @Override
-                                public void run() {int x = 5;
-                                    if (chromesthesia.mpservice != null) {
-                                        if (chromesthesia.mpservice.getPosition() != -1 && chromesthesia.mpservice.getDuration() != -1) {
-                                            progressB.setProgress((int) (((float) chromesthesia.mpservice.getPosition() / chromesthesia.mpservice.getDuration()) * 100));
-                                        }
-                                    }
-                                }
-                            });
+                        @Override
+                        public void run() {
+                            if (chromesthesia.mpservice.prepared) {
+                                    progressB.setProgress((int) (((float) chromesthesia.mpservice.getPosition() / chromesthesia.mpservice.getDuration()) * 100));
+                            }
+                        }
+                    });
                 }
             }
         };
         refresh.start();
-    return rootView;
     }
-
-
 
     public void createMusicList() {
         String songName;
