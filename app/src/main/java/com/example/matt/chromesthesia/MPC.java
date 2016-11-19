@@ -49,7 +49,7 @@ public class MPC extends Service implements MediaPlayer.OnPreparedListener, Medi
     public boolean onUnbind (Intent intent) {
         System.out.println("YO WE'RE IN ONUNBIND");
         mediaPlayer.stop();
-        mediaPlayer.release();
+        mediaPlayer.reset();
         return false;
     }
     public void mp_init(){
@@ -237,7 +237,7 @@ public class MPC extends Service implements MediaPlayer.OnPreparedListener, Medi
 
     public int getDuration() {
         int x = -1;
-        
+
         try {
             x = mediaPlayer.getDuration();
         }
