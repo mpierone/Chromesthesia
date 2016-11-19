@@ -7,8 +7,6 @@ import android.widget.BaseAdapter;
 import android.widget.GridView;
 import android.widget.ImageView;
 
-import com.example.matt.chromesthesia.R;
-
 /**
  * Created by Mikeys_Mac on 10/28/16.
  */

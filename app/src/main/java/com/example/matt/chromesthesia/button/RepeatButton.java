@@ -6,7 +6,7 @@ import android.view.View;
 import android.widget.ImageButton;
 
 import com.example.matt.chromesthesia.R;
-import com.example.matt.chromesthesia.enums.*;
+import com.example.matt.chromesthesia.enums.Repeat;
 /**
  * Created by Dave on 10/24/2016.
  */

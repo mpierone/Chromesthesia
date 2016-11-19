@@ -16,7 +16,9 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme"
+        android:taskAffinity=""
+        >
         <service android:name="com.example.matt.chromesthesia.MPC"
             android:enabled="true"></service>
         <activity
@@ -60,7 +62,10 @@
                 <action android:name="android.intent.action.VIEW" />
             </intent-filter>
         </activity>
-
+        <!--NEEDED FOR SPOTIFY PLAYBACK, DO NOT DELETE-->
+        <activity
+            android:name="com.spotify.sdk.android.authentication.LoginActivity"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"/>
         <meta-data
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />

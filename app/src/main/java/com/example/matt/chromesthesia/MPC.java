@@ -3,23 +3,19 @@ package com.example.matt.chromesthesia;
 // MPC = MEDIA PLAYER CLASS
 
 import android.app.Service;
-import android.content.ContentUris;
 import android.content.Intent;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
-import android.os.IBinder;
-import android.support.annotation.Nullable;
-import com.example.matt.chromesthesia.Chromesthesia;
-import java.math.BigInteger;
-import java.util.ArrayList;
 import android.net.Uri;
-import android.media.MediaPlayer.OnBufferingUpdateListener;
 import android.os.Binder;
+import android.os.IBinder;
 import android.os.PowerManager;
+import android.support.annotation.Nullable;
 import android.util.Log;
-import com.example.matt.chromesthesia.enums.*;
 
-import java.io.FileNotFoundException;
+import com.example.matt.chromesthesia.enums.Repeat;
+
+import java.util.ArrayList;
 
 /**
  * Created by Will Stewart on 9/27/2016. yay

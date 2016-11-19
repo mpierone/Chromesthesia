@@ -1,5 +1,14 @@
 apply plugin: 'com.android.application'
 
+
+repositories{
+    mavenCentral()
+    flatDir{
+        dirs 'libs'
+    }
+}
+
+
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     testCompile 'junit:junit:4.12'
@@ -8,6 +17,11 @@ dependencies {
     compile 'com.android.support:appcompat-v7:24.2.1'
     compile 'com.android.support:design:24.2.1'
     compile 'com.google.android.gms:play-services-appindexing:8.4.0'
+    compile 'com.android.support:appcompat-v7:24.2.1'
+    compile 'com.android.support:design:24.2.1'
+    compile 'com.google.android.gms:play-services-appindexing:8.4.0'
+    compile 'com.spotify.sdk:spotify-auth-beta23-noconnect-2.20b@aar'
+    compile 'com.spotify.sdk:spotify-player-beta23-noconnect-2.20b@aar'
 }
 
 
@@ -15,23 +29,10 @@ android {
     useLibrary 'org.apache.http.legacy'
     compileSdkVersion 24
     buildToolsVersion "24.0.2"
-    packagingOptions{
-        exclude 'META-INF/DEPENDENCIES.txt'
-        exclude 'META-INF/LICENSE.txt'
-        exclude 'META-INF/NOTICE.txt'
-        exclude 'META-INF/NOTICE'
-        exclude 'META-INF/LICENSE'
-        exclude 'META-INF/DEPENDENCIES'
-        exclude 'META-INF/notice.txt'
-        exclude 'META-INF/license.txt'
-        exclude 'META-INF/dependencies.txt'
-        exclude 'META-INF/LGPL2.1'
-        exclude 'META-INF/INDEX.list'
-    }
     defaultConfig {
         applicationId "com.example.matt.chromesthesia"
-        minSdkVersion 21
-        targetSdkVersion 24
+        minSdkVersion 15
+        targetSdkVersion 23
         versionCode 1
         versionName "1.0"
     }
@@ -40,38 +41,10 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
-        debug{
-            debuggable true
-        }
     }
-
-    testOptions {
-        unitTests.returnDefaultValues = true
-    }
-
-    dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile 'com.android.support:appcompat-v7:24.2.1'
-    compile 'com.android.support:design:24.2.1'
-    compile 'com.google.android.gms:play-services-appindexing:8.4.0'
-
-    packagingOptions {
-        exclude 'META-INF/DEPENDENCIES.txt'
-        exclude 'META-INF/INDEX.LIST'
-        exclude 'META-INF/DEPENDENCIES'
-        exclude 'META-INF/dependencies.txt'
-        exclude 'META-INF/LICENSE.txt'
-        exclude 'META-INF/LICENSE'
-        exclude 'META-INF/license.txt'
-        exclude 'META-INF/LGPL2.1'
-        exclude 'META-INF/NOTICE.txt'
-        exclude 'META-INF/NOTICE'
-        exclude 'META-INF/notice.txt'
-        exclude '...'
-
-    }
-
 }
 
 
-}
+
+
+
