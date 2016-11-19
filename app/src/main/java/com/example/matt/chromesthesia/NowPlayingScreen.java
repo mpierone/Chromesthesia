@@ -1,6 +1,7 @@
 package com.example.matt.chromesthesia;
 
 //import android.icu.util.TimeUnit;
+import android.app.Activity;
 import android.media.MediaPlayer.OnBufferingUpdateListener;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -40,6 +41,15 @@ public class NowPlayingScreen extends Fragment{
     private final Handler handler = new Handler();
     SeekBar seekBar;
     public MPC mpservice;
+    Chromesthesia chromesthesia;
+
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        chromesthesia = (Chromesthesia) getActivity();
+    }
+
+
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         final View rootView = inflater.inflate(R.layout.playscreen, container, false);
@@ -59,9 +69,9 @@ public class NowPlayingScreen extends Fragment{
     playButton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
         public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
             if (!isChecked) {
-                mpservice.resumePlay();         //if true
+                chromesthesia.mpservice.resumePlay();         //if true
             } else {
-                mpservice.pauseSong();
+                chromesthesia.mpservice.pauseSong();
             }
         }
     });
@@ -72,7 +82,7 @@ public class NowPlayingScreen extends Fragment{
             //call and play previous song
             //if song[index-1] would == null, then go to song[highest_index]
             playButton.setChecked(false);
-            mpservice.playPrevious();
+            chromesthesia.mpservice.playPrevious();
         }
     });
 
@@ -82,7 +92,7 @@ public class NowPlayingScreen extends Fragment{
             //call and play next song
             //if song[index+1] is out of bounds, then go to song[index_1]
             playButton.setChecked(false);
-            mpservice.playNext();
+            chromesthesia.mpservice.playNext();
         }
     });
     repeatButtons.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener()
@@ -90,13 +100,13 @@ public class NowPlayingScreen extends Fragment{
         public void onCheckedChanged(RadioGroup group, int id) {
         System.out.println("We're in onCheckedChanged!!");
         RadioButton rb=(RadioButton)rootView.findViewById(id);
-        mpservice.setLoop(getResources().getResourceEntryName(id));
+        chromesthesia.mpservice.setLoop(getResources().getResourceEntryName(id));
     }
     });
 
     seekBar = (SeekBar)rootView.findViewById(R.id.seekBar);
     seekBar.setMax(100);
-    seekBar.setOnTouchListener((View.OnTouchListener) this);
+    //seekBar.setOnTouchListener((View.OnTouchListener) seekBar);
     //Thread will refresh seekbar and times every second
     Thread refresh = new Thread() {
         @Override
@@ -107,17 +117,28 @@ public class NowPlayingScreen extends Fragment{
                     getActivity().runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            int duration = mpservice.getDuration();
-                            int current = mpservice.getPosition();
-                            seekBar.setProgress((int) (((float) mpservice.getPosition() / mpservice.getDuration()) * 100));
+                            if(chromesthesia.mpservice == null){
+                                System.out.println("is NUll 11/18/2016");
+                            }
+                            else{
+                                System.out.println("is working 1//18/2016");
+                            }
+                            int duration = chromesthesia.mpservice.getDuration();
+                            int current = chromesthesia.mpservice.getPosition();
+                            seekBar.setProgress((int) (((float) chromesthesia.mpservice.getPosition() / chromesthesia.mpservice.getDuration()) * 100));
                             currentTime.setText(displayTime(current));
                             totalTime.setText(displayTime(duration));
-                            artistName.setText(mpservice.getArtist());
-                            songTitle.setText(mpservice.getName());
+                            artistName.setText(chromesthesia.mpservice.getArtist());
+                            songTitle.setText(chromesthesia.mpservice.getName());
                         }
                     });
+
+
                 }
+            } catch (NullPointerException e) {
+                e.printStackTrace();
             } catch (InterruptedException e) {
+                e.printStackTrace();
             }
         }
     };
@@ -126,8 +147,8 @@ public class NowPlayingScreen extends Fragment{
     }//end of onCreate
 
     private void seekBarUpdater() {
-        seekBar.setProgress((int) (((float) mpservice.getPosition() / mpservice.getDuration()) * 100));
-        if (mpservice.isPlaying()) {
+        seekBar.setProgress((int) (((float) chromesthesia.mpservice.getPosition() / chromesthesia.mpservice.getDuration()) * 100));
+        if (chromesthesia.mpservice.isPlaying()) {
             Runnable notification = new Runnable() {
                 public void run() {
                     seekBarUpdater();
@@ -140,10 +161,10 @@ public class NowPlayingScreen extends Fragment{
     public boolean onTouch(View v, MotionEvent event) {
         if (v.getId() == R.id.seekBar) {
             /** Seekbar onTouch event handler. Method which seeks MediaPlayer to seekBar primary progress position*/
-            if (mpservice.isPlaying()) {
+            if (chromesthesia.mpservice.isPlaying()) {
                 SeekBar sb = (SeekBar) v;
-                int playPositionInMillisecconds = (mpservice.getDuration() / 100) * sb.getProgress();
-                mpservice.seek(playPositionInMillisecconds);
+                int playPositionInMillisecconds = (chromesthesia.mpservice.getDuration() / 100) * sb.getProgress();
+                chromesthesia.mpservice.seek(playPositionInMillisecconds);
             }
         }
         return false;

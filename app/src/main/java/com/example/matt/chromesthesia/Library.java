@@ -1,8 +1,8 @@
 package com.example.matt.chromesthesia;
 
+import android.app.Activity;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
-import android.transition.TransitionManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,14 +11,9 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.GridView;
 import android.widget.ListView;
-import com.example.matt.chromesthesia.playlistDev.*;
 import android.content.*;
 import android.widget.ProgressBar;
-import android.widget.SeekBar;
-import android.widget.TextView;
-
 import java.util.ArrayList;
-import java.util.concurrent.TimeUnit;
 
 /**
  * Created by matt & will on 10/1/2016.
@@ -31,54 +26,49 @@ public class Library extends Fragment {
     private LayoutInflater layoutInf;
     private ArrayList<Song> songs;
     private ArrayList<String> songArray;
-    private ListView listView;
     private ListView songView;
     private ImageAdapter imgAdapter;
+    static ArrayAdapter<String> listAdapter;
     private ProgressBar progressB;
     public MPC mpservice;
+    Chromesthesia chromesthesia;
+
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        chromesthesia = (Chromesthesia) getActivity();
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         final View rootView = inflater.inflate(R.layout.libraryscreen, container, false);
-        createMusicList();
+//        createMusicList();
         songView = (ListView)rootView.findViewById(R.id.librarylist);
+        listAdapter = new ArrayAdapter<String>(getActivity(), R.layout.arow) {};
+
         System.out.println("PRINTING OUT OUR SONGARRAY");
         final GridView gridview = (GridView)rootView.findViewById(R.id.libraryGridView);
-        gridview.setAdapter(imgAdapter = new ImageAdapter(gridview.getContext()));
+        gridview.setAdapter(listAdapter);
 
         gridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View v,
                                     int position, long id) {
                 if(position == 0){
-                    mpservice.playPrevious();
+                    chromesthesia.mpservice.playPrevious();
                 }
-                /*
-                if(mpservice.isPlaying()){
-                    imgAdapter.mThumbIds[1] = R.drawable.pausebutton;
-                }
-                else{
-                    imgAdapter.mThumbIds[1] = R.drawable.playbuttonunpressed;
-
-                }
-                */
                 if(position == 1){
-                    mpservice.resumePlay();
-                    //imgAdapter.mThumbIds[1] = R.drawable.playbuttonunpressed;
-                    //System.out.println(Integer.toString(imgAdapter.mThumbIds[1]));
+                    chromesthesia.mpservice.resumePlay();
                 }
                 if(position == 2){
-                    mpservice.pauseSong();
-                    //imgAdapter.mThumbIds[1] = R.drawable.pausebutton;
-                    //System.out.println(Integer.toString(imgAdapter.mThumbIds[1]));
-
+                    chromesthesia.mpservice.pauseSong();
                 }
                 if(position == 3){
-                    mpservice.playNext();
+                    chromesthesia.mpservice.playNext();
                 }
                 if(position == 4){
                     Intent libraryToPlayScreenIntent = new Intent(v.getContext(), NowPlayingScreen.class);
-                    startActivity(libraryToPlayScreenIntent);
+                    v.getContext().startActivity(libraryToPlayScreenIntent);
                 }
             }
         });
@@ -94,7 +84,7 @@ public class Library extends Fragment {
                         getActivity().runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                progressB.setProgress((int) (((float) mpservice.getPosition() / mpservice.getDuration()) * 100));
+//                                progressB.setProgress((int) (((float) chromesthesia.mpservice.getPosition() / chromesthesia.mpservice.getDuration()) * 100));
                             }
                         });
                     }
@@ -103,14 +93,16 @@ public class Library extends Fragment {
             }
         };
         refresh.start();
-
     return rootView;
     }
+
+
 
     public void createMusicList() {
         String songName;
         String artistName;
         String mergedName;
+        //songs = songlist;
         System.out.println("in library.java and size is:");
         System.out.println(songs.size());
         songArray = new ArrayList<>();
