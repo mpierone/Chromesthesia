@@ -48,7 +48,7 @@ public class MPC extends Service implements MediaPlayer.OnPreparedListener, Medi
     @Override
     public boolean onUnbind (Intent intent) {
         System.out.println("YO WE'RE IN ONUNBIND");
-        mediaPlayer.stop();
+        mediaPlayer.pause();
         mediaPlayer.reset();
         return false;
     }
@@ -79,16 +79,13 @@ public class MPC extends Service implements MediaPlayer.OnPreparedListener, Medi
     }
     public ArrayList<Song> getSongs () { return songs;}
     public void stop_pb(){
-        mediaPlayer.stop();
+        mediaPlayer.pause();
     }
 
     @Override
     public void onCompletion(MediaPlayer mp) {
         mp.reset();
         System.out.println("we're in oncompletion and songposition is:  " + songposition);
-        if (Loop == null) {
-            System.out.println("WHY IS LOOP NULL?");
-        }
         System.out.println("onCompletion listener and loop is:  " + Loop);
         switch(Loop) {
             case ALL:

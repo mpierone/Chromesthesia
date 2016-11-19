@@ -58,6 +58,7 @@ public class Library extends Fragment {
                     chromesthesia.mpservice.playPrevious();
                 }
                 if(position == 1){
+                    System.out.println("we're in resumeplay!!!!");
                     chromesthesia.mpservice.resumePlay();
                 }
                 if(position == 2){
@@ -91,9 +92,9 @@ public class Library extends Fragment {
 
                     getActivity().runOnUiThread(new Runnable() {
                                 @Override
-                                public void run() {
+                                public void run() {int x = 5;
                                     if (chromesthesia.mpservice != null) {
-                                        if (chromesthesia.mpservice.getPosition() != -1) {
+                                        if (chromesthesia.mpservice.getPosition() != -1 && chromesthesia.mpservice.getDuration() != -1) {
                                             progressB.setProgress((int) (((float) chromesthesia.mpservice.getPosition() / chromesthesia.mpservice.getDuration()) * 100));
                                         }
                                     }

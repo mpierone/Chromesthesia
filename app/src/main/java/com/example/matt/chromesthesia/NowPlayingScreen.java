@@ -108,7 +108,7 @@ public class NowPlayingScreen extends Fragment{
     seekBar.setMax(100);
     //seekBar.setOnTouchListener((View.OnTouchListener) seekBar);
     //Thread will refresh seekbar and times every second
-    Thread refresh = new Thread() {
+    /*Thread refresh = new Thread() {
         @Override
         public void run() {
             try {
@@ -136,7 +136,7 @@ public class NowPlayingScreen extends Fragment{
             }
         }
     };
-    refresh.start();
+    refresh.start();*/
         return rootView;
     }//end of onCreate
 
