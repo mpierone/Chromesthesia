@@ -173,6 +173,18 @@ public class Chromesthesia extends AppCompatActivity {
         }
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (mpservice.isPlaying()) {
+            mpservice.stop_pb();
+
+        }
+        if(musicbound) {
+            unbindService(musicconnect);
+            musicconnect = null;
+        }
+    }
 
     /*
     * Here we check if we already have the permissions that Chromesthesia uses.

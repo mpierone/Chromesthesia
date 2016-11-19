@@ -47,6 +47,7 @@ public class MPC extends Service implements MediaPlayer.OnPreparedListener, Medi
     }
     @Override
     public boolean onUnbind (Intent intent) {
+        System.out.println("YO WE'RE IN ONUNBIND");
         mediaPlayer.stop();
         mediaPlayer.release();
         return false;
@@ -78,7 +79,7 @@ public class MPC extends Service implements MediaPlayer.OnPreparedListener, Medi
     }
     public ArrayList<Song> getSongs () { return songs;}
     public void stop_pb(){
-        mediaPlayer.pause();
+        mediaPlayer.stop();
     }
 
     @Override
@@ -224,11 +225,26 @@ public class MPC extends Service implements MediaPlayer.OnPreparedListener, Medi
 
 
     public int getPosition() {
-        return mediaPlayer.getCurrentPosition();
+        int x = -1;
+        try {
+            x = mediaPlayer.getCurrentPosition();
+        }
+        catch (IllegalStateException e) {
+            e.printStackTrace();
+        }
+        return x;
     }
 
     public int getDuration() {
-        return mediaPlayer.getDuration();
+        int x = -1;
+        
+        try {
+            x = mediaPlayer.getDuration();
+        }
+        catch (IllegalStateException e) {
+            e.printStackTrace();
+        }
+        return x;
     }
 
     public void seek(int position) {

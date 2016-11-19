@@ -43,7 +43,7 @@ public class Library extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         final View rootView = inflater.inflate(R.layout.libraryscreen, container, false);
-//        createMusicList();
+        createMusicList();
         songView = (ListView)rootView.findViewById(R.id.librarylist);
         listAdapter = new ArrayAdapter<String>(getActivity(), R.layout.arow) {};
 
@@ -75,20 +75,30 @@ public class Library extends Fragment {
 
         progressB = (ProgressBar)rootView.findViewById(R.id.progressB);
         progressB.setMax(100);
+
         Thread refresh = new Thread() {
             @Override
             public void run() {
-                try {
-                    while (!isInterrupted()) {
+                while (true) {
+                    try {
                         Thread.sleep(1000);
-                        getActivity().runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-//                                progressB.setProgress((int) (((float) chromesthesia.mpservice.getPosition() / chromesthesia.mpservice.getDuration()) * 100));
-                            }
-                        });
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
                     }
-                } catch (InterruptedException e) {
+                    if (getActivity() == null) {
+                        return;
+                    }
+
+                    getActivity().runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    if (chromesthesia.mpservice != null) {
+                                        if (chromesthesia.mpservice.getPosition() != -1) {
+                                            progressB.setProgress((int) (((float) chromesthesia.mpservice.getPosition() / chromesthesia.mpservice.getDuration()) * 100));
+                                        }
+                                    }
+                                }
+                            });
                 }
             }
         };
@@ -102,7 +112,7 @@ public class Library extends Fragment {
         String songName;
         String artistName;
         String mergedName;
-        //songs = songlist;
+        songs = chromesthesia.songlist;
         System.out.println("in library.java and size is:");
         System.out.println(songs.size());
         songArray = new ArrayList<>();

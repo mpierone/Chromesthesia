@@ -117,12 +117,6 @@ public class NowPlayingScreen extends Fragment{
                     getActivity().runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            if(chromesthesia.mpservice == null){
-                                System.out.println("is NUll 11/18/2016");
-                            }
-                            else{
-                                System.out.println("is working 1//18/2016");
-                            }
                             int duration = chromesthesia.mpservice.getDuration();
                             int current = chromesthesia.mpservice.getPosition();
                             seekBar.setProgress((int) (((float) chromesthesia.mpservice.getPosition() / chromesthesia.mpservice.getDuration()) * 100));
