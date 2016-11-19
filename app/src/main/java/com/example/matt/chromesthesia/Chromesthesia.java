@@ -238,7 +238,15 @@ public class Chromesthesia extends AppCompatActivity {
             }
             else if (selectedPlaylist!=null){
                 Bundle extras = getIntent().getExtras();
-                mpservice.setSngs(new ArrayList<>((ArrayList<Song>) extras.get("PLAYLIST")));
+                String plDir = extras.getString("VALUE");
+                Playlist y = new Playlist(plDir);
+                System.out.println("hey we've made a playlist to play! and look at this stuff!:");
+                System.out.println(y.plabsPath);
+                ArrayList<Song> x = y._playlistSongs;
+                System.out.println("hey we've got the playlist songs! and their size is:  " + x.size());
+                mpservice.setSngs(x);
+                System.out.println("hey we set the songs to mpc and their size is!~  " + mpservice.getSongs().size());
+
             }
             musicbound = true;
         }

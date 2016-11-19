@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<menu
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <item
+        android:id="@+id/album_overflow_rename"
+        android:icon="@drawable/icon_rename"
+        android:title="@string/rename"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <item
+        android:id="@+id/album_overflow_lock"
+        android:icon="@drawable/icon_lock"
+        android:title="@string/lock"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <item
+        android:id="@+id/album_overflow_unlock"
+        android:icon="@drawable/icon_unlock"
+        android:title="@string/unlock"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <item
+        android:id="@+id/album_overflow_delete"
+        android:icon="@drawable/icon_delete"
+        android:title="@string/delete"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <item
+        android:id="@+id/album_overflow_set_cover"
+        android:icon="@drawable/icon_set_cover"
+        android:title="@string/set_cover"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+</menu>

@@ -24,16 +24,15 @@ import java.util.ArrayList;
 
 public class PlaylistManager {
 
-    String SD_LOCATION = (Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).getPath());
-    File sdlocation = new File(SD_LOCATION + "/Download/");
-    boolean deviceHasSDCard;
+    private final String SD_LOCATION = (Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).getPath());
+    private boolean deviceHasSDCard;
     //private ArrayList<Playlist> playlistList;
 
     public PlaylistManager() {
         //constructor
         if (isExternalStorageReadable() == true && isExternalStorageWritable() == true) {
-            String SD_LOCATION = (Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).getPath());
-            File sdlocation = new File(SD_LOCATION + "/Download/");
+            //String SD_LOCATION = (Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).getPath());
+            //File sdlocation = new File(SD_LOCATION + "/Download/");
             deviceHasSDCard = true;
         } else {
             deviceHasSDCard = false;

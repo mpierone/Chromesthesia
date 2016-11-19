@@ -3,6 +3,7 @@ package com.example.matt.chromesthesia;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Environment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -73,11 +74,12 @@ public class PlayListSelectionScreen extends Chromesthesia {
                 Intent sendPlaylistToChromesthesia = new Intent(context, Chromesthesia.class);
 
                 String x = playlistArray.get(position);
+                //String playlistDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS) + "playlists";
                 openPlaylistContents.putExtra("VALUE", x );
                 updateSelectedPlaylist.putExtra("VALUE", x);
-                sendPlaylistToChromesthesia.putExtra("PLAYLIST", songlist);
+                sendPlaylistToChromesthesia.putExtra("PLAYLIST", x);
 
-                //startActivity(sendPlaylistToChromesthesia);
+                startActivity(sendPlaylistToChromesthesia);
                 startActivity(updateSelectedPlaylist);
                 startActivityForResult(openPlaylistContents,0);
 

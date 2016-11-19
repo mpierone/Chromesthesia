@@ -130,11 +130,11 @@ public class PlaylistContents extends PlayListSelectionScreen {
     /*Add songs to playlist if they are supposed to be there*/
 
     public ArrayList<Song> populatePlaylist(String folder) throws Exception {
-        try {
+        /*try {
             selPlay.stringFilenames = selPlay.loadPlaylist();
         } catch (FileNotFoundException e) {
             e.printStackTrace();
-        }
+        }*/
         try {
             File sdCard = new File(folder);
             if (sdCard.listFiles().length > 0) {

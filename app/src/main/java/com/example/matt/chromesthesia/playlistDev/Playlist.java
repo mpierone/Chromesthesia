@@ -16,22 +16,22 @@ import java.util.ArrayList;
  */
 
 public class Playlist {
-    String _playlistName;
+    public String _playlistName;
     public ArrayList<Song> _playlistSongs;
-    ArrayList<Song> defaultEmptyPlaylistFiles;
+    public ArrayList<Song> defaultEmptyPlaylistFiles;
     public ArrayList<String> stringFilenames;
-    String _playlistFileName;
-    File _playlistTxtDoc;
+    public String _playlistFileName;
+    public File _playlistTxtDoc;
+    public String plabsPath;
     boolean isSavedOnExternalStorage;
 
     public Playlist(String name){
         //constructor
         _playlistName = name;
         _playlistFileName = _playlistName + ".txt";
-
         PlaylistManager pm = new PlaylistManager();
-        _playlistTxtDoc = new File (pm.getPlaylistStorageDirectory(), _playlistFileName);
-
+        plabsPath = pm.getPlaylistStorageDirectory().getAbsolutePath() + "/" + _playlistFileName;
+        _playlistTxtDoc = new File (plabsPath);
         stringFilenames = new ArrayList<>();
         _playlistSongs = new ArrayList<>();
 
@@ -41,6 +41,7 @@ public class Playlist {
                 try {
                     Song so = new Song(s);
                     _playlistSongs.add(so);
+                    System.out.println("we're in Playlists and size of the songlist is:  "+ _playlistSongs.size());
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -109,8 +110,8 @@ public class Playlist {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-
+        System.out.println("Loaded playlist " + _playlistName + " from " + _playlistFileName + " with size " + stringFilenames.size());
+        return stringFilenames;
         /*
         String[] data = new String[stringFilenames.size()];
 
@@ -140,9 +141,6 @@ public class Playlist {
                 e.printStackTrace();
             }
         }*/
-        System.out.println("Loaded playlist " + _playlistName + " from " + _playlistFileName + " with size " + stringFilenames.size());
-
-        return stringFilenames;
     }
 
 
