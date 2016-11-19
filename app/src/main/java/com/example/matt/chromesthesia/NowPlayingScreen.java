@@ -37,7 +37,7 @@ import org.w3c.dom.Text;
  * Created by Matt on 10/8/2016.
  */
 
-public class NowPlayingScreen extends Fragment{
+public class NowPlayingScreen extends Fragment implements View.OnTouchListener, MediaPlayer.OnBufferingUpdateListener, View.OnClickListener{
     private final Handler handler = new Handler();
     SeekBar seekBar;
     public MPC mpservice;
@@ -111,8 +111,27 @@ public class NowPlayingScreen extends Fragment{
 
         seekBar = (SeekBar)rootView.findViewById(R.id.seekBar);
         seekBar.setMax(100);
-        //seekBar.setOnTouchListener((View.OnTouchListener) seekBar);
-        //Thread will refresh seekbar and times every second
+        seekBar.setOnTouchListener(this);
+        seekBar.setOnClickListener(this);
+        /*seekBar.setOnSeekBarChangeListener(new OnSeekBarChangeListener() {
+            int progress = 0;
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progresValue, boolean fromUser) {
+                progress = progresValue;
+                Toast.makeText(rootView.getContext(), "Changing seekbar's progress", Toast.LENGTH_SHORT).show();
+            }
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+                Toast.makeText(rootView.getContext(), "Started tracking seekbar", Toast.LENGTH_SHORT).show();
+            }
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+                Toast.makeText(rootView.getContext(), "Stopped tracking seekbar", Toast.LENGTH_SHORT).show();
+                chromesthesia.mpservice.seek(progress);
+            }
+        });*/
+
+    //Thread will refresh seekbar and times every second
     Thread refresh = new Thread() {
         @Override
         public void run() {
@@ -159,17 +178,31 @@ public class NowPlayingScreen extends Fragment{
     }
 
     public boolean onTouch(View v, MotionEvent event) {
+        int playPositionInMillisecconds = 0 ;
         if (v.getId() == R.id.seekBar) {
             /** Seekbar onTouch event handler. Method which seeks MediaPlayer to seekBar primary progress position*/
-            if (chromesthesia.mpservice.isPlaying()) {
+            if (chromesthesia.mpservice.isPlaying() || chromesthesia.mpservice.isPaused()) {
                 SeekBar sb = (SeekBar) v;
-                int playPositionInMillisecconds = (chromesthesia.mpservice.getDuration() / 100) * sb.getProgress();
-                chromesthesia.mpservice.seek(playPositionInMillisecconds);
+                if (event.ACTION_DOWN == 0) {
+                    System.out.println("hey it's action down!!!");
+                    sb.setProgress(((int) ((sb.getMax() * event.getX()) / v.getWidth())));
+                    playPositionInMillisecconds = (chromesthesia.mpservice.getDuration() / 100) * sb.getProgress();
+                } else
+                    playPositionInMillisecconds = (chromesthesia.mpservice.getDuration() / 100) * sb.getProgress();
             }
+                chromesthesia.mpservice.seek(playPositionInMillisecconds);
         }
         return false;
     }
-
+    public void onClick(View v) {
+        if (v.getId() == R.id.seekBar) {
+            if (chromesthesia.mpservice.isPlaying() || chromesthesia.mpservice.isPaused()) {
+                SeekBar sb = (SeekBar) v;
+                int pos = (chromesthesia.mpservice.getDuration() / 100) * sb.getProgress();
+                chromesthesia.mpservice.seek(pos);
+            }
+        }
+    }
     public void onBufferingUpdate(MediaPlayer mp, int percent) {
         seekBar.setSecondaryProgress(percent);
     }

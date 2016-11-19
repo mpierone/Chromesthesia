@@ -31,8 +31,8 @@ public class MPC extends Service implements MediaPlayer.OnPreparedListener, Medi
     private Song playing;
     private int songposition;
     private Repeat Loop;
+    private boolean paused = false;
     private final IBinder bindme = new binder_music();
-
     public void onCreate(){
         super.onCreate();
         Loop = Repeat.ALL;
@@ -127,6 +127,7 @@ public class MPC extends Service implements MediaPlayer.OnPreparedListener, Medi
 
     public void pauseSong() {//
         prepared = false;
+        paused = true;
         mediaPlayer.pause();
     }
 
@@ -144,6 +145,7 @@ public class MPC extends Service implements MediaPlayer.OnPreparedListener, Medi
     public void onPrepared(MediaPlayer mp) {
         System.out.println("hey!!!!! we're in onprepared!");
         prepared = true;
+        paused = false;
         mp.start();
     }
     public void setPlaying(int index) {
@@ -257,6 +259,7 @@ public class MPC extends Service implements MediaPlayer.OnPreparedListener, Medi
     public void seek(int position) {
         mediaPlayer.seekTo(position);
     }
+    public boolean isPaused() { return paused;}
 
     public String getName() {
         return songs.get(songposition).get_id3().getTitle();

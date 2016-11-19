@@ -33,6 +33,7 @@ public class Library extends Fragment {
     private ImageAdapter imgAdapter;
     static ArrayAdapter<String> listAdapter;
     private ProgressBar progressB;
+    private GridView gridview;
     //public MPC mpservice;
     Chromesthesia chromesthesia;
 
@@ -50,31 +51,6 @@ public class Library extends Fragment {
         songView = (ListView)rootView.findViewById(R.id.librarylist);
         listAdapter = new ArrayAdapter<String>(getActivity(), R.layout.arow) {};
         System.out.println("PRINTING OUT OUR SONGARRAY");
-        final GridView gridview = (GridView)rootView.findViewById(R.id.libraryGridView);
-        gridview.setAdapter(listAdapter);
-
-        gridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            public void onItemClick(AdapterView<?> parent, View v,
-                                    int position, long id) {
-                if(position == 0){
-                    chromesthesia.mpservice.playPrevious();
-                }
-                if(position == 1){
-                    System.out.println("we're in resumeplay!!!!");
-                    chromesthesia.mpservice.resumePlay();
-                }
-                if(position == 2){
-                    chromesthesia.mpservice.pauseSong();
-                }
-                if(position == 3){
-                    chromesthesia.mpservice.playNext();
-                }
-                if(position == 4){
-                    Intent libraryToPlayScreenIntent = new Intent(v.getContext(), NowPlayingScreen.class);
-                    v.getContext().startActivity(libraryToPlayScreenIntent);
-                }
-            }
-        });
 
         progressB = (ProgressBar)rootView.findViewById(R.id.progressB);
         progressB.setMax(100);
@@ -125,6 +101,28 @@ public class Library extends Fragment {
             }
         };
         refresh.start();
+        gridview = (GridView)rootView.findViewById(R.id.libraryGridView);
+        gridview.setAdapter(imgAdapter = new ImageAdapter(rootView.getContext()));
+
+        gridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            public void onItemClick(AdapterView<?> parent, View v,
+                                    int position, long id) {
+                if(position == 0){
+                    chromesthesia.mpservice.playPrevious();
+                }
+                if(position == 1){
+                    System.out.println("we're in resumeplay!!!!");
+                    chromesthesia.mpservice.resumePlay();
+                }
+                if(position == 2){
+                    chromesthesia.mpservice.pauseSong();
+                }
+                if(position == 3){
+                    chromesthesia.mpservice.playNext();
+                }
+            }
+        });
+
     }
 
     public void createMusicList() {
