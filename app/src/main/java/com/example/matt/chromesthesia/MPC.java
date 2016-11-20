@@ -25,13 +25,14 @@ import java.io.FileNotFoundException;
  * Created by Will Stewart on 9/27/2016. yay
  */
 public class MPC extends Service implements MediaPlayer.OnPreparedListener, MediaPlayer.OnErrorListener, MediaPlayer.OnCompletionListener{
+    public boolean prepared = false;
     private MediaPlayer mediaPlayer;
     private ArrayList<Song> songs;
     private Song playing;
     private int songposition;
     private Repeat Loop;
+    private boolean paused = false;
     private final IBinder bindme = new binder_music();
-
     public void onCreate(){
         super.onCreate();
         Loop = Repeat.ALL;
@@ -47,8 +48,9 @@ public class MPC extends Service implements MediaPlayer.OnPreparedListener, Medi
     }
     @Override
     public boolean onUnbind (Intent intent) {
-        mediaPlayer.stop();
-        mediaPlayer.release();
+        System.out.println("YO WE'RE IN ONUNBIND");
+        mediaPlayer.pause();
+        mediaPlayer.reset();
         return false;
     }
     public void mp_init(){
@@ -60,6 +62,7 @@ public class MPC extends Service implements MediaPlayer.OnPreparedListener, Medi
     }
 
     public void startplay (){
+        prepared = false;
         mediaPlayer.reset();
         Song playme = songs.get(songposition);
         String nowplaying = playme.get_identification();
@@ -78,16 +81,15 @@ public class MPC extends Service implements MediaPlayer.OnPreparedListener, Medi
     }
     public ArrayList<Song> getSongs () { return songs;}
     public void stop_pb(){
+        prepared = false;
         mediaPlayer.pause();
     }
 
     @Override
     public void onCompletion(MediaPlayer mp) {
+        prepared = false;
         mp.reset();
         System.out.println("we're in oncompletion and songposition is:  " + songposition);
-        if (Loop == null) {
-            System.out.println("WHY IS LOOP NULL?");
-        }
         System.out.println("onCompletion listener and loop is:  " + Loop);
         switch(Loop) {
             case ALL:
@@ -101,7 +103,7 @@ public class MPC extends Service implements MediaPlayer.OnPreparedListener, Medi
                 songposition = songposition + 1;
                 System.out.println("repeat is set to NONE:  songpos = "+ songposition + " and songsizse = " + songs.size());
                 if (songposition == songs.size()) {
-                    songposition = 0;
+                    songposition = -1;
                     mp.reset();
                 }
                 break;
@@ -118,15 +120,19 @@ public class MPC extends Service implements MediaPlayer.OnPreparedListener, Medi
             mp.prepareAsync();
         }
         else {
-           // mp.reset();
+            songposition = 0;
+            mp.reset();
         }
     }
 
-    public void pauseSong() {
+    public void pauseSong() {//
+        prepared = false;
+        paused = true;
         mediaPlayer.pause();
     }
 
     public void resumePlay() {
+        prepared = true;
         mediaPlayer.start();
     }
 
@@ -137,6 +143,9 @@ public class MPC extends Service implements MediaPlayer.OnPreparedListener, Medi
 
     @Override
     public void onPrepared(MediaPlayer mp) {
+        System.out.println("hey!!!!! we're in onprepared!");
+        prepared = true;
+        paused = false;
         mp.start();
     }
     public void setPlaying(int index) {
@@ -170,8 +179,8 @@ public class MPC extends Service implements MediaPlayer.OnPreparedListener, Medi
     }
 
     public void playsong(){
+        prepared = false;
         mediaPlayer.reset();
-
         playing = songs.get(songposition);
 
         String currentsong = playing.get_identification();
@@ -208,6 +217,7 @@ public class MPC extends Service implements MediaPlayer.OnPreparedListener, Medi
     }
 
     public void continueSong() {
+        prepared = false;
         Song playing = songs.get(songposition);
         String currentsong = playing.get_identification();
         //Uri songuri = ContentUris.withAppendedId(android.provider.MediaStore.Audio.Media.EXTERNAL_CONTENT_URI,playing);
@@ -224,16 +234,32 @@ public class MPC extends Service implements MediaPlayer.OnPreparedListener, Medi
 
 
     public int getPosition() {
-        return mediaPlayer.getCurrentPosition();
+        int x = -1;
+        try {
+            x = mediaPlayer.getCurrentPosition();
+        }
+        catch (IllegalStateException e) {
+            e.printStackTrace();
+        }
+        return x;
     }
 
     public int getDuration() {
-        return mediaPlayer.getDuration();
+        int x = -1;
+
+        try {
+            x = mediaPlayer.getDuration();
+        }
+        catch (IllegalStateException e) {
+            e.printStackTrace();
+        }
+        return x;
     }
 
     public void seek(int position) {
         mediaPlayer.seekTo(position);
     }
+    public boolean isPaused() { return paused;}
 
     public String getName() {
         return songs.get(songposition).get_id3().getTitle();

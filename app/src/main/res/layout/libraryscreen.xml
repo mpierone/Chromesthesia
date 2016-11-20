@@ -5,22 +5,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
 
-    android:background="#2222">
-
-    <TextView android:id="@+id/text"
-        android:layout_width="match_parent" android:layout_height="wrap_content"
-        android:gravity="center_vertical|center_horizontal"
-        android:textAppearance="?android:attr/textAppearanceMedium"/>
-
+    android:background="@drawable/chromesthesialibrarybackground">
     <!-- The frame layout is here since we will be showing either
     the empty view or the list view.  -->
-    <TextView
-        android:textColor="@color/colorPrimaryDark"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Library"
-        android:id="@+id/textView2" />
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="403dp"
@@ -31,13 +18,20 @@
         <ListView
             android:id="@+id/librarylist"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:drawSelectorOnTop="false"
+            android:layout_height="442dp"
             android:visibility="visible"
             android:clickable="true"
 
             />
     </FrameLayout>
+
+    <TextView
+        android:textColor="@color/colorPrimaryDark"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text=""
+        android:id="@+id/textView2" />
 
     <FrameLayout
         android:layout_width="match_parent"
@@ -54,9 +48,10 @@
         <GridView
             android:id="@+id/libraryGridView"
             android:layout_width="match_parent"
-            android:layout_height="102dp"
+            android:layout_height="match_parent"
+            android:paddingTop="35dp"
             android:columnWidth="90dp"
-            android:numColumns="6"
+            android:numColumns="4"
             android:verticalSpacing="1dp"
             android:horizontalSpacing="1dp"
             android:stretchMode="columnWidth"
