@@ -31,10 +31,11 @@ public class localMusicManager {
     File sdlocation = new File(SD_LOCATION + "/Download/");
 
     private ArrayList<Song> _songsList;
-
+    private ArrayList<String> songArray;
     public localMusicManager() {
         //constructor
         _songsList = new ArrayList<>();
+        songArray = new ArrayList<>();
     }
 
     /*
@@ -133,5 +134,31 @@ public class localMusicManager {
             Log.e("lmm", "err setting datasource", e);
         }
         return _songsList;
+    }
+    public ArrayList<String> makeSongNames () {
+        String songName;
+        String artistName;
+        String mergedName;
+        for (Song s : _songsList) {
+            songName = s.get_id3().getTitle();
+            artistName = s.get_id3().getArtist();
+            if (artistName == null) {
+                artistName = "Unknown Artist";
+            }
+            mergedName = songName + " - " + artistName;
+            if (songName == null) {
+                File f = new File(s.get_audioFilePath());
+                mergedName = f.getName();
+            }
+            System.out.println(mergedName);
+            //songArray[i] = (mergedName);
+            songArray.add(mergedName);
+            //ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, sampleArray);
+            //ListView libView = (ListView) findViewById(R.id.librarylist);
+            //libView.setAdapter(arrayAdapter);
+            //arrayAdapter.notifyDataSetChanged();
+            //i++;
+        }
+        return songArray;
     }
 }

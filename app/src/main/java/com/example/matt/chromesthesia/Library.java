@@ -1,10 +1,13 @@
 package com.example.matt.chromesthesia;
 
 import android.app.Activity;
+import android.graphics.Path;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.ContextMenu;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -14,7 +17,9 @@ import android.widget.ListView;
 import android.content.*;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import java.io.File;
 import java.util.ArrayList;
 
 /**
@@ -47,7 +52,7 @@ public class Library extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         rootView = inflater.inflate(R.layout.libraryscreen, container, false);
-        createMusicList();
+        songArray = chromesthesia.playQueueNames;
         songView = (ListView)rootView.findViewById(R.id.librarylist);
         listAdapter = new ArrayAdapter<String>(getActivity(), R.layout.arow) {};
         System.out.println("PRINTING OUT OUR SONGARRAY");
@@ -76,6 +81,14 @@ public class Library extends Fragment {
                 }
             }
         });
+        registerForContextMenu(songView);
+        /*songView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                Toast.makeText(rootView.getContext(), songView.getItemAtPosition(position).toString(), Toast.LENGTH_LONG).show();
+                return false;
+            }
+        });*/
         refresh = new Thread() {
             @Override
             public void run() {
@@ -141,7 +154,14 @@ public class Library extends Fragment {
             for(Song s : songs) {
                 songName = s.get_id3().getTitle();
                 artistName = s.get_id3().getArtist();
+                if (artistName == "null") {
+                    artistName = "Unknown Artist";
+                }
                 mergedName = songName + " - " + artistName;
+                if (songName == "null") {
+                    File f = new File(s.get_audioFilePath());
+                    mergedName = f.getName();
+                }
                 System.out.println(mergedName);
                 //songArray[i] = (mergedName);
                 songArray.add(mergedName);
@@ -155,6 +175,32 @@ public class Library extends Fragment {
         catch (Exception e){
             Log.e("lmm in library.java","stuff broke",e);
         }
-
+        chromesthesia.playQueueNames = songArray;
+    }
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo){
+        menu.add(0, v.getId(), 0, "Add to Now Playing Queue");
+        menu.add(0, v.getId(), 1, "Play Next");
+        menu.add(0, v.getId(), 2, "Add to Playlist");
+    }
+    public boolean onContextItemSelected(MenuItem item){
+        AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
+        if(item.getTitle()=="Add to Now Playing Queue") {
+            chromesthesia.mpservice.addSong(info.position);
+            chromesthesia.playQueueNames.add(chromesthesia.playQueueNames.get(info.position));
+            Toast.makeText(rootView.getContext(), "Add to Now Playing Queue Clicked & Pos = " + info.position, Toast.LENGTH_LONG).show();
+        }
+        if(item.getTitle()=="Play Next") {
+            System.out.println("hey im in playnext on the contxt menu and info.position is:  " + info.position + " and chrom.mpsrv.songpos is:  " + chromesthesia.mpservice.songposition);
+            int x = info.position;
+            int y = chromesthesia.mpservice.songposition;
+            System.out.println("why +" + x + "  +  " + y);
+            chromesthesia.mpservice.addSong(x, y+1);
+            chromesthesia.playQueueNames.add(chromesthesia.mpservice.songposition+1, chromesthesia.playQueueNames.get(info.position));
+            Toast.makeText(rootView.getContext(), "Play Next Clicked", Toast.LENGTH_LONG).show();
+        }
+        if(item.getTitle()=="Add to Playlist"){
+            Toast.makeText(rootView.getContext(), "Add to Playlist", Toast.LENGTH_LONG).show();
+        }
+        return true;
     }
 }

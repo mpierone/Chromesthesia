@@ -26,10 +26,11 @@ import java.io.FileNotFoundException;
  */
 public class MPC extends Service implements MediaPlayer.OnPreparedListener, MediaPlayer.OnErrorListener, MediaPlayer.OnCompletionListener{
     public boolean prepared = false;
+    public boolean datachanged = false;
     private MediaPlayer mediaPlayer;
     private ArrayList<Song> songs;
     private Song playing;
-    private int songposition;
+    public int songposition;
     private Repeat Loop;
     private boolean paused = false;
     private final IBinder bindme = new binder_music();
@@ -264,9 +265,21 @@ public class MPC extends Service implements MediaPlayer.OnPreparedListener, Medi
     public String getName() {
         return songs.get(songposition).get_id3().getTitle();
     }
-
+    public boolean addSong(int songindex) {
+        Song s = songs.get(songindex);
+        songs.add(s);
+        datachanged = true;
+        return true;
+    }
+    public boolean addSong(int songindex, int listindex) {
+        Song s = songs.get(songindex);
+        songs.add(listindex, s);
+        datachanged = true;
+        return true;
+    }
     public String getArtist() {
         return songs.get(songposition).get_id3().getArtist();
     }
+    public int getSongposition() { return songposition;}
 }
 

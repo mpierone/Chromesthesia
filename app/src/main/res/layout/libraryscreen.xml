@@ -6,12 +6,6 @@
     android:layout_height="match_parent"
 
     android:background="#2222">
-
-    <TextView android:id="@+id/text"
-        android:layout_width="match_parent" android:layout_height="wrap_content"
-        android:gravity="center_vertical|center_horizontal"
-        android:textAppearance="?android:attr/textAppearanceMedium"/>
-
     <!-- The frame layout is here since we will be showing either
     the empty view or the list view.  -->
     <TextView
@@ -30,13 +24,15 @@
              find it -->
         <ListView
             android:id="@+id/librarylist"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:drawSelectorOnTop="false"
             android:visibility="visible"
             android:clickable="true"
 
-            />
+            >
+
+        </ListView>
     </FrameLayout>
 
     <FrameLayout
