@@ -15,6 +15,7 @@ import android.widget.ListView;
 import android.content.*;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.ToggleButton;
 
 import java.util.ArrayList;
 
@@ -38,6 +39,7 @@ public class Library extends Fragment {
     //public MPC mpservice;
     Chromesthesia chromesthesia;
 
+
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
@@ -52,7 +54,6 @@ public class Library extends Fragment {
         songView = (ListView)rootView.findViewById(R.id.librarylist);
         listAdapter = new ArrayAdapter<String>(getActivity(), R.layout.arow) {};
         System.out.println("PRINTING OUT OUR SONGARRAY");
-
         progressB = (ProgressBar)rootView.findViewById(R.id.progressB);
         progressB.setMax(100);
         return rootView;
@@ -61,8 +62,9 @@ public class Library extends Fragment {
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+
         songView = (ListView) rootView.findViewById(R.id.librarylist);
-        songView.setAdapter(new ArrayAdapter<String>(rootView.getContext(), android.R.layout.simple_list_item_1, songArray));
+        songView.setAdapter(new ArrayAdapter<>(rootView.getContext(), android.R.layout.simple_list_item_1, songArray));
         songView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {

@@ -43,6 +43,7 @@ public class NowPlayingScreen extends Fragment implements View.OnTouchListener, 
     public MPC mpservice;
     Chromesthesia chromesthesia;
     private View rootView;
+
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
@@ -70,10 +71,11 @@ public class NowPlayingScreen extends Fragment implements View.OnTouchListener, 
         final RadioGroup repeatButtons = (RadioGroup) rootView.findViewById(R.id.repeatButtons);
         currentTime.setText("0:00");
         totalTime.setText("X:XX");
+
         //if isCheck is true pause button shows. If False then play button shows
         playButton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (!isChecked) {
+                if (isChecked) {
                     chromesthesia.mpservice.resumePlay();         //if true
                 } else {
                     chromesthesia.mpservice.pauseSong();
