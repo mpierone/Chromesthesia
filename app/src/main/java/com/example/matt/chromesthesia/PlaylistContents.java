@@ -3,7 +3,9 @@ package com.example.matt.chromesthesia;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
@@ -26,28 +28,19 @@ public class PlaylistContents extends PlayListSelectionScreen {
     TextView playlistName;
     //ArrayList<Song> _playlistSongs;
     ArrayList<String> psongArray;
+    Chromesthesia chromesthesia;
+    private View rootView;
 
-    public void onCreate(Bundle savedInstancedState) {
-        super.onCreate(savedInstancedState);
-        /*Visuals*/
-        setContentView(R.layout.playlistcontents);
-        playlistName = (TextView) findViewById(R.id.playlistName);
-        contentsView = (ListView) findViewById(R.id.playlistContents);
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        rootView = inflater.inflate(R.layout.libraryscreen, container, false);
+        playlistName = (TextView) rootView.findViewById(R.id.playlistName);
+        contentsView = (ListView) rootView.findViewById(R.id.playlistContents);
         //playlistName.setText();
-        Intent intent = this.getIntent();
-        String pl;
-        if (savedInstancedState == null) {
-            Bundle extras = getIntent().getExtras();
-            if(extras == null) {
-                pl = "HELLA NULL";
-            }
-            else {
-                pl = extras.getString("VALUE");
-            }
-        }
-        else {
-            pl = (String) savedInstancedState.getSerializable("VALUE");
-        }
+        String pl = " ";
+
         System.out.println("playlistContents.java selectedPlaylist:  "+ pl);
         selPlay = new Playlist(pl);
 
@@ -61,7 +54,7 @@ public class PlaylistContents extends PlayListSelectionScreen {
             }
         } catch (Exception e) {
             e.printStackTrace();
-            Toast.makeText(context, "Could not populate playlist!", Toast.LENGTH_LONG);
+            Toast.makeText(rootView.getContext(), "Could not populate playlist!", Toast.LENGTH_LONG);
         }
 
         /*Code for making a string array of Titles and Names of songs in playlist and setting
@@ -76,11 +69,11 @@ public class PlaylistContents extends PlayListSelectionScreen {
                 System.out.println(selPlay._playlistSongs);
                 ArrayList<String> empties = new ArrayList<>();
                 empties.add(emptyAdapterMsg);
-                ArrayAdapter a = new ArrayAdapter<String>(getBaseContext(), android.R.layout.simple_list_item_1, empties);
+                ArrayAdapter a = new ArrayAdapter<>(chromesthesia.getBaseContext(), android.R.layout.simple_list_item_1, empties);
                 contentsView.setAdapter(a);
             }
             else{
-                ArrayAdapter<String> pArrayAdapter = new ArrayAdapter<String>(getBaseContext(), android.R.layout.simple_list_item_1, psongArray);
+                ArrayAdapter<String> pArrayAdapter = new ArrayAdapter<String>(chromesthesia.getBaseContext(), android.R.layout.simple_list_item_1, psongArray);
                 contentsView.setAdapter(pArrayAdapter);
             }
         }
@@ -112,11 +105,11 @@ public class PlaylistContents extends PlayListSelectionScreen {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 //code for getting play functionality
                 psongArray.get(position);
-                playSong(view, position);
+                chromesthesia.playSong(view, position);
             }
         });
 
-
+    return rootView;
     }
 
 
