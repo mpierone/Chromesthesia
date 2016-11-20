@@ -11,9 +11,6 @@
         android:layout_height="500dp"
         android:id="@+id/imageView"
         android:layout_alignParentBottom="true"
-        android:layout_marginLeft="25dp"
-        android:layout_marginRight= "25dp"
-        android:layout_marginTop="25dp"
         android:layout_marginBottom="200dp"
         android:src="@android:drawable/ic_media_play" />
 
@@ -48,6 +45,7 @@
         android:text="Song Title"
         android:id="@+id/songTitleText"
         android:layout_marginBottom="71dp"
+        android:paddingLeft="15dp"
         android:layout_above="@+id/seekBar"
         android:layout_alignStart="@+id/imageView"
         android:layout_alignEnd="@+id/imageView" />
@@ -72,6 +70,7 @@
         android:id="@+id/artistText"
         android:layout_above="@+id/seekBar"
         android:layout_alignStart="@+id/songTitleText"
+        android:paddingLeft="15dp"
         android:layout_marginBottom="28dp" />
 
     <SeekBar
@@ -88,6 +87,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/totalTime"
+        android:paddingRight="15dp"
         android:layout_above="@+id/seekBar"
         android:layout_alignEnd="@+id/seekBar" />
 
@@ -96,6 +96,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/currentTime"
+        android:paddingLeft="15dp"
         android:layout_above="@+id/seekBar"
         android:layout_alignStart="@+id/seekBar" />
 
@@ -106,7 +107,7 @@
         android:orientation="vertical"
         android:layout_alignTop="@+id/imageView"
         android:layout_alignParentStart="true"
-        android:layout_marginTop="37dp">
+        android:layout_marginTop="15dp">
         <RadioButton android:id="@+id/ALL"
             android:tag="ALL"
             android:layout_width="wrap_content"

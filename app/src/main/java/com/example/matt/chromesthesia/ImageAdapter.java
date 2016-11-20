@@ -36,7 +36,7 @@ public class ImageAdapter extends BaseAdapter {
         ImageView imageView;
         if (convertView == null) {
             imageView = new ImageView(mContext);
-            imageView.setLayoutParams(new GridView.LayoutParams(150, 150));
+            imageView.setLayoutParams(new GridView.LayoutParams(250, 250));
             //imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
             imageView.setPadding(3, 50, 3, 3);
         } else {
@@ -50,6 +50,6 @@ public class ImageAdapter extends BaseAdapter {
     // references to our images
     public Integer[] mThumbIds = {
             R.drawable.previousbutton, R.drawable.playbuttonunpressed, R.drawable.pausebutton,
-            R.drawable.nextbutton, R.drawable.common_full_open_on_phone
+            R.drawable.nextbutton
         };
     }

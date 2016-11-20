@@ -1,6 +1,7 @@
 package com.example.matt.chromesthesia;
 
 import android.app.Activity;
+import android.graphics.Color;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.util.Log;
@@ -71,8 +72,12 @@ public class Library extends Fragment {
                 {
                     TextView songTitle = (TextView) rootView.findViewById(R.id.songTitleText);
                     songTitle.setText(chromesthesia.mpservice.getName());
+                    songTitle.setTextColor(Color.BLUE);
+                    songTitle.setTextSize(15);
                     TextView artistName = (TextView) rootView.findViewById(R.id.artistText);
                     artistName.setText(chromesthesia.mpservice.getArtist());
+                    artistName.setTextColor(Color.BLUE);
+                    songTitle.setTextSize(15);
                 }
             }
         });
