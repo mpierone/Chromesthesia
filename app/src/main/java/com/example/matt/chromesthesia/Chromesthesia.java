@@ -26,6 +26,8 @@ import android.content.Intent;
 import android.content.ServiceConnection;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 import android.widget.Button;
 import android.widget.Toast;
@@ -38,6 +40,11 @@ public class Chromesthesia extends AppCompatActivity {
      */
     private FragmentPagerStateAdapter fragmentPagerStateAdapter;
     protected ArrayList<Song> songlist;
+    protected ArrayList<Song> songlist_artist;
+    protected ArrayList<Song> songlist_album;
+    protected ArrayList<Song> songlist_title;
+    protected ArrayList<Song> _OGsongs;
+    public ArrayList<String> playQueueNames;
     public MPC mpservice;
     private Intent player;
     private ListView songView;
@@ -72,13 +79,68 @@ public class Chromesthesia extends AppCompatActivity {
         try {
             //System.out.println("in the try block in CHROMESTHESIA");
             songlist = lmm.makeSongsList();
-            //System.out.println((songlist.size()));
-            ID3 ayy = songlist.get(0).get_id3();
-            if (ayy == null) {
-                //System.out.println("no id3");
-            } else {
-                //System.out.println(ayy.getTitle());
-            }
+            songlist_album = new ArrayList<>(songlist);
+            songlist_artist = new ArrayList<>(songlist);
+            songlist_title = new ArrayList<>(songlist);
+            _OGsongs = new ArrayList<>(songlist);
+            Collections.sort(songlist_album, new Comparator<Song>() {
+                @Override
+                public int compare(Song o1, Song o2) {
+                    String one = o1.get_id3().getAlbum();
+                    String two = o1.get_id3().getAlbum();
+                    if (one == null) {
+                        return 1;
+                    }
+                    else if (two == null) {
+                        return -1;
+                    }
+                    else if (one == null && two == null) {
+                        return 0;
+                    }
+                    else {
+                        return one.compareTo(two);
+                    }
+                }
+            });
+            Collections.sort(songlist_artist, new Comparator<Song>() {
+                @Override
+                public int compare(Song o1, Song o2) {
+                    String one = o1.get_id3().getArtist();
+                    String two = o1.get_id3().getArtist();
+                    if (one == null) {
+                        return 1;
+                    }
+                    else if (two == null) {
+                        return -1;
+                    }
+                    else if (one == null && two == null) {
+                        return 0;
+                    }
+                    else {
+                        return one.compareTo(two);
+                    }
+                }
+            });
+            Collections.sort(songlist_title, new Comparator<Song>() {
+                @Override
+                public int compare(Song o1, Song o2) {
+                    String one = o1.get_id3().getTitle();
+                    String two = o1.get_id3().getTitle();
+                    if (one == null) {
+                        return 1;
+                    }
+                    else if (two == null) {
+                        return -1;
+                    }
+                    else if (one == null && two == null) {
+                        return 0;
+                    }
+                    else {
+                        return one.compareTo(two);
+                    }
+                }
+            });
+            playQueueNames = lmm.makeSongNames();
 
         } catch (Exception e) {
             Log.e("chromesthesia", "err setting datasource", e);

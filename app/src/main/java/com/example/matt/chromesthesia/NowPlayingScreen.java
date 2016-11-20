@@ -12,8 +12,12 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CompoundButton;
+import android.widget.ExpandableListAdapter;
+import android.widget.ExpandableListView;
 import android.widget.ImageButton;
 import android.widget.ProgressBar;
 import android.widget.SeekBar;
@@ -27,6 +31,8 @@ import android.support.v4.app.Fragment;
 import android.media.MediaPlayer;
 import android.widget.ToggleButton;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 import com.example.matt.chromesthesia.MPC;
 
@@ -43,6 +49,9 @@ public class NowPlayingScreen extends Fragment implements View.OnTouchListener, 
     public MPC mpservice;
     Chromesthesia chromesthesia;
     private View rootView;
+    private ExpandableListView playQueue;
+    private playQueueAdapter playAdapter;
+    private List<String> header = new ArrayList<String>();
 
     @Override
     public void onAttach(Activity activity) {
@@ -69,9 +78,35 @@ public class NowPlayingScreen extends Fragment implements View.OnTouchListener, 
         final TextView currentTime = (TextView) rootView.findViewById(R.id.currentTime);
         final TextView songTitle = (TextView) rootView.findViewById(R.id.songTitleText);
         final RadioGroup repeatButtons = (RadioGroup) rootView.findViewById(R.id.repeatButtons);
+        header.add("Now Playing");
+        playQueue = (ExpandableListView) rootView.findViewById(R.id.playQueue);
+        playAdapter = new playQueueAdapter(rootView.getContext(), header, chromesthesia.playQueueNames);
+        playQueue.setAdapter(playAdapter);
+        playQueue.setOnGroupExpandListener(new ExpandableListView.OnGroupExpandListener() {
+            @Override
+            public void onGroupExpand(int groupPosition) {
+                if (chromesthesia.mpservice.datachanged) {
+                    chromesthesia.mpservice.datachanged = playAdapter.setplayQueue(chromesthesia.playQueueNames);
+                }
+            }
+        });
+        playQueue.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
+            @Override
+            public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
+                chromesthesia.playSong(v, childPosition);
+                System.out.println("We're clickin' stuff in the expandable list view!!");
+                if(chromesthesia.mpservice.isPlaying())
+                {
+                    TextView songTitle = (TextView) rootView.findViewById(R.id.songTitleText);
+                    songTitle.setText(chromesthesia.mpservice.getName());
+                    TextView artistName = (TextView) rootView.findViewById(R.id.artistText);
+                    artistName.setText(chromesthesia.mpservice.getArtist());
+                }
+                return true;
+            }
+        });
         currentTime.setText("0:00");
         totalTime.setText("X:XX");
-
         //if isCheck is true pause button shows. If False then play button shows
         playButton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -216,6 +251,8 @@ public class NowPlayingScreen extends Fragment implements View.OnTouchListener, 
                 TimeUnit.MILLISECONDS.toSeconds(time) -
                         TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(time)));
     }
-
+    public void pls(){
+        System.out.println("pls");
+    }
 }//end of class
 
