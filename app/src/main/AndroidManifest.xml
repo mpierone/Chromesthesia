@@ -62,10 +62,13 @@
                 <action android:name="android.intent.action.VIEW" />
             </intent-filter>
         </activity>
-        <!--NEEDED FOR SPOTIFY PLAYBACK, DO NOT DELETE-->
+
+        <!--NEEDED FOR SPOTIFY PLAYBACK, DO NOT DELETE. Needed for LoginActivity to Work-->
         <activity
             android:name="com.spotify.sdk.android.authentication.LoginActivity"
             android:theme="@android:style/Theme.Translucent.NoTitleBar"/>
+
+
         <meta-data
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
