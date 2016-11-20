@@ -18,7 +18,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Library"
+        android:text=""
         android:id="@+id/textView2" />
     <FrameLayout
         android:layout_width="match_parent"
