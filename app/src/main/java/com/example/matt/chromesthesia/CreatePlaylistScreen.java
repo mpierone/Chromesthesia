@@ -97,6 +97,7 @@ import java.util.Collections;
          }
         });
         return rootView;
+
     }
 
  @Override
@@ -171,6 +172,7 @@ import java.util.Collections;
  fos.write(empty.getBytes());
  fos.close();
  System.out.println("This is an empty playlist. No songs to save to text file.");
+  System.out.println("Testing");
  }
  }
  }
