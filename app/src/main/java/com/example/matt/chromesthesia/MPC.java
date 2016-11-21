@@ -5,11 +5,16 @@ package com.example.matt.chromesthesia;
 import android.app.Service;
 import android.content.ContentUris;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
 import com.example.matt.chromesthesia.Chromesthesia;
+
+import java.io.ByteArrayInputStream;
+import java.io.InputStream;
 import java.math.BigInteger;
 import java.util.ArrayList;
 import android.net.Uri;
@@ -18,7 +23,7 @@ import android.os.Binder;
 import android.os.PowerManager;
 import android.util.Log;
 import com.example.matt.chromesthesia.enums.*;
-
+import android.media.MediaMetadataRetriever;
 import java.io.FileNotFoundException;
 
 /**
@@ -26,7 +31,9 @@ import java.io.FileNotFoundException;
  */
 public class MPC extends Service implements MediaPlayer.OnPreparedListener, MediaPlayer.OnErrorListener, MediaPlayer.OnCompletionListener{
     public boolean prepared = false;
+    public MediaMetadataRetriever mmr = new MediaMetadataRetriever();
     public boolean datachanged = false;
+    public boolean artchanged = false;
     private MediaPlayer mediaPlayer;
     private ArrayList<Song> songs;
     private Song playing;
@@ -34,6 +41,7 @@ public class MPC extends Service implements MediaPlayer.OnPreparedListener, Medi
     private Repeat Loop;
     private boolean paused = false;
     private final IBinder bindme = new binder_music();
+    public Bitmap albumArt;
     public void onCreate(){
         super.onCreate();
         Loop = Repeat.ALL;
@@ -78,6 +86,7 @@ public class MPC extends Service implements MediaPlayer.OnPreparedListener, Medi
     }
    // }
     public void setSngs(ArrayList<Song> Sngs) {
+        datachanged=true;
         songs = Sngs;
     }
     public ArrayList<Song> getSongs () { return songs;}
@@ -145,6 +154,17 @@ public class MPC extends Service implements MediaPlayer.OnPreparedListener, Medi
     @Override
     public void onPrepared(MediaPlayer mp) {
         System.out.println("hey!!!!! we're in onprepared!");
+        mmr.setDataSource(songs.get(songposition).get_audioFilePath());
+        byte[] art = mmr.getEmbeddedPicture();
+        if (art != null) {
+            InputStream in = new ByteArrayInputStream(mmr.getEmbeddedPicture());
+            albumArt = BitmapFactory.decodeStream(in);
+            artchanged = true;
+        }
+        else {
+            albumArt = null;
+            artchanged = true;
+        }
         prepared = true;
         paused = false;
         mp.start();
@@ -274,6 +294,16 @@ public class MPC extends Service implements MediaPlayer.OnPreparedListener, Medi
     public boolean addSong(int songindex, int listindex) {
         Song s = songs.get(songindex);
         songs.add(listindex, s);
+        datachanged = true;
+        return true;
+    }
+    public boolean addSong(int songindex, int listindex, Song s) {
+        songs.add(listindex, s);
+        datachanged = true;
+        return true;
+    }
+    public boolean addSong(int songindex, Song s) {
+        songs.add(s);
         datachanged = true;
         return true;
     }

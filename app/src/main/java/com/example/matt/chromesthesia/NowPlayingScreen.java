@@ -2,6 +2,9 @@ package com.example.matt.chromesthesia;
 
 //import android.icu.util.TimeUnit;
 import android.app.Activity;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
+import android.media.Image;
 import android.media.MediaPlayer.OnBufferingUpdateListener;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -19,6 +22,7 @@ import android.widget.CompoundButton;
 import android.widget.ExpandableListAdapter;
 import android.widget.ExpandableListView;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
@@ -46,13 +50,14 @@ import org.w3c.dom.Text;
 public class NowPlayingScreen extends Fragment implements View.OnTouchListener, MediaPlayer.OnBufferingUpdateListener, View.OnClickListener{
     private final Handler handler = new Handler();
     SeekBar seekBar;
+    private int x;
     public MPC mpservice;
     Chromesthesia chromesthesia;
     private View rootView;
     private ExpandableListView playQueue;
     private playQueueAdapter playAdapter;
     private List<String> header = new ArrayList<String>();
-
+    private ImageView albumArt;
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
@@ -78,6 +83,7 @@ public class NowPlayingScreen extends Fragment implements View.OnTouchListener, 
         final TextView currentTime = (TextView) rootView.findViewById(R.id.currentTime);
         final TextView songTitle = (TextView) rootView.findViewById(R.id.songTitleText);
         final RadioGroup repeatButtons = (RadioGroup) rootView.findViewById(R.id.repeatButtons);
+        albumArt = (ImageView) rootView.findViewById(R.id.albumArt);
         header.add("Now Playing");
         playQueue = (ExpandableListView) rootView.findViewById(R.id.playQueue);
         playAdapter = new playQueueAdapter(rootView.getContext(), header, chromesthesia.playQueueNames);
@@ -86,7 +92,7 @@ public class NowPlayingScreen extends Fragment implements View.OnTouchListener, 
             @Override
             public void onGroupExpand(int groupPosition) {
                 if (chromesthesia.mpservice.datachanged) {
-                    chromesthesia.mpservice.datachanged = playAdapter.setplayQueue(chromesthesia.playQueueNames);
+                    chromesthesia.mpservice.datachanged = playAdapter.setplayQueue(chromesthesia.getPlayQueueNames());
                 }
             }
         });
@@ -105,6 +111,23 @@ public class NowPlayingScreen extends Fragment implements View.OnTouchListener, 
                 return true;
             }
         });
+        rootView.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                System.out.println("we're in the onfocuschange for rootview!");
+                playQueue.collapseGroup(0);
+            }
+        });
+        playQueue.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (!hasFocus) {
+                    System.out.println("we're in the onfocuschange for playQueue!");
+                    playQueue.collapseGroup(0);
+                }
+            }
+        });
+        //playQueue.setVisibility(View.INVISIBLE);
         currentTime.setText("0:00");
         totalTime.setText("X:XX");
         //if isCheck is true pause button shows. If False then play button shows
@@ -179,6 +202,22 @@ public class NowPlayingScreen extends Fragment implements View.OnTouchListener, 
                         @Override
                         public void run() {
                             if (chromesthesia.mpservice.prepared) {
+                                if (chromesthesia.mpservice.artchanged) {
+                                    albumArt.setImageBitmap(chromesthesia.mpservice.albumArt);
+                                    //chromesthesia.mpservice.artchanged = false;
+                                }
+                                if (chromesthesia.mpservice.albumArt == null) {
+                                    albumArt.setImageResource(R.drawable.defalbumart1);
+                                    x = 1;
+                                }
+                                if (x == 1) {
+                                    albumArt.setImageResource(R.drawable.defalbumart2);
+                                    x = 0;
+                                }
+                                if (x ==0 ) {
+                                    albumArt.setImageResource(R.drawable.defalbumart1);
+                                    x = 1;
+                                }
                                 int duration = chromesthesia.mpservice.getDuration();
                                 int current = chromesthesia.mpservice.getPosition();
                                 seekBar.setProgress((int) (((float) chromesthesia.mpservice.getPosition() / chromesthesia.mpservice.getDuration()) * 100));

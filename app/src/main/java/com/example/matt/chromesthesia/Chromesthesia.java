@@ -44,7 +44,8 @@ public class Chromesthesia extends AppCompatActivity {
     protected ArrayList<Song> songlist_album;
     protected ArrayList<Song> songlist_title;
     protected ArrayList<Song> _OGsongs;
-    public ArrayList<String> playQueueNames;
+    public ArrayList<Song> nowPlaying;
+    public ArrayList<String> playQueueNames = new ArrayList<>();
     public MPC mpservice;
     private Intent player;
     private ListView songView;
@@ -57,7 +58,9 @@ public class Chromesthesia extends AppCompatActivity {
     private Fragment libraryFragment;
     private Fragment nowPlayingFragment;
     private Fragment playlistFragment;
-
+    private Fragment libraryArtistFragment;
+    private Fragment libraryAlbumFragment;
+    private Fragment libraryTitleFragment;
     Toolbar toolbar;
     TabLayout tabLayout;
     ViewPager viewPager;
@@ -74,20 +77,18 @@ public class Chromesthesia extends AppCompatActivity {
         }
         songView = (ListView) findViewById(R.id.librarylist);
         lmm = new localMusicManager();
-        System.out.println("z");
-        //System.out.println("in CHROMESTHESIA after lmm = newlmm();");
         try {
-            //System.out.println("in the try block in CHROMESTHESIA");
             songlist = lmm.makeSongsList();
             songlist_album = new ArrayList<>(songlist);
             songlist_artist = new ArrayList<>(songlist);
             songlist_title = new ArrayList<>(songlist);
             _OGsongs = new ArrayList<>(songlist);
+            nowPlaying = new ArrayList<>();
             Collections.sort(songlist_album, new Comparator<Song>() {
                 @Override
                 public int compare(Song o1, Song o2) {
                     String one = o1.get_id3().getAlbum();
-                    String two = o1.get_id3().getAlbum();
+                    String two = o2.get_id3().getAlbum();
                     if (one == null) {
                         return 1;
                     }
@@ -106,7 +107,7 @@ public class Chromesthesia extends AppCompatActivity {
                 @Override
                 public int compare(Song o1, Song o2) {
                     String one = o1.get_id3().getArtist();
-                    String two = o1.get_id3().getArtist();
+                    String two = o2.get_id3().getArtist();
                     if (one == null) {
                         return 1;
                     }
@@ -125,7 +126,7 @@ public class Chromesthesia extends AppCompatActivity {
                 @Override
                 public int compare(Song o1, Song o2) {
                     String one = o1.get_id3().getTitle();
-                    String two = o1.get_id3().getTitle();
+                    String two = o2.get_id3().getTitle();
                     if (one == null) {
                         return 1;
                     }
@@ -140,7 +141,6 @@ public class Chromesthesia extends AppCompatActivity {
                     }
                 }
             });
-            playQueueNames = lmm.makeSongNames();
 
         } catch (Exception e) {
             Log.e("chromesthesia", "err setting datasource", e);
@@ -164,7 +164,13 @@ public class Chromesthesia extends AppCompatActivity {
         viewPager = (ViewPager) findViewById(R.id.viewPager);
         fragmentPagerStateAdapter = new FragmentPagerStateAdapter(getSupportFragmentManager());
         libraryFragment = new Library();
+        libraryAlbumFragment = new Library_album();
+        libraryArtistFragment = new Library_artist();
+        libraryTitleFragment = new Library_title();
         fragmentPagerStateAdapter.addFragments(libraryFragment, "Library");
+        fragmentPagerStateAdapter.addFragments(libraryAlbumFragment, "Album Sort");
+        fragmentPagerStateAdapter.addFragments(libraryArtistFragment, "Artist Sort");
+        fragmentPagerStateAdapter.addFragments(libraryTitleFragment, "Title Sort");
         nowPlayingFragment = new NowPlayingScreen();
         fragmentPagerStateAdapter.addFragments(nowPlayingFragment, "Now Playing");
         playlistFragment = new PlayList();
@@ -197,7 +203,7 @@ public class Chromesthesia extends AppCompatActivity {
             Toast.makeText(Chromesthesia.this, "We're in onServiceConnected!", Toast.LENGTH_LONG).show();
             System.out.println("we're in onServiceConnected!");
             mpservice = binder.getservice();
-            mpservice.setSngs(songlist);
+            mpservice.setSngs(nowPlaying);
             musicbound = true;
         }
         @Override
@@ -312,4 +318,7 @@ public class Chromesthesia extends AppCompatActivity {
         }
     }
 
+    public ArrayList<String> getPlayQueueNames() {
+        return lmm.makeSongNames(nowPlaying);
     }
+}

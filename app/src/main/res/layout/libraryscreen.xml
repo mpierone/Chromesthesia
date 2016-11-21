@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
 
-    android:background="@drawable/chromesthesialibrarybackground">
+    >
     <!-- The frame layout is here since we will be showing either
     the empty view or the list view.  -->
     <FrameLayout
@@ -18,7 +18,7 @@
         <ListView
             android:id="@+id/librarylist"
             android:layout_width="wrap_content"
-            android:layout_height="442dp"
+            android:layout_height="match_parent"
             android:visibility="visible"
             android:clickable="true"
 

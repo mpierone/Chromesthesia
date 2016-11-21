@@ -23,18 +23,17 @@ import android.widget.Toast;
 import com.example.matt.chromesthesia.playlistDev.localMusicManager;
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Collections;
 
 /**
  * Created by matt & will on 10/1/2016.
  */
 
-public class Library extends Fragment {
+public class Library_album extends Fragment {
 
     public Thread refresh;
     private View rootView;
     private LayoutInflater layoutInf;
-    private ArrayList<Song> songs;
+    public ArrayList<Song> songs;
     private ArrayList<String> songArray;
     private ListView songView;
     private ImageAdapter imgAdapter;
@@ -49,11 +48,10 @@ public class Library extends Fragment {
     public void onAttach(Activity activity) {
         super.onAttach(activity);
         chromesthesia = (Chromesthesia) getActivity();
-        songs = new ArrayList(chromesthesia.songlist);
+        songs = chromesthesia.songlist_album;
         localMusicManager lmm = new localMusicManager();
-        songArray =  lmm.makeSongNames(chromesthesia.songlist);
-        Collections.unmodifiableList(songArray);
-        Collections.unmodifiableList(songs);
+        songArray =  lmm.makeSongNames(chromesthesia.songlist_album);
+
     }
 
     @Override
@@ -121,7 +119,7 @@ public class Library extends Fragment {
                         @Override
                         public void run() {
                             if (chromesthesia.mpservice.prepared) {
-                                    progressB.setProgress((int) (((float) chromesthesia.mpservice.getPosition() / chromesthesia.mpservice.getDuration()) * 100));
+                                progressB.setProgress((int) (((float) chromesthesia.mpservice.getPosition() / chromesthesia.mpservice.getDuration()) * 100));
                             }
                         }
                     });
@@ -199,30 +197,22 @@ public class Library extends Fragment {
     }
     public boolean onContextItemSelected(MenuItem item){
         AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
-        ArrayList<Song> sngs = new ArrayList(songs);
         if(item.getTitle()=="Add to Now Playing Queue") {
-            chromesthesia.mpservice.addSong(info.position, sngs.get(info.position));
+            chromesthesia.mpservice.addSong(info.position, songs.get(info.position));
             chromesthesia.playQueueNames.add(songArray.get(info.position));
             Toast.makeText(rootView.getContext(), "Add to Now Playing Queue Clicked & Pos = " + info.position, Toast.LENGTH_LONG).show();
         }
         if(item.getTitle()=="Play Next") {
-            System.out.println("hey im in playnext on the contxt menu and info.position is:  " + info.position + " and chrom.mpsrv.songpos is:  " + chromesthesia.mpservice.songposition
-                + "and the library song size is :  "+ songs.size());
+            System.out.println("hey im in playnext on the contxt menu and info.position is:  " + info.position + " and chrom.mpsrv.songpos is:  " + chromesthesia.mpservice.songposition);
             int x = info.position;
-            int y = chromesthesia.mpservice.songposition + 1;
-            Song s = sngs.get(x);
+            int y = chromesthesia.mpservice.songposition+1;
+            System.out.println("why +" + x + "  +  " + y);
             if (chromesthesia.mpservice.getSongs().size() == 0) {
                 y = 0;
             }
-            System.out.println("why + " + x + "  +  " + y + " + " + songs.size());
-            chromesthesia.mpservice.addSong(x, y, s);
-            System.out.println("WHY IS THE LIST GETTING MODIFIED" + " SIZE OF SONGS IS: " + songs.size());
+            chromesthesia.mpservice.addSong(x, y, songs.get(x));
             chromesthesia.playQueueNames.add(chromesthesia.mpservice.songposition, songArray.get(info.position));
             Toast.makeText(rootView.getContext(), "Play Next Clicked", Toast.LENGTH_LONG).show();
-            System.out.println("WHY IS THE LIST GETTING MODIFIED");
-            for (Song sg : songs) {
-                System.out.println(sg.get_audioFilePath());
-            }
         }
         if(item.getTitle()=="Add to Playlist"){
             Toast.makeText(rootView.getContext(), "Add to Playlist", Toast.LENGTH_LONG).show();
