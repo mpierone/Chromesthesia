@@ -1,25 +1,8 @@
 package com.example.matt.chromesthesia;
 
-import android.content.Intent;
-import android.os.Bundle;
-import android.util.Log;
-import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
-import android.widget.TextView;
-import android.widget.Toast;
-
-import com.example.matt.chromesthesia.playlistDev.Playlist;
-import com.example.matt.chromesthesia.playlistDev.localMusicManager;
-
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.util.ArrayList;
-
 /**
  * Created by Isabelle on 10/28/2016.
- */
+
 
 public class PlaylistContents extends PlayListSelectionScreen {
  /*   ListView contentsView;
@@ -52,6 +35,7 @@ public class PlaylistContents extends PlayListSelectionScreen {
         selPlay = new Playlist(pl);
 
         /*Populating playlist songs array
+        Populating playlist songs array
         localMusicManager lmm = new localMusicManager();
         try {
             populatePlaylist(lmm.getSD_LOCATION());
@@ -65,6 +49,8 @@ public class PlaylistContents extends PlayListSelectionScreen {
         }
 
         /*Code for making a string array of Titles and Names of songs in playlist and setting
+        * the Array Adapter
+        Code for making a string array of Titles and Names of songs in playlist and setting
         * the Array Adapter
 
 
@@ -107,6 +93,8 @@ public class PlaylistContents extends PlayListSelectionScreen {
         }
 */
         /*On click for selecting a song
+
+        On click for selecting a song
         contentsView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -120,7 +108,7 @@ public class PlaylistContents extends PlayListSelectionScreen {
     }
 
 
-    /*Taking the loaded playlist and checking if a file found on the SDCard is in the playlist
+    Taking the loaded playlist and checking if a file found on the SDCard is in the playlist
    * false = not in playlist, so don't include in the Playlist object's songs
    * true = in playlist, add the song to the Playlist object's songs
     private boolean boolAddToPlaylist(String sdFilename, Playlist p) throws FileNotFoundException {
@@ -128,6 +116,7 @@ public class PlaylistContents extends PlayListSelectionScreen {
     }
 
     /*Add songs to playlist if they are supposed to be there
+    Add songs to playlist if they are supposed to be there
 
     public ArrayList<Song> populatePlaylist(String folder) throws Exception {
         try {
@@ -140,6 +129,7 @@ public class PlaylistContents extends PlayListSelectionScreen {
             if (sdCard.listFiles().length > 0) {
                 for (File file : sdCard.listFiles()){
                     /*Recursively call to find subfolders
+
                     if (file.isDirectory()) {
                         populatePlaylist(file.getAbsolutePath());
                     }

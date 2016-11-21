@@ -1,8 +1,17 @@
+
 package com.example.matt.chromesthesia;
 import com.example.matt.chromesthesia.MPC.binder_music;
 import com.example.matt.chromesthesia.playlistDev.localMusicManager;
 import com.example.matt.chromesthesia.playlistDev.*;
 import android.Manifest;
+import android.content.ComponentName;
+import android.content.Context;
+import android.content.Intent;
+import android.content.ServiceConnection;
+import android.content.pm.PackageManager;
+import android.os.Build;
+import android.os.Bundle;
+import android.os.IBinder;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.app.Fragment;
 import android.content.pm.PackageManager;
@@ -10,6 +19,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
@@ -33,8 +43,18 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import static android.support.v7.appcompat.R.styleable.Toolbar;
+import android.widget.ListView;
+import android.widget.Toast;
 
-public class Chromesthesia extends AppCompatActivity {
+import com.example.matt.chromesthesia.MPC.binder_music;
+import com.example.matt.chromesthesia.playlistDev.ID3;
+import com.example.matt.chromesthesia.playlistDev.localMusicManager;
+import com.google.android.gms.appindexing.AppIndex;
+import com.google.android.gms.common.api.GoogleApiClient;
+
+import java.util.ArrayList;
+
+public class Chromesthesia extends AppCompatActivity{
     /**
      * The {@link ViewPager} that will host the section contents.
      */
@@ -59,17 +79,31 @@ public class Chromesthesia extends AppCompatActivity {
     private Fragment libraryFragment;
     private Fragment nowPlayingFragment;
     private Fragment playlistFragment;
+    public Fragment spotifyFragment;
+
+
+
+
+
     private Fragment libraryArtistFragment;
     private Fragment libraryAlbumFragment;
     private Fragment libraryTitleFragment;
     Toolbar toolbar;
     TabLayout tabLayout;
     ViewPager viewPager;
+    /**
+     * ATTENTION: This was auto-generated to implement the App Indexing API.
+     * See https://g.co/AppIndexing/AndroidStudio for more information.
+     */
+    private GoogleApiClient client;
+
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        spotifyIntent = new Intent(this,SpotiPlayer.class);
 
         if (myVersion > myLollipop) {
             if (!checkIfAlreadyHavePermissions()) {
@@ -175,11 +209,23 @@ public class Chromesthesia extends AppCompatActivity {
         nowPlayingFragment = new NowPlayingScreen();
         fragmentPagerStateAdapter.addFragments(nowPlayingFragment, "Now Playing");
         playlistFragment = new PlayList();
+        fragmentPagerStateAdapter.addFragments(playlistFragment, "Playlist");
+        //spotifyFragment = new SpotiPlayer();
+        //fragmentPagerStateAdapter.addFragments(spotifyFragment, "Spotify Player");
         //fragmentPagerStateAdapter.addFragments(playlistFragment, "Playlist");
         viewPager.setAdapter(fragmentPagerStateAdapter);
         viewPager.setOffscreenPageLimit(3);
         tabLayout.setupWithViewPager(viewPager);
         tabLayout.setEnabled(true);
+
+        // ATTENTION: This was auto-generated to implement the App Indexing API.
+        // See https://g.co/AppIndexing/AndroidStudio for more information.
+        client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
+
+        /***Spotify***/
+        // Request code that will be used to verify if the result comes from correct activity
+        // Can be any integer
+
         tabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);
     }
 
@@ -236,12 +282,16 @@ public class Chromesthesia extends AppCompatActivity {
 
     @Override
     protected void onStart() {
-        super.onStart();
+        super.onStart();// ATTENTION: This was auto-generated to implement the App Indexing API.
+// See https://g.co/AppIndexing/AndroidStudio for more information.
+        client.connect();
         if (player == null) {
             player = new Intent(this, MPC.class);
             bindService(player, musicconnect, Context.BIND_AUTO_CREATE);
             startService(player);
         }
+    }
+
     }
 
     @Override
@@ -251,10 +301,11 @@ public class Chromesthesia extends AppCompatActivity {
             mpservice.stop_pb();
 
         }
-        if(musicbound) {
+        if (musicbound) {
             unbindService(musicconnect);
             musicconnect = null;
         }
+
     }
 
     /*
@@ -284,10 +335,9 @@ public class Chromesthesia extends AppCompatActivity {
         int mcc = ContextCompat.checkSelfPermission(this, Manifest.permission.MEDIA_CONTENT_CONTROL);
         int mas = ContextCompat.checkSelfPermission(this, Manifest.permission.MODIFY_AUDIO_SETTINGS);
 
-        if ((sdR != 1)&&(sdW!=1)&&(internet!=1)&&(bt!=1)&&(btA!=1)&&(btP!=1)&&(wl!=1)&&(mcc!=1)&&(mas!=1)) {
+        if ((sdR != 1) && (sdW != 1) && (internet != 1) && (bt != 1) && (btA != 1) && (btP != 1) && (wl != 1) && (mcc != 1) && (mas != 1)) {
             return false;
-        }
-        else {
+        } else {
             return true;
         }
     }
@@ -323,4 +373,13 @@ public class Chromesthesia extends AppCompatActivity {
     public ArrayList<String> getPlayQueueNames() {
         return lmm.makeSongNames(nowPlaying);
     }
+}
+    @Override
+    public void onStop() {
+        super.onStop();
+        client.disconnect();
+    }
+
+
+
 }

@@ -3,7 +3,6 @@ package com.example.matt.chromesthesia;
 // MPC = MEDIA PLAYER CLASS
 
 import android.app.Service;
-import android.content.ContentUris;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -18,13 +17,18 @@ import java.io.InputStream;
 import java.math.BigInteger;
 import java.util.ArrayList;
 import android.net.Uri;
-import android.media.MediaPlayer.OnBufferingUpdateListener;
 import android.os.Binder;
+import android.os.IBinder;
 import android.os.PowerManager;
+import android.support.annotation.Nullable;
 import android.util.Log;
 import com.example.matt.chromesthesia.enums.*;
 import android.media.MediaMetadataRetriever;
 import java.io.FileNotFoundException;
+
+import com.example.matt.chromesthesia.enums.Repeat;
+
+import java.util.ArrayList;
 
 /**
  * Created by Will Stewart on 9/27/2016. yay

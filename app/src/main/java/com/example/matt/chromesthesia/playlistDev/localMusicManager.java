@@ -1,15 +1,10 @@
 package com.example.matt.chromesthesia.playlistDev;
 
-import android.content.ContentResolver;
-import android.database.Cursor;
-import android.net.Uri;
 import android.os.Environment;
-import android.provider.MediaStore;
 import android.util.Log;
 
-import com.example.matt.chromesthesia.R;
 import com.example.matt.chromesthesia.Song;
-import com.example.matt.chromesthesia.Chromesthesia;
+
 import java.io.File;
 import java.io.FilenameFilter;
 import java.util.ArrayList;
