@@ -22,6 +22,9 @@ dependencies {
     compile 'com.google.android.gms:play-services-appindexing:8.4.0'
     compile 'com.spotify.sdk:spotify-auth-beta23-noconnect-2.20b@aar'
     compile 'com.spotify.sdk:spotify-player-beta23-noconnect-2.20b@aar'
+    compile group:'com.squareup.picasso', name:'picasso', version:'2.5.0'
+    compile 'org.bouncycastle:bcprov-jdk16:1.46'
+    compile 'com.ibm.icu:icu4j:53.1'
 }
 
 

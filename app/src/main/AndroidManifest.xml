@@ -36,37 +36,19 @@
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.OPENABLE" />
             </intent-filter>
-        <activity android:name=".Library"></activity>
-        <activity android:name=".PlayListSelectionScreen">
-            <intent-filter>
-                <action android:name="android.intent.category.OPENABLE" />
-                <action android:name="android.intent.action.VIEW" />
-            </intent-filter>
-        </activity>
-        <activity android:name=".NowPlayingScreen"></activity>
-        <activity android:name=".playlistDev.CreatePlaylistScreen">
-            <intent-filter>
-                <action android:name="android.intent.category.OPENABLE" />
-                <action android:name="android.intent.action.VIEW" />
-            </intent-filter>
-        </activity>
-        <activity android:name=".AddSongsToPlaylistScreen">
-            <intent-filter>
-                <action android:name="android.intent.category.OPENABLE" />
-                <action android:name="android.intent.action.VIEW" />
-            </intent-filter>
-        </activity>
-        <activity android:name=".PlaylistContents">
-            <intent-filter>
-                <action android:name="android.intent.category.OPENABLE"/>
-                <action android:name="android.intent.action.VIEW" />
-            </intent-filter>
-        </activity>
-
         <!--NEEDED FOR SPOTIFY PLAYBACK, DO NOT DELETE. Needed for LoginActivity to Work-->
         <activity
             android:name="com.spotify.sdk.android.authentication.LoginActivity"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar"/>
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+        <intent-filter>
+            <action android:name="android.intent.action.VIEW"/>
+
+            <category android:name="android.intent.category.DEFAULT"/>
+            <category android:name="android.intent.category.BROWSABLE"/>
+
+            <data
+                android:host="http://iacaneda.com/" />
+        </intent-filter>
 
 
         <meta-data

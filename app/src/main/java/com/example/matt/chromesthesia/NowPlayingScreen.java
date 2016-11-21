@@ -2,35 +2,23 @@ package com.example.matt.chromesthesia;
 
 //import android.icu.util.TimeUnit;
 import android.app.Activity;
-import android.media.MediaPlayer.OnBufferingUpdateListener;
-import android.content.DialogInterface;
-import android.content.Intent;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.ImageButton;
-import android.widget.ProgressBar;
-import android.widget.SeekBar;
-import android.widget.SeekBar.OnSeekBarChangeListener;
-import android.widget.TextView;
-import android.widget.Toast;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
-import android.widget.ToggleButton;
-import android.support.v4.app.Fragment;
-import android.media.MediaPlayer;
+import android.widget.SeekBar;
+import android.widget.TextView;
 import android.widget.ToggleButton;
 
 import java.util.concurrent.TimeUnit;
-import com.example.matt.chromesthesia.MPC;
-
-import org.w3c.dom.Text;
 
 
 /**

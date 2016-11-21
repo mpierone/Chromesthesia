@@ -1,20 +1,8 @@
 package com.example.matt.chromesthesia.playlistDev;
 
-import android.content.Context;
-import android.os.Bundle;
-import android.view.View;
-
-import com.example.matt.chromesthesia.PlayListSelectionScreen;
-import com.example.matt.chromesthesia.R;
-
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-
 /**
  * Created by Isabelle on 10/26/2016.
- */
+
 
 public class CreatePlaylistScreen extends PlayListSelectionScreen {
     View createPlaylistView;
@@ -90,3 +78,4 @@ public void saveToInternalStorage(String intMemPath, Playlist p) throws IOExcept
 }
 
 
+*/
