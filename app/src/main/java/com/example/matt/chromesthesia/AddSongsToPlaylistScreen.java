@@ -29,7 +29,7 @@ import java.util.ArrayList;
 
 
 public class AddSongsToPlaylistScreen extends PlayListSelectionScreen{
-
+/*
     String SD_LOCATION = (Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).getPath());
     File sdlocation = new File(SD_LOCATION + "/Download/");
     boolean deviceHasSDCard;
@@ -132,4 +132,4 @@ public class AddSongsToPlaylistScreen extends PlayListSelectionScreen{
 
     }
 
-}
+*/}

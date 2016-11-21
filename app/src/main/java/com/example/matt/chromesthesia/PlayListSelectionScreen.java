@@ -21,7 +21,7 @@ import java.util.ArrayList;
  */
 
 public class PlayListSelectionScreen extends Chromesthesia {
-
+/* BROKEN CODE
     private EditText playlistName;
     private LayoutInflater layoutInf;
      //list of Playlist objects (with their files) saved by the user
@@ -61,7 +61,7 @@ public class PlayListSelectionScreen extends Chromesthesia {
             Log.e("Error:","No playlists found.", e);
         }
 
-        /*On click for selecting a playlist*/
+        /*On click for selecting a playlist*//*
         playlistView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -84,7 +84,7 @@ public class PlayListSelectionScreen extends Chromesthesia {
             }
         });
 
-        /*Create Playlist Button onClick code; it's really long so I'm surrounding it with comments because my EYES HURT!!!*/
+        /*Create Playlist Button onClick code; it's really long so I'm surrounding it with comments because my EYES HURT!!!*//*
         Button createPlaylist = (Button) findViewById(R.id.buttonPrompt);
         createPlaylist.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -95,7 +95,7 @@ public class PlayListSelectionScreen extends Chromesthesia {
             }
         });
         /*End of create playlist dialog box code*/
-
+/*
 
     }
 
@@ -122,7 +122,8 @@ public class PlayListSelectionScreen extends Chromesthesia {
     public String getPlaylist() {
         return selectedPlaylist;
     }
-    }
+    }*/
+}
 
 
 
