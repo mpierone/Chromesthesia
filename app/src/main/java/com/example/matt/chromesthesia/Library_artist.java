@@ -205,7 +205,7 @@ public class Library_artist extends Fragment {
             int x = info.position;
             Song s = null;
             String name = new String(nms.get(x));
-            System.out.println("Selected song pos is: " + x + "\nSelected song name is: " + nms.get(x) + "\nSelected song FilePath is: " + sngs.get(x).get_audioFilePath());
+
             try {
                 s = new Song(sngs.get(x));
             }
@@ -214,16 +214,14 @@ public class Library_artist extends Fragment {
             }
             chromesthesia.mpservice.addSong(x, s);
             chromesthesia.playQueueNames.add(name);
-            Toast.makeText(rootView.getContext(), "Add to Now Playing Queue Clicked & Pos = " + info.position, Toast.LENGTH_LONG).show();
+
         }
         if(item.getTitle()=="Play Next") {
-            System.out.println("hey im in playnext on the contxt menu and info.position is:  " + info.position + " and chrom.mpsrv.songpos is:  " + chromesthesia.mpservice.songposition
-                    + "and the library song size is :  "+ songs.size());
+
             int x = info.position;
             int y = chromesthesia.mpservice.songposition + 1;
             Song s = null;
             String name = new String(songArray.get(x));
-            System.out.println("Selected song pos is: " + x + "\nSelected song name is: " + nms.get(x) + "\nSelected song FilePath is: " + sngs.get(x).get_audioFilePath());
             try {
                 s = new Song(sngs.get(x));
             } catch (Exception e) {
@@ -232,15 +230,11 @@ public class Library_artist extends Fragment {
             if (chromesthesia.mpservice.getSongs().size() == 0) {
                 y = 0;
             }
-            System.out.println("why + " + x + "  +  " + y + " + " + songs.size());
+
             chromesthesia.mpservice.addSong(x, y, s);
-            System.out.println("WHY IS THE LIST GETTING MODIFIED" + " SIZE OF SONGS IS: " + songs.size() + "SONG SIZE LOCAL TO THIS METHOD IS:  " + sngs.size());
+
             chromesthesia.playQueueNames.add(y, name);
-            Toast.makeText(rootView.getContext(), "Play Next Clicked", Toast.LENGTH_LONG).show();
-            System.out.println("WHY IS THE LIST GETTING MODIFIED");
-            for (Song sg : songs) {
-                System.out.println(sg.get_audioFilePath());
-            }
+
         }
         if(item.getTitle()=="Add to Playlist"){
             Toast.makeText(rootView.getContext(), "Add to Playlist", Toast.LENGTH_LONG).show();
