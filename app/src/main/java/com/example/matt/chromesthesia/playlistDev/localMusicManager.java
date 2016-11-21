@@ -31,10 +31,11 @@ public class localMusicManager {
     File sdlocation = new File(SD_LOCATION + "/Download/");
 
     private ArrayList<Song> _songsList;
-
+    private ArrayList<String> songArray;
     public localMusicManager() {
         //constructor
         _songsList = new ArrayList<>();
+        songArray = new ArrayList<>();
     }
 
     /*
@@ -133,5 +134,75 @@ public class localMusicManager {
             Log.e("lmm", "err setting datasource", e);
         }
         return _songsList;
+    }
+    public ArrayList<String> makeSongNames () {
+        String songName;
+        String artistName;
+        String albumName;
+        String mergedName;
+        for (Song s : _songsList) {
+            songName = s.get_id3().getTitle();
+            artistName = s.get_id3().getArtist();
+            albumName = s.get_id3().getAlbum();
+            if (artistName == null) {
+                artistName = "Unknown Artist";
+            }
+            if (albumName == null) {
+                albumName = "Unknown Album";
+            }
+            mergedName = songName + " - " + artistName + " - " + albumName;
+            if (songName == null) {
+                File f = new File(s.get_audioFilePath());
+                mergedName = f.getName();
+            }
+            System.out.println(mergedName);
+            //songArray[i] = (mergedName);
+            songArray.add(mergedName);
+            //ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, sampleArray);
+            //ListView libView = (ListView) findViewById(R.id.librarylist);
+            //libView.setAdapter(arrayAdapter);
+            //arrayAdapter.notifyDataSetChanged();
+            //i++;
+        }
+        return songArray;
+    }
+    public ArrayList<String> makeSongNames (ArrayList<Song> songs) {
+        String songName;
+        String artistName;
+        String albumName;
+        String mergedName;
+        ArrayList<String> names = new ArrayList<>();
+        for (Song s : songs) {
+            songName = s.get_id3().getTitle();
+            artistName = s.get_id3().getArtist();
+            albumName = s.get_id3().getAlbum();
+            if (artistName == null) {
+                artistName = "Unknown Artist";
+            }
+            if (albumName == null) {
+                albumName = "Unknown Album";
+            }
+            mergedName = songName + " - " + artistName + " - " + albumName;
+            if (songName == null) {
+                File f = new File(s.get_audioFilePath());
+                mergedName = f.getName();
+            }
+            System.out.println(mergedName);
+            //songArray[i] = (mergedName);
+            names.add(mergedName);
+            //ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, sampleArray);
+            //ListView libView = (ListView) findViewById(R.id.librarylist);
+            //libView.setAdapter(arrayAdapter);
+            //arrayAdapter.notifyDataSetChanged();
+            //i++;
+        }
+        System.out.println("we're in LMM and the songarray namemaker and here's the list");
+        for (String s : names) {
+            System.out.println(s);
+        }
+        System.out.println("that was the list yay!\nand size is:  "+ names.size());
+        return names;
+
+
     }
 }

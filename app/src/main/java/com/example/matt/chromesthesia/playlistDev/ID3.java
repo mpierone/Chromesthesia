@@ -14,7 +14,6 @@ public class ID3 {
     private String _year;
     private String _genre;
 
-
     public ID3(String title, String artist, String album, String year, String genre){
         //constructor
         _title = title;

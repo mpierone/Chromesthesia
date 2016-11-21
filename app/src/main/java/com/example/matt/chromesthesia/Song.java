@@ -27,12 +27,12 @@ public class Song{
 
         //song attributes:
         _audioFilePath = audioFilePath;
+        _id3 = new mp3Parser().parseMP3(_audioFilePath);
 
         _filename = _audioFilePath.substring(_audioFilePath.lastIndexOf('/')+1,_audioFilePath.lastIndexOf('.')) + ".mp3";
 
 
 
-        _id3 = new mp3Parser().parseMP3(_audioFilePath);
         //System.out.println("we're in SONG.java\n");
         //System.out.println(_id3.getTitle());
         //System.out.println("we're leaving SONG.java!");
@@ -41,7 +41,13 @@ public class Song{
         _song.put(_id, _id3);
 
     }
-
+    public Song (Song s) {
+        _id = s.get_audioFilePath();
+        _audioFilePath = s.get_audioFilePath();
+        _id3 = new mp3Parser().parseMP3(_audioFilePath);
+        _song = new HashMap<>();
+        _song.put(_id, _id3);
+    }
     //getters:
     public String getFilename(){
         return _filename;

@@ -1,24 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#2222"
-    android:contextClickable="true">
-
-    <Button
-        android:id="@+id/buttonPrompt"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Create a new playlist"
-        android:visibility="visible" />
-
-
-    <TextView android:id="@+id/text"
-        android:layout_width="match_parent" android:layout_height="wrap_content"
-        android:gravity="center_vertical|center_horizontal"
-        android:textAppearance="?android:attr/textAppearanceMedium"/>
+    android:background="#2222">
 
     <!-- The frame layout is here since we will be showing either
     the empty view or the list view.  -->
@@ -27,7 +12,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Playlists"
+        android:text="Playlist"
         android:id="@+id/textView2" />
 
     <FrameLayout
@@ -37,26 +22,19 @@
         <!-- Here is the list. Since we are using a ListActivity, we
              have to call it "@android:id/list" so ListActivity will
              find it -->
-        <ListView
-            android:id="@+id/playlistView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:drawSelectorOnTop="false"
-            android:visibility="visible"
-            android:clickable="true"
-            />
-    </FrameLayout>
+        <ListView android:id="@android:id/list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:drawSelectorOnTop="false"/>
 
-
-    <!-- Here is the view to show if the list is emtpy
-        <TextView android:id="@android:id/empty"
+        <!-- Here is the view to show if the list is emtpy -->
+        <TextView android:id="@+id/textView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:text="No items."
-            android:layout_gravity="center_horizontal|top"
-            android:visibility="visible"
-            android:accessibilityTraversalBefore="@id/playlistButton" />
--->
+            android:layout_gravity="center_horizontal|top" />
+
+    </FrameLayout>
 
 </LinearLayout>

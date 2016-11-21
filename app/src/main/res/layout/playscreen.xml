@@ -1,22 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:background="#2222"
     android:layout_width="match_parent" android:layout_height="match_parent">
 
-
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
     <ImageView
-        android:layout_width="500dp"
-        android:layout_height="500dp"
-        android:id="@+id/imageView"
-        android:layout_alignParentBottom="true"
-        android:layout_marginLeft="25dp"
-        android:layout_marginRight= "25dp"
-        android:layout_marginTop="25dp"
-        android:layout_marginBottom="200dp"
+        android:layout_width="300dp"
+        android:layout_height="300dp"
+        android:id="@+id/albumArt"
+        android:layout_alignBottom="@+id/songTitleText"
+        android:layout_marginBottom="25dp"
+        android:layout_centerHorizontal="true"
         android:src="@android:drawable/ic_media_play" />
-
 
     <ImageButton
         android:layout_width="80dp"
@@ -48,14 +47,14 @@
         android:text="Song Title"
         android:id="@+id/songTitleText"
         android:layout_marginBottom="71dp"
+        android:paddingLeft="15dp"
         android:layout_above="@+id/seekBar"
-        android:layout_alignStart="@+id/imageView"
-        android:layout_alignEnd="@+id/imageView" />
+        android:layout_alignStart="@+id/albumArt"
+        android:layout_alignEnd="@+id/albumArt" />
 
     <ToggleButton
         android:layout_width="80dp"
         android:layout_height="80dp"
-        android:text="hello"
         android:id="@+id/playButton"
         android:src="@drawable/playbuttonunpressed"
         android:background="@drawable/check"
@@ -72,6 +71,7 @@
         android:id="@+id/artistText"
         android:layout_above="@+id/seekBar"
         android:layout_alignStart="@+id/songTitleText"
+        android:paddingLeft="15dp"
         android:layout_marginBottom="28dp" />
 
     <SeekBar
@@ -88,6 +88,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/totalTime"
+        android:paddingRight="15dp"
         android:layout_above="@+id/seekBar"
         android:layout_alignEnd="@+id/seekBar" />
 
@@ -96,15 +97,18 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/currentTime"
+        android:paddingLeft="15dp"
         android:layout_above="@+id/seekBar"
         android:layout_alignStart="@+id/seekBar" />
 
-    <RadioGroup xmlns:android="http://schemas.android.com/apk/res/android"
+    <RadioGroup
         android:id="@+id/repeatButtons"
-        android:layout_width="fill_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:onClick="onCheckChanged">
+        android:orientation="horizontal"
+        android:layout_above="@+id/totalTime"
+        android:layout_alignEnd="@+id/totalTime"
+        android:layout_marginTop="15dp">
         <RadioButton android:id="@+id/ALL"
             android:tag="ALL"
             android:layout_width="wrap_content"
@@ -124,5 +128,15 @@
             android:text="NONE"
             />
     </RadioGroup>
+    </RelativeLayout>
 
-</RelativeLayout>
+    <ExpandableListView
+        android:id="@+id/playQueue"
+        android:layout_width="match_parent"
+        android:layout_height="350dp"
+        android:clickable="true"
+        android:descendantFocusability="blocksDescendants"
+        android:focusable="false">
+</ExpandableListView>
+
+</FrameLayout>

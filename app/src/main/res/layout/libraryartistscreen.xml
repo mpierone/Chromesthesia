@@ -16,7 +16,7 @@
              have to call it "@android:id/list" so ListActivity will
              find it -->
         <ListView
-            android:id="@+id/librarylist"
+            android:id="@+id/libraryartistlist"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:visibility="visible"

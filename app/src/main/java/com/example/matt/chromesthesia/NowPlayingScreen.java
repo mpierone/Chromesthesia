@@ -1,18 +1,28 @@
 package com.example.matt.chromesthesia;
 
 //import android.icu.util.TimeUnit;
+import android.app.Activity;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
+import android.media.Image;
 import android.media.MediaPlayer.OnBufferingUpdateListener;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
+import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.CompoundButton;
+import android.widget.ExpandableListAdapter;
+import android.widget.ExpandableListView;
 import android.widget.ImageButton;
-import android.widget.SeekBar;
-import android.widget.SeekBar.OnSeekBarChangeListener;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
@@ -21,11 +31,15 @@ import android.widget.Toast;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.ToggleButton;
+import android.support.v4.app.Fragment;
 import android.media.MediaPlayer;
 import android.widget.ToggleButton;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 import com.example.matt.chromesthesia.MPC;
+import com.example.matt.chromesthesia.playlistDev.localMusicManager;
 
 import org.w3c.dom.Text;
 
@@ -34,30 +48,116 @@ import org.w3c.dom.Text;
  * Created by Matt on 10/8/2016.
  */
 
-public class NowPlayingScreen extends Chromesthesia implements View.OnTouchListener, MediaPlayer.OnBufferingUpdateListener {
-    SeekBar seekBar;
+public class NowPlayingScreen extends Fragment implements View.OnTouchListener, MediaPlayer.OnBufferingUpdateListener, View.OnClickListener{
     private final Handler handler = new Handler();
-    public void onCreate(Bundle savedInstancedState) {
-        super.onCreate(savedInstancedState);
-        setContentView(R.layout.playscreen);
-        final ToggleButton playButton = (ToggleButton) findViewById(R.id.playButton);
-        final ImageButton previousButton = (ImageButton) findViewById(R.id.previousButton);
-        final ImageButton nextButton = (ImageButton) findViewById(R.id.nextButton);
-        final TextView artistName = (TextView) findViewById(R.id.artistText);
-        final TextView totalTime = (TextView) findViewById(R.id.totalTime);
-        final TextView currentTime = (TextView) findViewById(R.id.currentTime);
-        final TextView songTitle = (TextView) findViewById(R.id.songTitleText);
-        final RadioGroup repeatButtons = (RadioGroup) findViewById(R.id.repeatButtons);
+    SeekBar seekBar;
+    private int x;
+    public MPC mpservice;
+    Chromesthesia chromesthesia;
+    private View rootView;
+    private ExpandableListView playQueue;
+    private playQueueAdapter playAdapter;
+    private List<String> header = new ArrayList<>();
+    private ImageView albumArt;
+    private localMusicManager lmm;
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        chromesthesia = (Chromesthesia) getActivity();
+    }
 
+
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        rootView = inflater.inflate(R.layout.playscreen, container, false);
+        super.onCreate(savedInstanceState);
+        return rootView;
+    }//end of onCreate
+
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        lmm = new localMusicManager();
+        final ToggleButton playButton = (ToggleButton) rootView.findViewById(R.id.playButton);
+        final ImageButton previousButton = (ImageButton) rootView.findViewById(R.id.previousButton);
+        final ImageButton nextButton = (ImageButton) rootView.findViewById(R.id.nextButton);
+        final TextView artistName = (TextView) rootView.findViewById(R.id.artistText);
+        final TextView totalTime = (TextView) rootView.findViewById(R.id.totalTime);
+        final TextView currentTime = (TextView) rootView.findViewById(R.id.currentTime);
+        final TextView songTitle = (TextView) rootView.findViewById(R.id.songTitleText);
+        final RadioGroup repeatButtons = (RadioGroup) rootView.findViewById(R.id.repeatButtons);
+        repeatButtons.check(R.id.ALL);
+        albumArt = (ImageView) rootView.findViewById(R.id.albumArt);
+        header.add("Now Playing");
+        playQueue = (ExpandableListView) rootView.findViewById(R.id.playQueue);
+        playAdapter = new playQueueAdapter(rootView.getContext(), header, chromesthesia.playQueueNames);
+        playQueue.setAdapter(playAdapter);
+        playQueue.setOnGroupExpandListener(new ExpandableListView.OnGroupExpandListener() {
+            @Override
+            public void onGroupExpand(int groupPosition) {
+                if (chromesthesia.mpservice.datachanged) {
+                    chromesthesia.mpservice.datachanged = playAdapter.setplayQueue(chromesthesia.getPlayQueueNames());
+                }
+            }
+        });
+        playQueue.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
+            @Override
+            public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
+                chromesthesia.playSong(v, childPosition);
+                System.out.println("We're clickin' stuff in the expandable list view!!");
+                if(chromesthesia.mpservice.isPlaying())
+                {
+                    TextView songTitle = (TextView) rootView.findViewById(R.id.songTitleText);
+                    songTitle.setText(chromesthesia.mpservice.getName());
+                    TextView artistName = (TextView) rootView.findViewById(R.id.artistText);
+                    artistName.setText(chromesthesia.mpservice.getArtist());
+                }
+                return true;
+            }
+        });
+        rootView.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                System.out.println("we're in the onfocuschange for rootview!");
+                playQueue.collapseGroup(0);
+                if (hasFocus) {
+                    if (chromesthesia.mpservice.isPlaying()) {
+                        playButton.setChecked(true);
+                    }
+                    if (chromesthesia.mpservice.isPaused()) {
+                        playButton.setChecked(false);
+                    }
+                }
+            }
+        });
+        playQueue.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (!hasFocus) {
+                    System.out.println("we're in the onfocuschange for playQueue!");
+                    playQueue.collapseGroup(0);
+                }
+            }
+        });
+        //playQueue.setVisibility(View.INVISIBLE);
         currentTime.setText("0:00");
         totalTime.setText("X:XX");
         //if isCheck is true pause button shows. If False then play button shows
         playButton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (!isChecked) {
-                    mpservice.resumePlay();         //if true
+                if (isChecked) {
+                    if (chromesthesia.nowPlaying.size() == 0) {
+                        chromesthesia.mpservice.setSngs(chromesthesia._OGsongs);
+                        chromesthesia.playQueueNames = lmm.makeSongNames(chromesthesia.mpservice.getSongs());
+                        chromesthesia.mpservice.position = 0;
+                        chromesthesia.mpservice.datachanged = true;
+                        chromesthesia.mpservice.playsong();
+                    }
+                    else {
+                        chromesthesia.mpservice.resumePlay();         //if true
+                    }
                 } else {
-                    mpservice.pauseSong();
+                    chromesthesia.mpservice.pauseSong();
                 }
             }
         });
@@ -65,65 +165,119 @@ public class NowPlayingScreen extends Chromesthesia implements View.OnTouchListe
         previousButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //call and play previous song
-                //if song[index-1] would == null, then go to song[highest_index]
-                playButton.setChecked(false);
-                mpservice.playPrevious();
+                if (chromesthesia.mpservice.getSongs().size() == 0) {
+
+                }
+                else if (chromesthesia.mpservice.isPaused()) {
+                    playButton.setChecked(true);
+                    chromesthesia.mpservice.playPrevious();
+                }
+                else if (chromesthesia.mpservice.getPosition() > 5000) {
+                    playButton.setChecked(true);
+                    chromesthesia.mpservice.playsong();
+                }
+                else {
+                    playButton.setChecked(true);
+                    chromesthesia.mpservice.playPrevious();
+                }
             }
         });
 
         nextButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //call and play next song
-                //if song[index+1] is out of bounds, then go to song[index_1]
-                playButton.setChecked(false);
-                mpservice.playNext();
+                if (chromesthesia.mpservice.getSongs().size() == 0) {
+
+                }
+                else if (chromesthesia.mpservice.isPaused()) {
+                    playButton.setChecked(true);
+                    chromesthesia.mpservice.playNext();
+                }
+                else {
+                    playButton.setChecked(true);
+                    chromesthesia.mpservice.playNext();
+                }
             }
         });
         repeatButtons.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener()
         {
             public void onCheckedChanged(RadioGroup group, int id) {
                 System.out.println("We're in onCheckedChanged!!");
-                RadioButton rb=(RadioButton)findViewById(id);
-                mpservice.setLoop(getResources().getResourceEntryName(id));
+                RadioButton rb=(RadioButton)rootView.findViewById(id);
+                chromesthesia.mpservice.setLoop(getResources().getResourceEntryName(id));
             }
         });
 
-        seekBar = (SeekBar) findViewById(R.id.seekBar);
+        seekBar = (SeekBar)rootView.findViewById(R.id.seekBar);
         seekBar.setMax(100);
         seekBar.setOnTouchListener(this);
-        //Thread will refresh seekbar and times every second
-        Thread refresh = new Thread() {
+        seekBar.setOnClickListener(this);
+        /*seekBar.setOnSeekBarChangeListener(new OnSeekBarChangeListener() {
+            int progress = 0;
             @Override
-            public void run() {
-                try {
-                    while (!isInterrupted()) {
-                        Thread.sleep(1000);
-                        runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                int duration = mpservice.getDuration();
-                                int current = mpservice.getPosition();
-                                seekBar.setProgress((int) (((float) mpservice.getPosition() / mpservice.getDuration()) * 100));
+            public void onProgressChanged(SeekBar seekBar, int progresValue, boolean fromUser) {
+                progress = progresValue;
+                Toast.makeText(rootView.getContext(), "Changing seekbar's progress", Toast.LENGTH_SHORT).show();
+            }
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+                Toast.makeText(rootView.getContext(), "Started tracking seekbar", Toast.LENGTH_SHORT).show();
+            }
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+                Toast.makeText(rootView.getContext(), "Stopped tracking seekbar", Toast.LENGTH_SHORT).show();
+                chromesthesia.mpservice.seek(progress);
+            }
+        });*/
+
+    //Thread will refresh seekbar and times every second
+    Thread refresh = new Thread() {
+        @Override
+        public void run() {
+            try {
+                while (!isInterrupted()) {
+                    Thread.sleep(1000);
+                    getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            if (chromesthesia.mpservice.prepared) {
+                                if (chromesthesia.mpservice.artchanged) {
+                                    albumArt.setImageBitmap(chromesthesia.mpservice.albumArt);
+                                    //chromesthesia.mpservice.artchanged = false;
+                                }
+                                if (chromesthesia.mpservice.albumArt == null) {
+                                    albumArt.setImageResource(R.drawable.defalbumart1);
+                                    x = 1;
+                                }
+                                if (chromesthesia.mpservice.isPlaying()) {
+                                    playButton.setChecked(true);
+                                }
+                                int duration = chromesthesia.mpservice.getDuration();
+                                int current = chromesthesia.mpservice.getPosition();
+                                seekBar.setProgress((int) (((float) chromesthesia.mpservice.getPosition() / chromesthesia.mpservice.getDuration()) * 100));
                                 currentTime.setText(displayTime(current));
                                 totalTime.setText(displayTime(duration));
-                                artistName.setText(mpservice.getArtist());
-                                songTitle.setText(mpservice.getName());
+                                artistName.setText(chromesthesia.mpservice.getArtist());
+                                songTitle.setText(chromesthesia.mpservice.getName());
                             }
-                        });
-                    }
-                } catch (InterruptedException e) {
-                }
-            }
-        };
-        refresh.start();
+                        }
+                    });
 
-    }   //end of onCreate
+
+                }
+            } catch (NullPointerException e) {
+                e.printStackTrace();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+    };
+    refresh.start();
+    }
 
     private void seekBarUpdater() {
-        seekBar.setProgress((int) (((float) mpservice.getPosition() / mpservice.getDuration()) * 100));
-        if (mpservice.isPlaying()) {
+        seekBar.setProgress((int) (((float) chromesthesia.mpservice.getPosition() / chromesthesia.mpservice.getDuration()) * 100));
+        if (chromesthesia.mpservice.isPlaying()) {
             Runnable notification = new Runnable() {
                 public void run() {
                     seekBarUpdater();
@@ -133,20 +287,32 @@ public class NowPlayingScreen extends Chromesthesia implements View.OnTouchListe
         }
     }
 
-    @Override       //allows for user to touch progress bar to skip ahead/back in a song
     public boolean onTouch(View v, MotionEvent event) {
+        int playPositionInMillisecconds = 0 ;
         if (v.getId() == R.id.seekBar) {
             /** Seekbar onTouch event handler. Method which seeks MediaPlayer to seekBar primary progress position*/
-            if (mpservice.isPlaying()) {
+            if (chromesthesia.mpservice.isPlaying() || chromesthesia.mpservice.isPaused()) {
                 SeekBar sb = (SeekBar) v;
-                int playPositionInMillisecconds = (mpservice.getDuration() / 100) * sb.getProgress();
-                mpservice.seek(playPositionInMillisecconds);
+                if (event.ACTION_DOWN == 0) {
+                    System.out.println("hey it's action down!!!");
+                    sb.setProgress(((int) ((sb.getMax() * event.getX()) / v.getWidth())));
+                    playPositionInMillisecconds = (chromesthesia.mpservice.getDuration() / 100) * sb.getProgress();
+                } else
+                    playPositionInMillisecconds = (chromesthesia.mpservice.getDuration() / 100) * sb.getProgress();
             }
+                chromesthesia.mpservice.seek(playPositionInMillisecconds);
         }
         return false;
     }
-
-    @Override
+    public void onClick(View v) {
+        if (v.getId() == R.id.seekBar) {
+            if (chromesthesia.mpservice.isPlaying() || chromesthesia.mpservice.isPaused()) {
+                SeekBar sb = (SeekBar) v;
+                int pos = (chromesthesia.mpservice.getDuration() / 100) * sb.getProgress();
+                chromesthesia.mpservice.seek(pos);
+            }
+        }
+    }
     public void onBufferingUpdate(MediaPlayer mp, int percent) {
         seekBar.setSecondaryProgress(percent);
     }
@@ -158,7 +324,8 @@ public class NowPlayingScreen extends Chromesthesia implements View.OnTouchListe
                 TimeUnit.MILLISECONDS.toSeconds(time) -
                         TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(time)));
     }
-
-
+    public void pls(){
+        System.out.println("pls");
+    }
 }//end of class
 
