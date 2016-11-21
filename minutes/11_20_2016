@@ -5,7 +5,7 @@ absent: [<mpierone>]
 excused_absences: [
   ]
 task_progress: [ # All group members must be included here even if they haven't made any progress since the last meeting
-  {ubit: <iacaneda>, progress: Was able to get the login working for the Spotify APK},
+  {ubit: <iacaneda>, progress: Was able to get the login working for the Spotify API},
   {ubit: <jhuang42>, progress: Was able to fragmentate the library screen and the now playing screen.},
   {ubit: <wlstewar>, progress: Was able to get most of the play next and the sorting of the play lists. Sorted by artist,
   album, and title.}
