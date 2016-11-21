@@ -180,6 +180,7 @@ public class Chromesthesia extends AppCompatActivity {
         viewPager.setOffscreenPageLimit(3);
         tabLayout.setupWithViewPager(viewPager);
         tabLayout.setEnabled(true);
+        tabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);
     }
 
     public void playSongPrint(View view) {
