@@ -6,7 +6,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.content.pm.PackageManager;
-import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.IBinder;
@@ -27,9 +26,7 @@ import android.widget.Toast;
 import com.example.matt.chromesthesia.MPC.binder_music;
 import com.example.matt.chromesthesia.playlistDev.ID3;
 import com.example.matt.chromesthesia.playlistDev.localMusicManager;
-import com.google.android.gms.appindexing.Action;
 import com.google.android.gms.appindexing.AppIndex;
-import com.google.android.gms.appindexing.Thing;
 import com.google.android.gms.common.api.GoogleApiClient;
 
 import java.util.ArrayList;
@@ -45,6 +42,7 @@ public class Chromesthesia extends AppCompatActivity{
     private ListView songView;
     protected localMusicManager lmm;
     private boolean musicbound = false;
+    public static Intent spotifyIntent;
     protected String selectedPlaylist;
     public int positionVar;//testing this
     public int myVersion = Build.VERSION.SDK_INT;
@@ -52,7 +50,7 @@ public class Chromesthesia extends AppCompatActivity{
     private Fragment libraryFragment;
     private Fragment nowPlayingFragment;
     private Fragment playlistFragment;
-    private Fragment spotifyFragment;
+    public Fragment spotifyFragment;
 
 
 
@@ -71,6 +69,8 @@ public class Chromesthesia extends AppCompatActivity{
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        spotifyIntent = new Intent(this,SpotiPlayer.class);
 
         if (myVersion > myLollipop) {
             if (!checkIfAlreadyHavePermissions()) {
@@ -119,12 +119,13 @@ public class Chromesthesia extends AppCompatActivity{
         fragmentPagerStateAdapter.addFragments(nowPlayingFragment, "Now Playing");
         playlistFragment = new PlayList();
         fragmentPagerStateAdapter.addFragments(playlistFragment, "Playlist");
-        spotifyFragment = new SpotiPlayer();
-        fragmentPagerStateAdapter.addFragments(spotifyFragment, "Spotify Player");
+        //spotifyFragment = new SpotiPlayer();
+        //fragmentPagerStateAdapter.addFragments(spotifyFragment, "Spotify Player");
         viewPager.setAdapter(fragmentPagerStateAdapter);
         viewPager.setOffscreenPageLimit(3);
         tabLayout.setupWithViewPager(viewPager);
         tabLayout.setEnabled(true);
+
         // ATTENTION: This was auto-generated to implement the App Indexing API.
         // See https://g.co/AppIndexing/AndroidStudio for more information.
         client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
@@ -277,29 +278,9 @@ public class Chromesthesia extends AppCompatActivity{
         }
     }
 
-    /**
-     * ATTENTION: This was auto-generated to implement the App Indexing API.
-     * See https://g.co/AppIndexing/AndroidStudio for more information.
-     */
-    public Action getIndexApiAction() {
-        Thing object = new Thing.Builder()
-                .setName("chromesthesia") // TODO: Define a title for the content shown.
-                // TODO: Make sure this auto-generated URL is correct.
-                .setUrl(Uri.parse("chromesthesia://callback"))
-                .build();
-        return new Action.Builder(Action.TYPE_VIEW)
-                .setObject(object)
-                .setActionStatus(Action.STATUS_TYPE_COMPLETED)
-                .build();
-    }
-
     @Override
     public void onStop() {
         super.onStop();
-
-        // ATTENTION: This was auto-generated to implement the App Indexing API.
-        // See https://g.co/AppIndexing/AndroidStudio for more information.
-        AppIndex.AppIndexApi.end(client, getIndexApiAction());
         client.disconnect();
     }
 

@@ -3,6 +3,7 @@ apply plugin: 'com.android.application'
 
 repositories{
     mavenCentral()
+    maven {url "https://jitpack.io"}
     flatDir{
         dirs 'libs'
     }
@@ -25,6 +26,7 @@ dependencies {
     compile group:'com.squareup.picasso', name:'picasso', version:'2.5.0'
     compile 'org.bouncycastle:bcprov-jdk16:1.46'
     compile 'com.ibm.icu:icu4j:53.1'
+    compile 'com.github.kaaes:spotify-web-api-android:0.4.1'
 }
 
 
