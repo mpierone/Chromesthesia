@@ -12,8 +12,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Playlist"
-        android:id="@+id/textView2" />
+        android:text="Playlist" />
 
     <FrameLayout
         android:layout_width="match_parent"
@@ -28,7 +27,7 @@
             android:drawSelectorOnTop="false"/>
 
         <!-- Here is the view to show if the list is emtpy -->
-        <TextView android:id="@+id/textView"
+        <TextView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:textAppearance="?android:attr/textAppearanceMedium"

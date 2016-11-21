@@ -115,13 +115,13 @@
             android:layout_height="wrap_content"
             android:text="ALL"
             />
-        <RadioButton android:id="@+id/ONE"
+        <RadioButton
             android:tag="ONE"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="ONE"
             />
-        <RadioButton android:id="@+id/NONE"
+        <RadioButton
             android:tag="NONE"
             android:layout_height="wrap_content"
             android:layout_width="wrap_content"
