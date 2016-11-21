@@ -2,8 +2,6 @@ package com.example.matt.chromesthesia;
 
 import android.app.Activity;
 import android.graphics.Color;
-import android.graphics.Path;
-import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -17,16 +15,13 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.GridView;
 import android.widget.ListView;
-import android.content.*;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.ToggleButton;
 import android.widget.Toast;
-import com.example.matt.chromesthesia.playlistDev.localMusicManager;
-import java.io.File;
-import android.widget.ProgressBar;
-import android.widget.TextView;
 
+import com.example.matt.chromesthesia.playlistDev.localMusicManager;
+
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
 
@@ -41,7 +36,6 @@ public class Library extends Fragment {
     private View rootView;
     private LayoutInflater layoutInf;
     private ArrayList<Song> songs;
-    protected ArrayList<String> songArray;
     private ListView listView;
     private ArrayList<String> songArray;
     private ListView songView;

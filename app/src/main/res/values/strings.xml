@@ -22,5 +22,5 @@
     <string name="low_bitrate_button_label">96kbps</string>
     <string name="no_metadata">no metadata</string>
     <string name="action_settings">Action Settings</string>
-    <string name="action_settings">Settings</string>
+
 </resources>

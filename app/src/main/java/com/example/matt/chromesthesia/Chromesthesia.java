@@ -1,8 +1,5 @@
 
 package com.example.matt.chromesthesia;
-import com.example.matt.chromesthesia.MPC.binder_music;
-import com.example.matt.chromesthesia.playlistDev.localMusicManager;
-import com.example.matt.chromesthesia.playlistDev.*;
 import android.Manifest;
 import android.content.ComponentName;
 import android.content.Context;
@@ -12,11 +9,6 @@ import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.IBinder;
-import android.support.v4.app.FragmentTransaction;
-import android.support.v4.app.Fragment;
-import android.content.pm.PackageManager;
-import android.os.Build;
-import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
@@ -29,30 +21,16 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ListView;
-import android.os.IBinder;
-import android.content.ComponentName;
-import android.content.Context;
-import android.content.Intent;
-import android.content.ServiceConnection;
-
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-
-import android.widget.Button;
-import android.widget.Toast;
-
-import static android.support.v7.appcompat.R.styleable.Toolbar;
-import android.widget.ListView;
 import android.widget.Toast;
 
 import com.example.matt.chromesthesia.MPC.binder_music;
-import com.example.matt.chromesthesia.playlistDev.ID3;
 import com.example.matt.chromesthesia.playlistDev.localMusicManager;
 import com.google.android.gms.appindexing.AppIndex;
 import com.google.android.gms.common.api.GoogleApiClient;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 public class Chromesthesia extends AppCompatActivity{
     /**
@@ -80,7 +58,7 @@ public class Chromesthesia extends AppCompatActivity{
     private Fragment nowPlayingFragment;
     private Fragment playlistFragment;
     public Fragment spotifyFragment;
-
+    public static Intent spotifyIntent;
 
 
 
@@ -292,7 +270,6 @@ public class Chromesthesia extends AppCompatActivity{
         }
     }
 
-    }
 
     @Override
     protected void onDestroy() {
@@ -373,7 +350,6 @@ public class Chromesthesia extends AppCompatActivity{
     public ArrayList<String> getPlayQueueNames() {
         return lmm.makeSongNames(nowPlaying);
     }
-}
     @Override
     public void onStop() {
         super.onStop();

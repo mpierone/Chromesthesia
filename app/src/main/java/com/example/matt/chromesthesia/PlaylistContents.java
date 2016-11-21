@@ -1,7 +1,7 @@
 package com.example.matt.chromesthesia;
 
 /**
- * Created by Isabelle on 10/28/2016.
+ * Created by Isabelle on 10/28/2016.*/
 
 
 public class PlaylistContents extends PlayListSelectionScreen {

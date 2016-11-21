@@ -1,15 +1,5 @@
 package com.example.matt.chromesthesia;
 
-import android.content.Context;
-import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.widget.EditText;
-import android.widget.ListView;
-
-import com.example.matt.chromesthesia.playlistDev.Playlist;
-
-import java.util.ArrayList;
-
 /**
  * Created by Matt on 10/8/2016.
  */
@@ -120,11 +110,7 @@ public class PlayListSelectionScreen extends Chromesthesia {
     }
     public String getPlaylist() {
         return selectedPlaylist;
-    }*/
-    }
-}
-    }*/
-}
+    }*/}
 
 
 

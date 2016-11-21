@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:backgroundTint="@android:color/black"
+    android:background="@android:color/black">
+
+    <TextView
+        android:text="Chromesthesia x Spotify"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/spotify_header"
+        android:textSize="30sp"
+        android:textStyle="normal|bold"
+        android:textAlignment="center"
+        android:textColor="@android:color/holo_green_light" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/spotify_scroll"
+        android:backgroundTint="@android:color/black"
+        android:background="@android:color/black">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
+
+            <TextView
+                android:text="Our Spotify x Chromesthesia feature is under construction! In the meantime, check out a preview of what's to come:"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/cxs_description"
+                android:textSize="16sp"
+                android:textColor="@android:color/white" />
+
+            <ImageView
+                app:srcCompat="@drawable/krum"
+                android:layout_width="100dp"
+                android:layout_height="100dp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/spotify_song_info"
+                android:textColor="@android:color/white" />
+
+            <ImageButton
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:srcCompat="@android:drawable/ic_media_play"
+                android:id="@+id/play_Spotify_Sample"
+                android:backgroundTint="@android:color/black"
+                android:tint="@android:color/holo_green_light" />
+
+            <WebView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/spotify_web_view" />
+
+            <Button
+                android:text="Back to Chromesthesia"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/back_to_chromesthesia"
+                android:background="@android:color/holo_green_dark" />
+
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

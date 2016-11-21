@@ -21,6 +21,6 @@ public class FragmentPagerSupport extends FragmentActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.fragment_chromesthesia);
+        //setContentView(R.layout.fragment_chromesthesia);
     }
 }
