@@ -1,0 +1,18 @@
+date: November 18, 2016
+meeting_type: group # meeting_type can "group", "ta", or "instructor"
+attendance: [<jhuang42>, <iacaneda>, <wlstewar>]
+absent: [<mpierone>]
+excused_absences: [
+  ]
+task_progress: [ # All group members must be included here even if they haven't made any progress since the last meeting
+  {ubit: <iacaneda>, progress: Attempted to create the playlist functionality. Worked on playlist screen, playlist contents,
+  playlist selection.},
+  {ubit: <jhuang42>, progress: Continued to work on fragmentating the activities. This has proved to be difficult due to
+  the amount of code that needed to change to keep the functionality on the fragments. Created tabbed views for the
+  fragments.},
+  {ubit: <wlstewar>, progress: Worked on GUI related things and worked on the adding functionality to the fragments as well
+  regarding the now playing screen.}
+
+issues: [ # Post any issues here. Issues that cannot be addressed by the group should especially be included
+  ]
+Notes:  | # Anything covered in the meeting that doesn't fit elsewhere.

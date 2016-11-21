@@ -1,0 +1,17 @@
+date: November 21, 2016
+meeting_type: group # meeting_type can "group", "ta", or "instructor"
+attendance: [<jhuang42>, <iacaneda>, <wlstewar>]
+absent: [<mpierone>]
+excused_absences: [
+  ]
+task_progress: [ # All group members must be included here even if they haven't made any progress since the last meeting
+  {ubit: <iacaneda>, progress: Was able to get the Spotify API to playback and getting the web API to get information on
+  songs, tracks, albums, and artists.},
+  {ubit: <jhuang42>, progress: Was able to complete functionality on library and now playing fragments
+   fragmentate the playlist screen but working on functionality.},
+  {ubit: <wlstewar>, progress: Created an expandable list view and completed functionality of the expandable listview
+  on the now playing screen.}
+
+issues: [ # Post any issues here. Issues that cannot be addressed by the group should especially be included
+  ]
+Notes:  | # Anything covered in the meeting that doesn't fit elsewhere.
