@@ -13,6 +13,6 @@ task_progress: [ # All group members must be included here even if they haven't 
   {ubit: <wlstewar>, progress: Worked on GUI related things and worked on the adding functionality to the fragments as well
   regarding the now playing screen.}
 
-issues: [# Post any issues here. Issues that cannot be addressed by the group should especially be included
+issues: [ # Post any issues here. Issues that cannot be addressed by the group should especially be included
   ]
 Notes:  | # Anything covered in the meeting that doesn't fit elsewhere.
