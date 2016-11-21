@@ -39,6 +39,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 import com.example.matt.chromesthesia.MPC;
+import com.example.matt.chromesthesia.playlistDev.localMusicManager;
 
 import org.w3c.dom.Text;
 
@@ -56,8 +57,9 @@ public class NowPlayingScreen extends Fragment implements View.OnTouchListener, 
     private View rootView;
     private ExpandableListView playQueue;
     private playQueueAdapter playAdapter;
-    private List<String> header = new ArrayList<String>();
+    private List<String> header = new ArrayList<>();
     private ImageView albumArt;
+    private localMusicManager lmm;
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
@@ -75,6 +77,7 @@ public class NowPlayingScreen extends Fragment implements View.OnTouchListener, 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        lmm = new localMusicManager();
         final ToggleButton playButton = (ToggleButton) rootView.findViewById(R.id.playButton);
         final ImageButton previousButton = (ImageButton) rootView.findViewById(R.id.previousButton);
         final ImageButton nextButton = (ImageButton) rootView.findViewById(R.id.nextButton);
@@ -83,6 +86,7 @@ public class NowPlayingScreen extends Fragment implements View.OnTouchListener, 
         final TextView currentTime = (TextView) rootView.findViewById(R.id.currentTime);
         final TextView songTitle = (TextView) rootView.findViewById(R.id.songTitleText);
         final RadioGroup repeatButtons = (RadioGroup) rootView.findViewById(R.id.repeatButtons);
+        repeatButtons.check(R.id.ALL);
         albumArt = (ImageView) rootView.findViewById(R.id.albumArt);
         header.add("Now Playing");
         playQueue = (ExpandableListView) rootView.findViewById(R.id.playQueue);
@@ -116,6 +120,14 @@ public class NowPlayingScreen extends Fragment implements View.OnTouchListener, 
             public void onFocusChange(View v, boolean hasFocus) {
                 System.out.println("we're in the onfocuschange for rootview!");
                 playQueue.collapseGroup(0);
+                if (hasFocus) {
+                    if (chromesthesia.mpservice.isPlaying()) {
+                        playButton.setChecked(true);
+                    }
+                    if (chromesthesia.mpservice.isPaused()) {
+                        playButton.setChecked(false);
+                    }
+                }
             }
         });
         playQueue.setOnFocusChangeListener(new View.OnFocusChangeListener() {
@@ -134,7 +146,16 @@ public class NowPlayingScreen extends Fragment implements View.OnTouchListener, 
         playButton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
-                    chromesthesia.mpservice.resumePlay();         //if true
+                    if (chromesthesia.nowPlaying.size() == 0) {
+                        chromesthesia.mpservice.setSngs(chromesthesia._OGsongs);
+                        chromesthesia.playQueueNames = lmm.makeSongNames(chromesthesia.mpservice.getSongs());
+                        chromesthesia.mpservice.position = 0;
+                        chromesthesia.mpservice.datachanged = true;
+                        chromesthesia.mpservice.playsong();
+                    }
+                    else {
+                        chromesthesia.mpservice.resumePlay();         //if true
+                    }
                 } else {
                     chromesthesia.mpservice.pauseSong();
                 }
@@ -144,20 +165,38 @@ public class NowPlayingScreen extends Fragment implements View.OnTouchListener, 
         previousButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //call and play previous song
-                //if song[index-1] would == null, then go to song[highest_index]
-                playButton.setChecked(false);
-                chromesthesia.mpservice.playPrevious();
+                if (chromesthesia.mpservice.getSongs().size() == 0) {
+
+                }
+                else if (chromesthesia.mpservice.isPaused()) {
+                    playButton.setChecked(true);
+                    chromesthesia.mpservice.playPrevious();
+                }
+                else if (chromesthesia.mpservice.getPosition() > 5000) {
+                    playButton.setChecked(true);
+                    chromesthesia.mpservice.playsong();
+                }
+                else {
+                    playButton.setChecked(true);
+                    chromesthesia.mpservice.playPrevious();
+                }
             }
         });
 
         nextButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //call and play next song
-                //if song[index+1] is out of bounds, then go to song[index_1]
-                playButton.setChecked(false);
-                chromesthesia.mpservice.playNext();
+                if (chromesthesia.mpservice.getSongs().size() == 0) {
+
+                }
+                else if (chromesthesia.mpservice.isPaused()) {
+                    playButton.setChecked(true);
+                    chromesthesia.mpservice.playNext();
+                }
+                else {
+                    playButton.setChecked(true);
+                    chromesthesia.mpservice.playNext();
+                }
             }
         });
         repeatButtons.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener()
@@ -210,13 +249,8 @@ public class NowPlayingScreen extends Fragment implements View.OnTouchListener, 
                                     albumArt.setImageResource(R.drawable.defalbumart1);
                                     x = 1;
                                 }
-                                if (x == 1) {
-                                    albumArt.setImageResource(R.drawable.defalbumart2);
-                                    x = 0;
-                                }
-                                if (x ==0 ) {
-                                    albumArt.setImageResource(R.drawable.defalbumart1);
-                                    x = 1;
+                                if (chromesthesia.mpservice.isPlaying()) {
+                                    playButton.setChecked(true);
                                 }
                                 int duration = chromesthesia.mpservice.getDuration();
                                 int current = chromesthesia.mpservice.getPosition();

@@ -46,6 +46,7 @@ public class Chromesthesia extends AppCompatActivity {
     protected ArrayList<Song> _OGsongs;
     public ArrayList<Song> nowPlaying;
     public ArrayList<String> playQueueNames = new ArrayList<>();
+    public ArrayList<String> _OGNames = new ArrayList<>();
     public MPC mpservice;
     private Intent player;
     private ListView songView;

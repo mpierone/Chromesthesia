@@ -200,7 +200,7 @@ public class localMusicManager {
         for (String s : names) {
             System.out.println(s);
         }
-        System.out.println("that was the list yay!");
+        System.out.println("that was the list yay!\nand size is:  "+ names.size());
         return names;
 
 

@@ -2,7 +2,6 @@ package com.example.matt.chromesthesia;
 
 import android.app.Activity;
 import android.graphics.Color;
-import android.graphics.Path;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.util.Log;
@@ -15,10 +14,8 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.GridView;
 import android.widget.ListView;
-import android.content.*;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.ToggleButton;
 import android.widget.Toast;
 import com.example.matt.chromesthesia.playlistDev.localMusicManager;
 import java.io.File;
@@ -35,7 +32,7 @@ public class Library_album extends Fragment {
     private LayoutInflater layoutInf;
     public ArrayList<Song> songs;
     private ArrayList<String> songArray;
-    private ListView songView;
+    private ListView songViewalbum;
     private ImageAdapter imgAdapter;
     static ArrayAdapter<String> listAdapter;
     private ProgressBar progressB;
@@ -57,9 +54,9 @@ public class Library_album extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        rootView = inflater.inflate(R.layout.libraryscreen, container, false);
+        rootView = inflater.inflate(R.layout.libraryalbumscreen, container, false);
         //songArray = chromesthesia.playQueueNames;
-        songView = (ListView)rootView.findViewById(R.id.librarylist);
+        songViewalbum = (ListView)rootView.findViewById(R.id.libraryalbumlist);
         listAdapter = new ArrayAdapter<String>(getActivity(), R.layout.arow) {};
         System.out.println("PRINTING OUT OUR SONGARRAY");
         progressB = (ProgressBar)rootView.findViewById(R.id.progressB);
@@ -71,9 +68,26 @@ public class Library_album extends Fragment {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        songView = (ListView) rootView.findViewById(R.id.librarylist);
-        songView.setAdapter(new ArrayAdapter<>(rootView.getContext(), android.R.layout.simple_list_item_1, new ArrayList(songArray)));
-        songView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        songViewalbum = (ListView) rootView.findViewById(R.id.libraryalbumlist);
+        if (rootView.getContext() == null){
+            System.out.println("context is null");
+        }
+        if (songArray == null) {
+            System.out.println("songarray is null");
+        }
+        if (songViewalbum == null) {
+            System.out.println("WTF WHY ARE YOU NULL");
+        }
+        final ArrayList<String> songarr = new ArrayList(songArray);
+        ArrayAdapter<String> songadpt = new ArrayAdapter<>(rootView.getContext(), android.R.layout.simple_list_item_1, songarr);
+        if (songadpt == null) {
+            System.out.println("wtf why");
+        }
+        else{
+            System.out.println("WTF WHY");
+        }
+        songViewalbum.setAdapter(songadpt);
+        songViewalbum.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 chromesthesia.mpservice.setSngs(songs);
@@ -94,11 +108,11 @@ public class Library_album extends Fragment {
                 }
             }
         });
-        registerForContextMenu(songView);
-        /*songView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+        registerForContextMenu(songViewalbum);
+        /*songViewalbum.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-                Toast.makeText(rootView.getContext(), songView.getItemAtPosition(position).toString(), Toast.LENGTH_LONG).show();
+                Toast.makeText(rootView.getContext(), songViewalbum.getItemAtPosition(position).toString(), Toast.LENGTH_LONG).show();
                 return false;
             }
         });*/
@@ -191,24 +205,27 @@ public class Library_album extends Fragment {
         chromesthesia.playQueueNames = songArray;
     }
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo){
-        menu.add(0, v.getId(), 0, "Add to Now Playing Queue");
-        menu.add(0, v.getId(), 1, "Play Next");
-        menu.add(0, v.getId(), 2, "Add to Playlist");
+        menu.add(1, v.getId(), 3, "Add to Now Playing Queue");
+        menu.add(1, v.getId(), 4, "Play Next");
+        menu.add(1, v.getId(), 5, "Add to Playlist");
     }
     public boolean onContextItemSelected(MenuItem item){
+        if (item.getGroupId() != 1) {
+            System.out.println("FUCKYE");
+            return false;}
         AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
         ArrayList<Song> sngs = new ArrayList(songs);
-        System.out.println("sngs be:");
-        for (Song s : sngs) {
-            s.get_id3().getTitle();
-        }
-        System.out.println("end sngs");
         ArrayList<String> nms = new ArrayList(songArray);
         if(item.getTitle()=="Add to Now Playing Queue") {
             int x = info.position;
             Song s = null;
             String name = new String(nms.get(x));
-            System.out.println("Selected song pos is: " + x + "\nSelected song name is: " + nms.get(x) + "\nSelected song FilePath is: " + sngs.get(x).get_audioFilePath());
+            System.out.println("Selected song pos iFUCKTHEPOLICEs: " + x + "\nSelected song name is: " + nms.get(x) + "\nSelected song FilePath is: " + sngs.get(x).get_audioFilePath());
+            System.out.println("sngs be:");
+            for (Song sg : sngs) {
+                sg.get_id3().getTitle();
+            }
+            System.out.println("end sngs");
             try {
                 s = new Song(sngs.get(x));
             }
@@ -220,6 +237,11 @@ public class Library_album extends Fragment {
             Toast.makeText(rootView.getContext(), "Add to Now Playing Queue Clicked & Pos = " + info.position, Toast.LENGTH_LONG).show();
         }
         if(item.getTitle()=="Play Next") {
+            System.out.println("sngs be:");
+            for (Song s : sngs) {
+                s.get_id3().getTitle();
+            }
+            System.out.println("end sngs");
             System.out.println("hey im in playnext on the contxt menu and info.position is:  " + info.position + " and chrom.mpsrv.songpos is:  " + chromesthesia.mpservice.songposition
                     + "and the library song size is :  "+ songs.size());
             int x = info.position;

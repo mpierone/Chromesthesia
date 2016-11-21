@@ -198,6 +198,7 @@ public class Library extends Fragment {
         menu.add(0, v.getId(), 2, "Add to Playlist");
     }
     public boolean onContextItemSelected(MenuItem item){
+        if (item.getGroupId() != 0) { return false;}
         AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
         ArrayList<Song> sngs = new ArrayList(songs);
         ArrayList<String> nms = new ArrayList(songArray);
@@ -205,7 +206,7 @@ public class Library extends Fragment {
             int x = info.position;
             Song s = null;
             String name = new String(nms.get(x));
-            System.out.println("Selected song pos is: " + x + "\nSelected song name is: " + nms.get(x) + "\nSelected song FilePath is: " + sngs.get(x).get_audioFilePath());
+            System.out.println("Selected sfucktheworldalfjewaoifjong pos is: " + x + "\nSelected song name is: " + nms.get(x) + "\nSelected song FilePath is: " + sngs.get(x).get_audioFilePath());
             try {
                 s = new Song(sngs.get(x));
             }
