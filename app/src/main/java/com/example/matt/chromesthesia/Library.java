@@ -200,9 +200,19 @@ public class Library extends Fragment {
     public boolean onContextItemSelected(MenuItem item){
         AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
         ArrayList<Song> sngs = new ArrayList(songs);
+        ArrayList<String> nms = new ArrayList(songArray);
         if(item.getTitle()=="Add to Now Playing Queue") {
-            chromesthesia.mpservice.addSong(info.position, sngs.get(info.position));
-            chromesthesia.playQueueNames.add(songArray.get(info.position));
+            int x = info.position;
+            Song s = null;
+            String name = new String(nms.get(x));
+            try {
+                s = new Song(sngs.get(x));
+            }
+            catch (Exception e) {
+                e.printStackTrace();
+            }
+            chromesthesia.mpservice.addSong(x, s);
+            chromesthesia.playQueueNames.add(name);
             Toast.makeText(rootView.getContext(), "Add to Now Playing Queue Clicked & Pos = " + info.position, Toast.LENGTH_LONG).show();
         }
         if(item.getTitle()=="Play Next") {
@@ -210,14 +220,20 @@ public class Library extends Fragment {
                 + "and the library song size is :  "+ songs.size());
             int x = info.position;
             int y = chromesthesia.mpservice.songposition + 1;
-            Song s = sngs.get(x);
+            Song s = null;
+            String name = new String(songArray.get(x));
+            try {
+                s = new Song(sngs.get(x));
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
             if (chromesthesia.mpservice.getSongs().size() == 0) {
                 y = 0;
             }
             System.out.println("why + " + x + "  +  " + y + " + " + songs.size());
             chromesthesia.mpservice.addSong(x, y, s);
-            System.out.println("WHY IS THE LIST GETTING MODIFIED" + " SIZE OF SONGS IS: " + songs.size());
-            chromesthesia.playQueueNames.add(chromesthesia.mpservice.songposition, songArray.get(info.position));
+            System.out.println("WHY IS THE LIST GETTING MODIFIED" + " SIZE OF SONGS IS: " + songs.size() + "SONG SIZE LOCAL TO THIS METHOD IS:  " + sngs.size());
+            chromesthesia.playQueueNames.add(y, name);
             Toast.makeText(rootView.getContext(), "Play Next Clicked", Toast.LENGTH_LONG).show();
             System.out.println("WHY IS THE LIST GETTING MODIFIED");
             for (Song sg : songs) {
@@ -227,6 +243,8 @@ public class Library extends Fragment {
         if(item.getTitle()=="Add to Playlist"){
             Toast.makeText(rootView.getContext(), "Add to Playlist", Toast.LENGTH_LONG).show();
         }
+        songs = sngs;
+        songArray = nms;
         return true;
     }
 }
