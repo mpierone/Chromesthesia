@@ -208,7 +208,7 @@ public class Library_album extends Fragment {
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo){
         menu.add(1, v.getId(), 3, "Add to Now Playing Queue");
         menu.add(1, v.getId(), 4, "Play Next");
-        menu.add(1, v.getId(), 5, "Add to Playlist");
+        //menu.add(1, v.getId(), 5, "Add to Playlist");
     }
     public boolean onContextItemSelected(MenuItem item){
         if (item.getGroupId() != 1) {

@@ -175,7 +175,7 @@ public class Chromesthesia extends AppCompatActivity {
         nowPlayingFragment = new NowPlayingScreen();
         fragmentPagerStateAdapter.addFragments(nowPlayingFragment, "Now Playing");
         playlistFragment = new PlayList();
-        fragmentPagerStateAdapter.addFragments(playlistFragment, "Playlist");
+        //fragmentPagerStateAdapter.addFragments(playlistFragment, "Playlist");
         viewPager.setAdapter(fragmentPagerStateAdapter);
         viewPager.setOffscreenPageLimit(3);
         tabLayout.setupWithViewPager(viewPager);
