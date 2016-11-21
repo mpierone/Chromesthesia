@@ -1,4 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <item name="list" type="id" />
+    <item name="entity_title" type="id" />
+    <item name="entity_subtitle" type="id" />
+    <item name="entity_image" type="id" />
 </resources>
