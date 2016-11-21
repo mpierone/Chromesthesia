@@ -76,7 +76,7 @@ public class Library_artist extends Fragment {
         super.onActivityCreated(savedInstanceState);
 
         songView = (ListView) rootView.findViewById(R.id.librarylist);
-        songView.setAdapter(new ArrayAdapter<>(rootView.getContext(), android.R.layout.simple_list_item_1, songArray));
+        songView.setAdapter(new ArrayAdapter<>(rootView.getContext(), android.R.layout.simple_list_item_1, new ArrayList(songArray)));
         songView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -201,26 +201,54 @@ public class Library_artist extends Fragment {
     }
     public boolean onContextItemSelected(MenuItem item){
         AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
+        ArrayList<Song> sngs = new ArrayList(songs);
+        ArrayList<String> nms = new ArrayList(songArray);
         if(item.getTitle()=="Add to Now Playing Queue") {
-            chromesthesia.mpservice.addSong(info.position, songs.get(info.position));
-            chromesthesia.playQueueNames.add(songArray.get(info.position));
+            int x = info.position;
+            Song s = null;
+            String name = new String(nms.get(x));
+            System.out.println("Selected song pos is: " + x + "\nSelected song name is: " + nms.get(x) + "\nSelected song FilePath is: " + sngs.get(x).get_audioFilePath());
+            try {
+                s = new Song(sngs.get(x));
+            }
+            catch (Exception e) {
+                e.printStackTrace();
+            }
+            chromesthesia.mpservice.addSong(x, s);
+            chromesthesia.playQueueNames.add(name);
             Toast.makeText(rootView.getContext(), "Add to Now Playing Queue Clicked & Pos = " + info.position, Toast.LENGTH_LONG).show();
         }
         if(item.getTitle()=="Play Next") {
-            System.out.println("hey im in playnext on the contxt menu and info.position is:  " + info.position + " and chrom.mpsrv.songpos is:  " + chromesthesia.mpservice.songposition);
+            System.out.println("hey im in playnext on the contxt menu and info.position is:  " + info.position + " and chrom.mpsrv.songpos is:  " + chromesthesia.mpservice.songposition
+                    + "and the library song size is :  "+ songs.size());
             int x = info.position;
-            int y = chromesthesia.mpservice.songposition+1;
-            System.out.println("why +" + x + "  +  " + y);
+            int y = chromesthesia.mpservice.songposition + 1;
+            Song s = null;
+            String name = new String(songArray.get(x));
+            System.out.println("Selected song pos is: " + x + "\nSelected song name is: " + nms.get(x) + "\nSelected song FilePath is: " + sngs.get(x).get_audioFilePath());
+            try {
+                s = new Song(sngs.get(x));
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
             if (chromesthesia.mpservice.getSongs().size() == 0) {
                 y = 0;
             }
-            chromesthesia.mpservice.addSong(x, y, songs.get(x));
-            chromesthesia.playQueueNames.add(chromesthesia.mpservice.songposition, songArray.get(info.position));
+            System.out.println("why + " + x + "  +  " + y + " + " + songs.size());
+            chromesthesia.mpservice.addSong(x, y, s);
+            System.out.println("WHY IS THE LIST GETTING MODIFIED" + " SIZE OF SONGS IS: " + songs.size() + "SONG SIZE LOCAL TO THIS METHOD IS:  " + sngs.size());
+            chromesthesia.playQueueNames.add(y, name);
             Toast.makeText(rootView.getContext(), "Play Next Clicked", Toast.LENGTH_LONG).show();
+            System.out.println("WHY IS THE LIST GETTING MODIFIED");
+            for (Song sg : songs) {
+                System.out.println(sg.get_audioFilePath());
+            }
         }
         if(item.getTitle()=="Add to Playlist"){
             Toast.makeText(rootView.getContext(), "Add to Playlist", Toast.LENGTH_LONG).show();
         }
+        songs = sngs;
+        songArray = nms;
         return true;
     }
 }

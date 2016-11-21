@@ -72,15 +72,15 @@ public class Library extends Fragment {
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-
+        final ArrayList<String> songarr = new ArrayList(songArray);
         songView = (ListView) rootView.findViewById(R.id.librarylist);
-        songView.setAdapter(new ArrayAdapter<>(rootView.getContext(), android.R.layout.simple_list_item_1, songArray));
+        songView.setAdapter(new ArrayAdapter<>(rootView.getContext(), android.R.layout.simple_list_item_1, songarr));
         songView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 chromesthesia.mpservice.setSngs(songs);
                 chromesthesia.nowPlaying = songs;
-                chromesthesia.playQueueNames = songArray;
+                chromesthesia.playQueueNames = songarr;
                 chromesthesia.playSong(view, position);
 
                 if(chromesthesia.mpservice.isPlaying())
@@ -205,6 +205,7 @@ public class Library extends Fragment {
             int x = info.position;
             Song s = null;
             String name = new String(nms.get(x));
+            System.out.println("Selected song pos is: " + x + "\nSelected song name is: " + nms.get(x) + "\nSelected song FilePath is: " + sngs.get(x).get_audioFilePath());
             try {
                 s = new Song(sngs.get(x));
             }
@@ -222,6 +223,7 @@ public class Library extends Fragment {
             int y = chromesthesia.mpservice.songposition + 1;
             Song s = null;
             String name = new String(songArray.get(x));
+            System.out.println("Selected song pos is: " + x + "\nSelected song name is: " + nms.get(x) + "\nSelected song FilePath is: " + sngs.get(x).get_audioFilePath());
             try {
                 s = new Song(sngs.get(x));
             } catch (Exception e) {
