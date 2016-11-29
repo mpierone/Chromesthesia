@@ -40,15 +40,14 @@
         <!--NEEDED FOR SPOTIFY PLAYBACK, DO NOT DELETE. Needed for LoginActivity to Work-->
         <activity
             android:name="com.spotify.sdk.android.authentication.LoginActivity"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar">
-        <intent-filter>
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" >
+            <intent-filter>
             <action android:name="android.intent.action.VIEW"/>
             <category android:name="android.intent.category.DEFAULT"/>
             <category android:name="android.intent.category.BROWSABLE"/>
             <data
-                android:host="iacaneda.com/callback"
-                android:scheme="http" />
-        </intent-filter>
+                android:host="callback"
+                android:scheme="mycallback" /></intent-filter>
         </activity>
 
         <meta-data
@@ -56,6 +55,7 @@
             android:value="@integer/google_play_services_version" />
 
         <activity android:name=".SpotiPlayer">
+
         </activity>
 
     </application>
