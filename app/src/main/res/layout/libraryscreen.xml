@@ -22,7 +22,7 @@
     the empty view or the list view.  -->
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="403dp"
+        android:layout_height="372dp"
         >
         <!-- Here is the list. Since we are using a ListActivity, we
              have to call it "@android:id/list" so ListActivity will
@@ -30,12 +30,31 @@
         <ListView
             android:id="@+id/librarylist"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="374dp"
             android:visibility="visible"
             android:clickable="true"
 
             />
     </FrameLayout>
+
+    <ProgressBar
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:progressDrawable="@drawable/progressbarcolor"
+        android:id="@+id/progressB" />
+
+    <GridView
+        android:id="@+id/libraryGridView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:columnWidth="90dp"
+        android:numColumns="4"
+        android:verticalSpacing="1dp"
+        android:horizontalSpacing="1dp"
+        android:stretchMode="columnWidth"
+        android:gravity="center"
+        />
 
     <TextView
         android:textColor="@color/colorPrimaryDark"
@@ -49,24 +68,5 @@
         android:layout_height="150dp"
         >
 
-        <ProgressBar
-            style="?android:attr/progressBarStyleHorizontal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:progressDrawable="@drawable/progressbarcolor"
-            android:id="@+id/progressB" />
-
-        <GridView
-            android:id="@+id/libraryGridView"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:paddingTop="35dp"
-            android:columnWidth="90dp"
-            android:numColumns="4"
-            android:verticalSpacing="1dp"
-            android:horizontalSpacing="1dp"
-            android:stretchMode="columnWidth"
-            android:gravity="center"
-            />
     </FrameLayout>
 </LinearLayout>

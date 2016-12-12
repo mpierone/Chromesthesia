@@ -24,9 +24,9 @@ public class PlayListSelectionScreen extends Chromesthesia {
         playlistView = (ListView)findViewById(R.id.playlistView);
 
         createPlaylistList();
-        System.out.println("PRINTING OUT OUR PLAYLIST ARRAY");
+        //System.out.println("PRINTING OUT OUR PLAYLIST ARRAY");
         for (String playlistName : playlistArray) {
-            System.out.println(playlistName);
+            //System.out.println(playlistName);
         }
         try
         {
@@ -52,7 +52,7 @@ public class PlayListSelectionScreen extends Chromesthesia {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 selectedPlaylist = playlistArray.get(position);
-                System.out.println("!!!!!!in playlist onclick listener:  "+selectedPlaylist);
+                //System.out.println("!!!!!!in playlist onclick listener:  "+selectedPlaylist);
                 /*
                 Intent openPlaylistContents = new Intent(context, PlaylistContents.class);
                 Intent updateSelectedPlaylist = new Intent(context, Chromesthesia.class);
@@ -92,14 +92,14 @@ public class PlayListSelectionScreen extends Chromesthesia {
         ArrayList<Playlist> playlists;
         String playlistName;
         playlists = playlistList;
-        System.out.println("size is:");
-        System.out.println(playlists.size());
+        //System.out.println("size is:");
+        //System.out.println(playlists.size());
         playlistArray = new ArrayList<>();
         int i = 0;
         try{
             for(Playlist p : playlists) {
                 playlistName = p.getPlaylistName();
-                System.out.println(playlistName);
+                //System.out.println(playlistName);
                 playlistArray.add(playlistName);
             }
         }

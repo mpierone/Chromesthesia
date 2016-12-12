@@ -51,26 +51,26 @@ public class PlaylistManager {
                 if (playDir.listFiles().length > 0) {
                     for (File file : playDir.listFiles()) {
                         //sets up String[] of track info
-                        //System.out.println(file.getAbsolutePath());
+                        ////System.out.println(file.getAbsolutePath());
                         if (file.isDirectory()) {
-                            System.out.println("keep on lookin', subfolders will eventually be how we group similar playlists together\n\n\n\n");
-                            System.out.println(file.getAbsoluteFile());
+                            //System.out.println("keep on lookin', subfolders will eventually be how we group similar playlists together\n\n\n\n");
+                            //System.out.println(file.getAbsoluteFile());
                             getPlaylistList(file.getAbsolutePath());
                         } else if (file.getAbsolutePath().toLowerCase().endsWith(".txt")) {
                             //String thetitle = so.get_id3().getTitle();
-                            //System.out.println(thetitle);
-                            //System.out.println(so.get_id3().getArtist());
-                            //System.out.println(so.get_id3().getAlbum());
+                            ////System.out.println(thetitle);
+                            ////System.out.println(so.get_id3().getArtist());
+                            ////System.out.println(so.get_id3().getAlbum());
                             String playlistName = file.getName().replace(".txt", "");
                             Playlist p = new Playlist(playlistName);
                             p._playlistTxtDoc = file;
                             p._playlistFileName = file.getName();
                             playlistList.add(p);
-                            System.out.println("Added " + p._playlistName + " to the playlist ArrayList.");
+                            //System.out.println("Added " + p._playlistName + " to the playlist ArrayList.");
                         }
                     }
                 }
-                //System.out.println(_songsList.size());
+                ////System.out.println(_songsList.size());
             }
         } catch (Exception e) {
             Log.e("lmm", "err setting datasource", e);
@@ -87,8 +87,8 @@ public class PlaylistManager {
         File file = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), "playlists");
         if (!file.exists()) {
             file.mkdirs();
-            System.out.println("Couldn't find the folder containing your playlists in Downloads");
-            System.out.println("Created new playlists folder in Downloads");
+            //System.out.println("Couldn't find the folder containing your playlists in Downloads");
+            //System.out.println("Created new playlists folder in Downloads");
         }
         return file;
     }
@@ -143,7 +143,7 @@ public class PlaylistManager {
                     if (i < data.length - 1) {
                         fos.write("\n".getBytes());
                     }
-                    System.out.println(data[i]);
+                    //System.out.println(data[i]);
                 }
             } catch (IOException e) {
                 e.printStackTrace();
@@ -155,7 +155,7 @@ public class PlaylistManager {
                 e.printStackTrace();
             }
         }
-        System.out.println(playlist.getPlaylistName() + " was saved as " + playlist.getNameOfTextFile() + " in " + getPlaylistStorageDirectory() + ".");
+        //System.out.println(playlist.getPlaylistName() + " was saved as " + playlist.getNameOfTextFile() + " in " + getPlaylistStorageDirectory() + ".");
     }
 
 

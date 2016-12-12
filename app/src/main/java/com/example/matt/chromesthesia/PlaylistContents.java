@@ -31,7 +31,7 @@ public class PlaylistContents extends PlayListSelectionScreen {
         else {
             pl = (String) savedInstancedState.getSerializable("VALUE");
         }
-        System.out.println("playlistContents.java selectedPlaylist:  "+ pl);
+        //System.out.println("playlistContents.java selectedPlaylist:  "+ pl);
         selPlay = new Playlist(pl);
 
         /*Populating playlist songs array
@@ -41,7 +41,7 @@ public class PlaylistContents extends PlayListSelectionScreen {
             populatePlaylist(lmm.getSD_LOCATION());
             createSongArray();
             for (Song s : selPlay._playlistSongs){
-                System.out.println("Added " + s.get_id3().getTitle() + " by " + s.get_id3().getArtist() + " to playlist: " +pl);
+                //System.out.println("Added " + s.get_id3().getTitle() + " by " + s.get_id3().getArtist() + " to playlist: " +pl);
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -59,7 +59,7 @@ public class PlaylistContents extends PlayListSelectionScreen {
         {
             if (psongArray == null){
                 String emptyAdapterMsg = "Something went wrong, we can't find the playlist's songs array!";
-                System.out.println(selPlay._playlistSongs);
+                //System.out.println(selPlay._playlistSongs);
                 ArrayList<String> empties = new ArrayList<>();
                 empties.add(emptyAdapterMsg);
                 ArrayAdapter a = new ArrayAdapter<String>(getBaseContext(), android.R.layout.simple_list_item_1, empties);
@@ -74,22 +74,22 @@ public class PlaylistContents extends PlayListSelectionScreen {
             Log.e("Error:","No playlists found.", e);
         }
 
-        System.out.println("PRINTING OUT OUR PLAYLIST'S SONGS ARRAY");
-        System.out.println("Size: " + songArray.size());
+        //System.out.println("PRINTING OUT OUR PLAYLIST'S SONGS ARRAY");
+        //System.out.println("Size: " + songArray.size());
         for (String song : songArray) {
-            System.out.println(song);
+            //System.out.println(song);
         }
 
-        System.out.println("PRINTING OUT OUR PLAYLIST'S SONG FILES");
-        System.out.println("FILES FOUND: " + selPlay.stringFilenames.size());
+        //System.out.println("PRINTING OUT OUR PLAYLIST'S SONG FILES");
+        //System.out.println("FILES FOUND: " + selPlay.stringFilenames.size());
         for (String s: selPlay.stringFilenames){
-            System.out.println(s);
+            //System.out.println(s);
         }
 
-        System.out.println("PRINTING OUT OUR PLAYLIST'S SONG OBJECTS");
+        //System.out.println("PRINTING OUT OUR PLAYLIST'S SONG OBJECTS");
         /*System.out.println("SONGS FOUND: " + selPlay._playlistSongs.size());
         for (Song s: selPlay._playlistSongs){
-            System.out.println(s.get_audioFilePath());
+            //System.out.println(s.get_audioFilePath());
         }
 */
         /*On click for selecting a song
@@ -145,17 +145,17 @@ public class PlaylistContents extends PlayListSelectionScreen {
                         selPlay._playlistSongs.add(so);
 
                         if (so == null) {
-                            System.out.println("so == null!\n");
+                            //System.out.println("so == null!\n");
                         }
                         //String thetitle = so.get_id3().getTitle();
-                        //System.out.println(thetitle);
-                        //System.out.println(so.get_id3().getArtist());
-                        //System.out.println(so.get_id3().getAlbum());
+                        ////System.out.println(thetitle);
+                        ////System.out.println(so.get_id3().getArtist());
+                        ////System.out.println(so.get_id3().getAlbum());
 
                     }
                 }
             }
-            //System.out.println(_songsList.size());
+            ////System.out.println(_songsList.size());
         } catch (Exception e) {
             Log.e("lmm", "err setting datasource", e);
         }
@@ -173,15 +173,15 @@ public class PlaylistContents extends PlayListSelectionScreen {
                 songName = s.get_id3().getTitle();
                 artistName = s.get_id3().getArtist();
                 mergedName = songName + " - " + artistName;
-                System.out.println(mergedName);
+                //System.out.println(mergedName);
                 psongArray.add(mergedName);
             }
         }
         catch (Exception e){
             Log.e("pm in PSScreen.java","stuff broke",e);
         }
-  //      System.out.println("size is:");
-//        System.out.println(selPlay._playlistSongs.size());
+  //      //System.out.println("size is:");
+//        //System.out.println(selPlay._playlistSongs.size());
     }
 
 */}

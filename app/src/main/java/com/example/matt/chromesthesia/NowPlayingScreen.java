@@ -51,7 +51,7 @@ import org.w3c.dom.Text;
 public class NowPlayingScreen extends Fragment implements View.OnTouchListener, MediaPlayer.OnBufferingUpdateListener, View.OnClickListener{
     private final Handler handler = new Handler();
     SeekBar seekBar;
-    private int x;
+    private int x = 0;
     public MPC mpservice;
     Chromesthesia chromesthesia;
     private View rootView;
@@ -95,16 +95,13 @@ public class NowPlayingScreen extends Fragment implements View.OnTouchListener, 
         playQueue.setOnGroupExpandListener(new ExpandableListView.OnGroupExpandListener() {
             @Override
             public void onGroupExpand(int groupPosition) {
-                if (chromesthesia.mpservice.datachanged) {
-                    chromesthesia.mpservice.datachanged = playAdapter.setplayQueue(chromesthesia.getPlayQueueNames());
-                }
+                playAdapter.setplayQueue(chromesthesia.getPlayQueueNames());
             }
         });
         playQueue.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
             @Override
             public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
                 chromesthesia.playSong(v, childPosition);
-                System.out.println("We're clickin' stuff in the expandable list view!!");
                 if(chromesthesia.mpservice.isPlaying())
                 {
                     TextView songTitle = (TextView) rootView.findViewById(R.id.songTitleText);
@@ -118,7 +115,6 @@ public class NowPlayingScreen extends Fragment implements View.OnTouchListener, 
         rootView.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
-                System.out.println("we're in the onfocuschange for rootview!");
                 playQueue.collapseGroup(0);
                 if (hasFocus) {
                     if (chromesthesia.mpservice.isPlaying()) {
@@ -134,7 +130,6 @@ public class NowPlayingScreen extends Fragment implements View.OnTouchListener, 
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
                 if (!hasFocus) {
-                    System.out.println("we're in the onfocuschange for playQueue!");
                     playQueue.collapseGroup(0);
                 }
             }
@@ -149,6 +144,7 @@ public class NowPlayingScreen extends Fragment implements View.OnTouchListener, 
                     if (chromesthesia.nowPlaying.size() == 0) {
                         chromesthesia.mpservice.setSngs(chromesthesia._OGsongs);
                         chromesthesia.playQueueNames = lmm.makeSongNames(chromesthesia.mpservice.getSongs());
+                        playAdapter.setplayQueue(chromesthesia.getPlayQueueNames());
                         chromesthesia.mpservice.position = 0;
                         chromesthesia.mpservice.datachanged = true;
                         chromesthesia.mpservice.playsong();
@@ -202,9 +198,18 @@ public class NowPlayingScreen extends Fragment implements View.OnTouchListener, 
         repeatButtons.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener()
         {
             public void onCheckedChanged(RadioGroup group, int id) {
-                System.out.println("We're in onCheckedChanged!!");
-                RadioButton rb=(RadioButton)rootView.findViewById(id);
-                chromesthesia.mpservice.setLoop(getResources().getResourceEntryName(id));
+                if (id == R.id.ALL) {
+                    repeatButtons.check(R.id.ALL);
+                    chromesthesia.mpservice.setLoop("ALL");
+                }
+                else if (id == R.id.NONE) {
+                    repeatButtons.check(R.id.NONE);
+                    chromesthesia.mpservice.setLoop("NONE");
+                }
+                else if (id == R.id.ONE) {
+                    repeatButtons.check(R.id.ONE);
+                    chromesthesia.mpservice.setLoop("ONE");
+                }
             }
         });
 
@@ -294,7 +299,6 @@ public class NowPlayingScreen extends Fragment implements View.OnTouchListener, 
             if (chromesthesia.mpservice.isPlaying() || chromesthesia.mpservice.isPaused()) {
                 SeekBar sb = (SeekBar) v;
                 if (event.ACTION_DOWN == 0) {
-                    System.out.println("hey it's action down!!!");
                     sb.setProgress(((int) ((sb.getMax() * event.getX()) / v.getWidth())));
                     playPositionInMillisecconds = (chromesthesia.mpservice.getDuration() / 100) * sb.getProgress();
                 } else
@@ -323,9 +327,6 @@ public class NowPlayingScreen extends Fragment implements View.OnTouchListener, 
                 TimeUnit.MILLISECONDS.toMinutes(time),
                 TimeUnit.MILLISECONDS.toSeconds(time) -
                         TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(time)));
-    }
-    public void pls(){
-        System.out.println("pls");
     }
 }//end of class
 

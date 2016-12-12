@@ -17,7 +17,6 @@ import java.util.List;
  */
 
 public class playQueueAdapter implements ExpandableListAdapter {
-
     private Context context;
     private List<String> header;
     private ArrayList<String> playQueue;
@@ -142,4 +141,6 @@ public class playQueueAdapter implements ExpandableListAdapter {
         playQueue = list;
         return true;
     }
+
+
 }

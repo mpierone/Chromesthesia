@@ -38,7 +38,7 @@ public void saveToInternalStorage(String intMemPath, Playlist p) throws IOExcept
                         for (String s : p.getFilenamesArray()) {
                             s += "\n";
                             fos.write(s.getBytes());
-                            System.out.println("Added " + s);
+                            //System.out.println("Added " + s);
                             fos.close();
                         }
                     }
@@ -46,7 +46,7 @@ public void saveToInternalStorage(String intMemPath, Playlist p) throws IOExcept
                         String empty = "empty";
                         fos.write(empty.getBytes());
                         fos.close();
-                        System.out.println("This is an empty playlist. No songs to save to text file.");
+                        //System.out.println("This is an empty playlist. No songs to save to text file.");
                     }
 
                 } catch (FileNotFoundException e) {
@@ -60,7 +60,7 @@ public void saveToInternalStorage(String intMemPath, Playlist p) throws IOExcept
                     for (String s : p.getFilenamesArray()) {
                         s += "\n";
                         fos.write(s.getBytes());
-                        System.out.println("Added " + s);
+                        //System.out.println("Added " + s);
                         fos.close();
                     }
                 }
@@ -68,12 +68,12 @@ public void saveToInternalStorage(String intMemPath, Playlist p) throws IOExcept
                     String empty = "empty";
                     fos.write(empty.getBytes());
                     fos.close();
-                    System.out.println("This is an empty playlist. No songs to save to text file.");
+                    //System.out.println("This is an empty playlist. No songs to save to text file.");
                 }
             }
             }
         }
-    System.out.println("Saved " + playlistFile + " in internal storage at " + intMemPath);
+    //System.out.println("Saved " + playlistFile + " in internal storage at " + intMemPath);
     }
 }
 

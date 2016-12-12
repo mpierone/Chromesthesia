@@ -52,9 +52,9 @@ public class AddSongsToPlaylistScreen extends PlayListSelectionScreen{
         final EditText editText = (EditText) findViewById(R.id.inputPlaylistName);
         pl = new Playlist(editText.getText().toString());
         createMusicList();
-        System.out.println("PRINTING OUT OUR SONGARRAY");
+        //System.out.println("PRINTING OUT OUR SONGARRAY");
         for (String s : songArray) {
-            System.out.println(s);
+            //System.out.println(s);
         }
         try
         {
@@ -110,8 +110,8 @@ public class AddSongsToPlaylistScreen extends PlayListSelectionScreen{
         String artistName;
         String mergedName;
         songs = songlist;
-        System.out.println("in library.java and size is:");
-        System.out.println(songs.size());
+        //System.out.println("in library.java and size is:");
+        //System.out.println(songs.size());
         songArray = new ArrayList<>();
         //String[] songArray = new String[songs.size()];
         //String[] sampleArray = {"1", "2", "3"};
@@ -122,7 +122,7 @@ public class AddSongsToPlaylistScreen extends PlayListSelectionScreen{
                 songName = s.get_id3().getTitle();
                 artistName = s.get_id3().getArtist();
                 mergedName = songName + " - " + artistName;
-                System.out.println(mergedName);
+                //System.out.println(mergedName);
                 songArray.add(mergedName);
             }
         }

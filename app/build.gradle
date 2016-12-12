@@ -1,3 +1,13 @@
+buildscript {
+    repositories {
+        jcenter()
+    }
+
+    dependencies {
+        classpath 'com.android.tools.build:gradle:2.2.3'
+    }
+}
+
 apply plugin: 'com.android.application'
 
 
@@ -12,19 +22,16 @@ repositories{
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
-    testCompile 'junit:junit:4.12'
-    testCompile 'org.mockito:mockito-core:1.10.19'
-    androidTestCompile "org.robolectric:robolectric:3.0"
-    compile 'com.android.support:appcompat-v7:24.2.1'
-    compile 'com.android.support:design:24.2.1'
-    compile 'com.google.android.gms:play-services-appindexing:8.4.0'
+    //testCompile 'junit:junit:4.12'
+    //testCompile 'org.mockito:mockito-core:1.10.19'
+    // androidTestCompile "org.robolectric:robolectric:3.0"
     compile 'com.android.support:appcompat-v7:24.2.1'
     compile 'com.android.support:design:24.2.1'
     compile 'com.google.android.gms:play-services-appindexing:8.4.0'
     compile 'com.spotify.sdk:spotify-auth-beta23-noconnect-2.20b@aar'
     compile 'com.spotify.sdk:spotify-player-beta23-noconnect-2.20b@aar'
-    compile group:'com.squareup.picasso', name:'picasso', version:'2.5.0'
-    compile 'org.bouncycastle:bcprov-jdk16:1.46'
+   // compile group:'com.squareup.picasso', name:'picasso', version:'2.5.0'
+    //compile 'org.bouncycastle:bcprov-jdk16:1.46'
     compile 'com.ibm.icu:icu4j:53.1'
     compile 'com.github.kaaes:spotify-web-api-android:0.4.1'
     compile 'com.android.support.constraint:constraint-layout:1.0.0-beta4'
@@ -51,8 +58,6 @@ android {
         }
     }
 }
-
-
 
 
 

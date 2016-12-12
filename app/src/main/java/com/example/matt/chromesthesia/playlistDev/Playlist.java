@@ -55,13 +55,13 @@ public class Playlist {
             try {
                 pm.savePlaylist(this);
             } catch (FileNotFoundException e) {
-                System.out.println("Couldn't find the storage directory to save the txt document.");
+                //System.out.println("Couldn't find the storage directory to save the txt document.");
                 e.printStackTrace();
             }
             isSavedOnExternalStorage = true;
         }else{
             isSavedOnExternalStorage = false;
-            System.out.println("No SD Card found. Trying internal storage.");
+            //System.out.println("No SD Card found. Trying internal storage.");
         }
     }*/
 
@@ -104,7 +104,7 @@ public class Playlist {
         try(BufferedReader br = new BufferedReader(new FileReader(plStorageDir + "/" + _playlistFileName))){
             for (String line; (line = br.readLine()) != null;){
              stringFilenames.add(line);
-                System.out.println("Added " + line + " to " + _playlistName);
+                //System.out.println("Added " + line + " to " + _playlistName);
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -128,7 +128,7 @@ public class Playlist {
             try {
                 for (int i = 0; i < data.length - 1; i++) {
                     stringFilenames.add(String.valueOf(input.read(data[i].getBytes())));
-                    System.out.println(data[i]);
+                    //System.out.println(data[i]);
                 }
             } catch (IOException e) {
                 e.printStackTrace();
@@ -140,7 +140,7 @@ public class Playlist {
                 e.printStackTrace();
             }
         }*/
-        System.out.println("Loaded playlist " + _playlistName + " from " + _playlistFileName + " with size " + stringFilenames.size());
+        //System.out.println("Loaded playlist " + _playlistName + " from " + _playlistFileName + " with size " + stringFilenames.size());
 
         return stringFilenames;
     }

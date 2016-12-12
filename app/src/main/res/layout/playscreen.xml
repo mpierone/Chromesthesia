@@ -24,7 +24,9 @@
         android:id="@+id/previousButton"
         android:layout_alignTop="@+id/playButton"
         android:layout_toStartOf="@+id/playButton"
+        android:layout_toLeftOf="@+id/playButton"
         android:layout_marginEnd="38dp"
+        android:layout_marginRight="38dp"
         android:src="@drawable/previousbutton"
         android:background= "@android:color/transparent"/>
 
@@ -36,21 +38,27 @@
         android:id="@+id/nextButton"
         android:layout_alignTop="@+id/playButton"
         android:layout_toEndOf="@+id/playButton"
+        android:layout_toRightOf="@+id/playButton"
         android:layout_marginStart="36dp"
+        android:layout_marginLeft="36dp"
         android:background= "@android:color/transparent"
         android:src="@drawable/nextbutton" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textAppearance="?android:attr/textAppearanceListItemSmall"
         android:text="Song Title"
+        android:lines="1"
+        android:maxLines="1"
         android:id="@+id/songTitleText"
         android:layout_marginBottom="71dp"
         android:paddingLeft="15dp"
         android:layout_above="@+id/seekBar"
         android:layout_alignStart="@+id/albumArt"
-        android:layout_alignEnd="@+id/albumArt" />
+        android:layout_alignEnd="@+id/albumArt"
+        android:layout_alignLeft="@+id/albumArt"
+        android:layout_alignRight="@+id/albumArt"/>
 
     <ToggleButton
         android:layout_width="80dp"
@@ -71,6 +79,7 @@
         android:id="@+id/artistText"
         android:layout_above="@+id/seekBar"
         android:layout_alignStart="@+id/songTitleText"
+        android:layout_alignLeft="@+id/songTitleText"
         android:paddingLeft="15dp"
         android:layout_marginBottom="28dp" />
 
@@ -81,7 +90,9 @@
         android:indeterminate="false"
         android:layout_above="@+id/previousButton"
         android:layout_alignEnd="@+id/songTitleText"
-        android:layout_alignStart="@+id/artistText" />
+        android:layout_alignRight="@+id/songTitleText"
+        android:layout_alignStart="@+id/artistText"
+        android:layout_alignLeft="@+id/artistText"/>
 
     <TextView
         android:text="XX:XX"
@@ -90,7 +101,8 @@
         android:id="@+id/totalTime"
         android:paddingRight="15dp"
         android:layout_above="@+id/seekBar"
-        android:layout_alignEnd="@+id/seekBar" />
+        android:layout_alignEnd="@+id/seekBar"
+        android:layout_alignRight="@+id/seekBar"/>
 
     <TextView
         android:text="00:00"
@@ -99,15 +111,19 @@
         android:id="@+id/currentTime"
         android:paddingLeft="15dp"
         android:layout_above="@+id/seekBar"
-        android:layout_alignStart="@+id/seekBar" />
+        android:layout_alignStart="@+id/seekBar"
+        android:layout_alignLeft="@+id/seekBar"/>
 
     <RadioGroup
         android:id="@+id/repeatButtons"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
+        android:clickable="false"
+        android:focusable="false"
         android:layout_above="@+id/totalTime"
         android:layout_alignEnd="@+id/totalTime"
+        android:layout_alignRight="@+id/totalTime"
         android:layout_marginTop="15dp">
         <RadioButton android:id="@+id/ALL"
             android:tag="ALL"
@@ -115,13 +131,13 @@
             android:layout_height="wrap_content"
             android:text="ALL"
             />
-        <RadioButton
+        <RadioButton android:id="@+id/ONE"
             android:tag="ONE"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="ONE"
             />
-        <RadioButton
+        <RadioButton android:id="@+id/NONE"
             android:tag="NONE"
             android:layout_height="wrap_content"
             android:layout_width="wrap_content"

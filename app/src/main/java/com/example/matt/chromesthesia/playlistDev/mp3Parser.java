@@ -2,6 +2,8 @@ package com.example.matt.chromesthesia.playlistDev;
 
 import android.media.MediaMetadataRetriever;
 
+import java.io.File;
+
 /**
  * Created by Isabelle on 10/6/2016.
  *
@@ -44,27 +46,29 @@ public class mp3Parser {
 
     public void printID3(String audioPath) throws Exception {
         ID3 test = parseMP3(audioPath);
-        System.out.println(
-                "Album: " + test.getAlbum() + "\n" +
-                        "Genre: " + test.getGenre() + "\n" +
-                        "Year: " + test.getYear() + "\n" +
-                        "Artist: " + test.getArtist() + "\n" +
-                        "Song Title: " + test.getTitle()
-        );
-
     }
 
     public ID3 parseMP3(String audioPath) {
-        System.out.println("in parseMP3");
-        System.out.println(audioPath);
         metaRetriever = new MediaMetadataRetriever();
         metaRetriever.setDataSource(audioPath);
-        return new ID3(metaRetriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_TITLE),
-                metaRetriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_ARTIST),
-                metaRetriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_ALBUM),
-                metaRetriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_YEAR),
-                metaRetriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_GENRE)
-        );
+        File f = new File(audioPath);
+        if (metaRetriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_TITLE) == null) {
+            return new ID3(f.getName(),
+                    metaRetriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_ARTIST),
+                    metaRetriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_ALBUM),
+                    metaRetriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_YEAR),
+                    metaRetriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_GENRE)
+            );
+        }
+        else{
+            return new ID3(metaRetriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_TITLE),
+                    metaRetriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_ARTIST),
+                    metaRetriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_ALBUM),
+                    metaRetriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_YEAR),
+                    metaRetriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_GENRE)
+            );
+        }
+
     }
 
     /*
@@ -77,7 +81,7 @@ public class mp3Parser {
         mParse.parse(inputStream, handler, metadata, pcontext);
         String[] tagNames = metadata.names();
         for (String tag : tagNames){
-            System.out.println(tag + ": " + metadata.get(tag));
+            //System.out.println(tag + ": " + metadata.get(tag));
         }
     }
     */

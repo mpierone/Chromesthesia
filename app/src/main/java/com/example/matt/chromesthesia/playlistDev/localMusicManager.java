@@ -22,13 +22,13 @@ import java.util.ArrayList;
 public class localMusicManager {
 
 
-    final String SD_LOCATION = (Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).getPath());
+    final String SD_LOCATION = (Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_MUSIC).getPath());
     File sdlocation = new File(SD_LOCATION + "/Download/");
-
     private ArrayList<Song> _songsList;
     private ArrayList<String> songArray;
     public localMusicManager() {
         //constructor
+
         _songsList = new ArrayList<>();
         songArray = new ArrayList<>();
     }
@@ -78,26 +78,26 @@ public class localMusicManager {
             if (sdCard.listFiles().length > 0) {
                 for (File file : sdCard.listFiles(new musicFinder())) {
                     //sets up String[] of track info
-                    //System.out.println(file.getAbsolutePath());
+                    ////System.out.println(file.getAbsolutePath());
                     if (file.isDirectory()){
-                        System.out.println("AYYYYYY\n\n\n\n");
-                        System.out.println(file.getAbsoluteFile());
+                        //System.out.println("AYYYYYY\n\n\n\n");
+                        //System.out.println(file.getAbsoluteFile());
                         makeSongsList(file.getAbsolutePath());
                     }
                     else if (file.getAbsolutePath().toLowerCase().endsWith(".mp3")  || file.getAbsolutePath().toLowerCase().endsWith(".flac")){
                         Song so = new Song(file.getAbsolutePath());
                         if (so == null){
-                            System.out.println("so == null!\n");
+                            //System.out.println("so == null!\n");
                         }
                         //String thetitle = so.get_id3().getTitle();
-                        //System.out.println(thetitle);
-                        //System.out.println(so.get_id3().getArtist());
-                        //System.out.println(so.get_id3().getAlbum());
+                        ////System.out.println(thetitle);
+                        ////System.out.println(so.get_id3().getArtist());
+                        ////System.out.println(so.get_id3().getAlbum());
                         _songsList.add(so);
                     }
                 }
             }
-            //System.out.println(_songsList.size());
+            ////System.out.println(_songsList.size());
         } catch (Exception e) {
             Log.e("lmm", "err setting datasource", e);
         }
@@ -114,17 +114,17 @@ public class localMusicManager {
                     else if (file.getAbsolutePath().toLowerCase().endsWith(".mp3") || file.getAbsolutePath().toLowerCase().endsWith(".flac")){
                         Song so = new Song(file.getAbsolutePath());
                         if (so == null){
-                            System.out.println("so == null!\n");
+                            //System.out.println("so == null!\n");
                         }
                         //String thetitle = so.get_id3().getTitle();
-                        //System.out.println(thetitle);
-                        //System.out.println(so.get_id3().getArtist());
-                        //System.out.println(so.get_id3().getAlbum());
+                        ////System.out.println(thetitle);
+                        ////System.out.println(so.get_id3().getArtist());
+                        ////System.out.println(so.get_id3().getAlbum());
                         _songsList.add(so);
                     }
                 }
             }
-            //System.out.println(_songsList.size());
+            ////System.out.println(_songsList.size());
         } catch (Exception e) {
             Log.e("lmm", "err setting datasource", e);
         }
@@ -150,7 +150,7 @@ public class localMusicManager {
                 File f = new File(s.get_audioFilePath());
                 mergedName = f.getName();
             }
-            System.out.println(mergedName);
+            //System.out.println(mergedName);
             //songArray[i] = (mergedName);
             songArray.add(mergedName);
             //ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, sampleArray);
@@ -166,23 +166,30 @@ public class localMusicManager {
         String artistName;
         String albumName;
         String mergedName;
+        String filename;
         ArrayList<String> names = new ArrayList<>();
         for (Song s : songs) {
+            File f = new File(s.get_audioFilePath());
+            filename = f.getName();
             songName = s.get_id3().getTitle();
             artistName = s.get_id3().getArtist();
             albumName = s.get_id3().getAlbum();
-            if (artistName == null) {
-                artistName = "Unknown Artist";
-            }
-            if (albumName == null) {
-                albumName = "Unknown Album";
-            }
-            mergedName = songName + " - " + artistName + " - " + albumName;
-            if (songName == null) {
-                File f = new File(s.get_audioFilePath());
+            System.out.println(songName);
+            System.out.println(f.getName());
+            if (songName.equals(filename)) {
+                System.out.println("YO THEY'RE THE SAME FUCKING THING");
                 mergedName = f.getName();
             }
-            System.out.println(mergedName);
+            else {
+                if (artistName == null) {
+                    artistName = "Unknown Artist";
+                }
+                if (albumName == null) {
+                    albumName = "Unknown Album";
+                }
+                mergedName = songName + " - " + artistName + " - " + albumName;
+            }
+            //System.out.println(mergedName);
             //songArray[i] = (mergedName);
             names.add(mergedName);
             //ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, sampleArray);
@@ -191,11 +198,11 @@ public class localMusicManager {
             //arrayAdapter.notifyDataSetChanged();
             //i++;
         }
-        System.out.println("we're in LMM and the songarray namemaker and here's the list");
+        //System.out.println("we're in LMM and the songarray namemaker and here's the list");
         for (String s : names) {
-            System.out.println(s);
+            //System.out.println(s);
         }
-        System.out.println("that was the list yay!\nand size is:  "+ names.size());
+        //System.out.println("that was the list yay!\nand size is:  "+ names.size());
         return names;
 
 

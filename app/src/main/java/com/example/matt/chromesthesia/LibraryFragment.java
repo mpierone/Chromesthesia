@@ -43,7 +43,7 @@ public class LibraryFragment extends Fragment {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
                 String item = ((TextView)view).getText().toString();
-                Toast.makeText(getActivity(), item, Toast.LENGTH_LONG).show();
+                //Toast.makeText(getActivity(), item, //Toast.LENGTH_LONG).show();
                 new AdapterView.OnItemClickListener() {
 
                     @Override

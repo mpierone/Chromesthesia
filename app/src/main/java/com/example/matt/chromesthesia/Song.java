@@ -33,9 +33,9 @@ public class Song{
 
 
 
-        //System.out.println("we're in SONG.java\n");
-        //System.out.println(_id3.getTitle());
-        //System.out.println("we're leaving SONG.java!");
+        ////System.out.println("we're in SONG.java\n");
+        ////System.out.println(_id3.getTitle());
+        ////System.out.println("we're leaving SONG.java!");
         //storing song identification
         _song = new HashMap<>();
         _song.put(_id, _id3);

@@ -49,9 +49,9 @@ public class Library_artist extends Fragment {
         songs = chromesthesia.songlist_artist;
         localMusicManager lmm = new localMusicManager();
         songArray =  lmm.makeSongNames(chromesthesia.songlist_artist);
-        System.out.println("IM IN LIBRARY ARTIST AND HERE'S THE SONGARRAY");
+        //System.out.println("IM IN LIBRARY ARTIST AND HERE'S THE SONGARRAY");
         for (String s : songArray) {
-            System.out.println(s);
+            //System.out.println(s);
         }
 
     }
@@ -63,7 +63,7 @@ public class Library_artist extends Fragment {
         //songArray = chromesthesia.playQueueNames;
         songViewartist = (ListView)rootView.findViewById(R.id.libraryartistlist);
         listAdapter = new ArrayAdapter<String>(getActivity(), R.layout.arow) {};
-        System.out.println("PRINTING OUT OUR SONGARRAY");
+        //System.out.println("PRINTING OUT OUR SONGARRAY");
         progressB = (ProgressBar)rootView.findViewById(R.id.progressB);
         progressB.setMax(100);
         return rootView;
@@ -136,18 +136,20 @@ public class Library_artist extends Fragment {
         gridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View v,
                                     int position, long id) {
-                if(position == 0){
-                    chromesthesia.mpservice.playPrevious();
-                }
-                if(position == 1){
-                    System.out.println("we're in resumeplay!!!!");
-                    chromesthesia.mpservice.resumePlay();
-                }
-                if(position == 2){
-                    chromesthesia.mpservice.pauseSong();
-                }
-                if(position == 3){
-                    chromesthesia.mpservice.playNext();
+                if (chromesthesia.mpservice.isPlaying() || chromesthesia.mpservice.isPaused()) {
+                    if (position == 0) {
+                        chromesthesia.mpservice.playPrevious();
+                    }
+                    if (position == 1) {
+                        //System.out.println("we're in resumeplay!!!!");
+                        chromesthesia.mpservice.resumePlay();
+                    }
+                    if (position == 2) {
+                        chromesthesia.mpservice.pauseSong();
+                    }
+                    if (position == 3) {
+                        chromesthesia.mpservice.playNext();
+                    }
                 }
             }
         });
@@ -159,8 +161,8 @@ public class Library_artist extends Fragment {
         String artistName;
         String mergedName;
         songs = chromesthesia.songlist;
-        System.out.println("in library.java and size is:");
-        System.out.println(songs.size());
+        //System.out.println("in library.java and size is:");
+        //System.out.println(songs.size());
         songArray = new ArrayList<>();
         //String[] songArray = new String[songs.size()];
         //String[] sampleArray = {"1", "2", "3"};
@@ -178,7 +180,7 @@ public class Library_artist extends Fragment {
                     File f = new File(s.get_audioFilePath());
                     mergedName = f.getName();
                 }
-                System.out.println(mergedName);
+                //System.out.println(mergedName);
                 //songArray[i] = (mergedName);
                 songArray.add(mergedName);
                 //ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, sampleArray);
@@ -207,7 +209,7 @@ public class Library_artist extends Fragment {
             int x = info.position;
             Song s = null;
             String name = new String(nms.get(x));
-            System.out.println("Selected song pos is: " + x + "\nSelected song name is: " + nms.get(x) + "\nSelected song FilePath is: " + sngs.get(x).get_audioFilePath());
+            //System.out.println("Selected song pos is: " + x + "\nSelected song name is: " + nms.get(x) + "\nSelected song FilePath is: " + sngs.get(x).get_audioFilePath());
             try {
                 s = new Song(sngs.get(x));
             }
@@ -216,16 +218,16 @@ public class Library_artist extends Fragment {
             }
             chromesthesia.mpservice.addSong(x, s);
             chromesthesia.playQueueNames.add(name);
-            Toast.makeText(rootView.getContext(), "Add to Now Playing Queue Clicked & Pos = " + info.position, Toast.LENGTH_LONG).show();
+            //Toast.makeText(rootView.getContext(), "Add to Now Playing Queue Clicked & Pos = " + info.position, //Toast.LENGTH_LONG).show();
         }
         if(item.getTitle()=="Play Next") {
-            System.out.println("hey im in playnext on the contxt menu and info.position is:  " + info.position + " and chrom.mpsrv.songpos is:  " + chromesthesia.mpservice.songposition
-                    + "and the library song size is :  "+ songs.size());
+            //System.out.println("hey im in playnext on the contxt menu and info.position is:  " + info.position + " and chrom.mpsrv.songpos is:  " + chromesthesia.mpservice.songposition
+             //       + "and the library song size is :  "+ songs.size());
             int x = info.position;
             int y = chromesthesia.mpservice.songposition + 1;
             Song s = null;
             String name = new String(songArray.get(x));
-            System.out.println("Selected song pos is: " + x + "\nSelected song name is: " + nms.get(x) + "\nSelected song FilePath is: " + sngs.get(x).get_audioFilePath());
+            //System.out.println("Selected song pos is: " + x + "\nSelected song name is: " + nms.get(x) + "\nSelected song FilePath is: " + sngs.get(x).get_audioFilePath());
             try {
                 s = new Song(sngs.get(x));
             } catch (Exception e) {
@@ -234,18 +236,18 @@ public class Library_artist extends Fragment {
             if (chromesthesia.mpservice.getSongs().size() == 0) {
                 y = 0;
             }
-            System.out.println("why + " + x + "  +  " + y + " + " + songs.size());
+            //System.out.println("why + " + x + "  +  " + y + " + " + songs.size());
             chromesthesia.mpservice.addSong(x, y, s);
-            System.out.println("WHY IS THE LIST GETTING MODIFIED" + " SIZE OF SONGS IS: " + songs.size() + "SONG SIZE LOCAL TO THIS METHOD IS:  " + sngs.size());
+            //System.out.println("WHY IS THE LIST GETTING MODIFIED" + " SIZE OF SONGS IS: " + songs.size() + "SONG SIZE LOCAL TO THIS METHOD IS:  " + sngs.size());
             chromesthesia.playQueueNames.add(y, name);
-            Toast.makeText(rootView.getContext(), "Play Next Clicked", Toast.LENGTH_LONG).show();
-            System.out.println("WHY IS THE LIST GETTING MODIFIED");
+            //Toast.makeText(rootView.getContext(), "Play Next Clicked", //Toast.LENGTH_LONG).show();
+            //System.out.println("WHY IS THE LIST GETTING MODIFIED");
             for (Song sg : songs) {
-                System.out.println(sg.get_audioFilePath());
+                //System.out.println(sg.get_audioFilePath());
             }
         }
         if(item.getTitle()=="Add to Playlist"){
-            Toast.makeText(rootView.getContext(), "Add to Playlist", Toast.LENGTH_LONG).show();
+            //Toast.makeText(rootView.getContext(), "Add to Playlist", //Toast.LENGTH_LONG).show();
         }
         songs = sngs;
         songArray = nms;

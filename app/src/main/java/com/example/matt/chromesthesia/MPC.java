@@ -61,7 +61,7 @@ public class MPC extends Service implements MediaPlayer.OnPreparedListener, Medi
     }
     @Override
     public boolean onUnbind (Intent intent) {
-        System.out.println("YO WE'RE IN ONUNBIND");
+        //System.out.println("YO WE'RE IN ONUNBIND");
         mediaPlayer.pause();
         mediaPlayer.reset();
         return false;
@@ -103,19 +103,19 @@ public class MPC extends Service implements MediaPlayer.OnPreparedListener, Medi
     public void onCompletion(MediaPlayer mp) {
         prepared = false;
         mp.reset();
-        System.out.println("we're in oncompletion and songposition is:  " + songposition);
-        System.out.println("onCompletion listener and loop is:  " + Loop);
+        //System.out.println("we're in oncompletion and songposition is:  " + songposition);
+        //System.out.println("onCompletion listener and loop is:  " + Loop);
         switch(Loop) {
             case ALL:
                 songposition = (songposition+1) % songs.size();
                 break;
             case ONE:
-                System.out.println("repeat is set to one");
+                //System.out.println("repeat is set to one");
                 break;
             case NONE:
-                System.out.println(songposition);
+                //System.out.println(songposition);
                 songposition = songposition + 1;
-                System.out.println("repeat is set to NONE:  songpos = "+ songposition + " and songsizse = " + songs.size());
+                //System.out.println("repeat is set to NONE:  songpos = "+ songposition + " and songsizse = " + songs.size());
                 if (songposition == songs.size()) {
                     songposition = -1;
                     mp.reset();
@@ -157,7 +157,7 @@ public class MPC extends Service implements MediaPlayer.OnPreparedListener, Medi
 
     @Override
     public void onPrepared(MediaPlayer mp) {
-        System.out.println("hey!!!!! we're in onprepared!");
+        //System.out.println("hey!!!!! we're in onprepared!");
         mmr.setDataSource(songs.get(songposition).get_audioFilePath());
         byte[] art = mmr.getEmbeddedPicture();
         if (art != null) {
@@ -183,10 +183,10 @@ public class MPC extends Service implements MediaPlayer.OnPreparedListener, Medi
             songposition = songs.size() - 1;
             playsong();
         } else {
-            //System.out.println(songposition);
+            ////System.out.println(songposition);
             songposition -= 1;
             playing = songs.get(songposition);
-            //System.out.println(songposition);
+            ////System.out.println(songposition);
             playsong();
         }
     }
@@ -219,7 +219,7 @@ public class MPC extends Service implements MediaPlayer.OnPreparedListener, Medi
         mediaPlayer.prepareAsync();
     }
     public void setLoop(String setting) {
-        System.out.println("we've called setLoop! and setting is:  "+setting);
+        //System.out.println("we've called setLoop! and setting is:  "+setting);
         switch (setting) {
             case "ALL":
                 Loop = Repeat.ALL;
