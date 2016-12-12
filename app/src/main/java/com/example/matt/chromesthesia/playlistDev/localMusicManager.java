@@ -177,7 +177,7 @@ public class localMusicManager {
             System.out.println(songName);
             System.out.println(f.getName());
             if (songName.equals(filename)) {
-                System.out.println("YO THEY'RE THE SAME FUCKING THING");
+                //System.out.println("YO THEY'RE THE SAME FUCKING THING");
                 mergedName = f.getName();
             }
             else {
