@@ -1,7 +1,9 @@
 # Chromesthesia
 An all new Android application for your continued music enterainment and satisfaction.  We know it's hard, trying to remember what you've listened to over the years. Chromesthesia will allow you to listen to music you enjoy from various other applications such as Spotify, SoundCloud, and Pandora through just one application! You can also locally store your music and listen to the tunes you cannot find through any of the other applications. With Chromesthesia, you will be able to keep all of the music you find from all the other applications and your local music all in one!
 
-To Developers Hoping to Contribute
+# To Developers Hoping to Contribute
+
+As of 1.0.1 we're looking to debug and release playlists, check the bottom for a description of the playlist stuff we have so far as well as descriptions of the other classes that may be of use.
 
 There are several different classes for each order for the library and they are all separate fragments using one activity, the Chromesthesia class. 
 
@@ -104,6 +106,14 @@ This folder contains several classes that are involved with allowing the user to
 --------ID3---------
 
 - This class helps create the identification for the songs with the title, artist, year it was released, genre, and album.
+
+--------LocalMusicManager---------
+
+- This class helps us get the location of the songs stored in the internal storage of the android device. By utilizing this, we can create an array of songs from the audio path of the songs in the internal storage. This is how we can navigate to reach local songs.
+
+--------mp3Parser--------
+
+- This class is what allows ID3 to create the identifications. We will use this mp3Parser class to parse the audio files into specific identifications that we want to use for the ID3 such as the title, artist, year it was released, genre, and album.
 
 --------Playlist---------
 
